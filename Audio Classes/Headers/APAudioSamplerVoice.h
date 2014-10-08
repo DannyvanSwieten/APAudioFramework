@@ -11,10 +11,10 @@
 
 #include "APAudioFile.h"
 
-class APSamplerVoice
+class APAudioSamplerVoice
 {
 public:
-    APSamplerVoice();
+    APAudioSamplerVoice();
     
     void play();
     bool isPlaying();

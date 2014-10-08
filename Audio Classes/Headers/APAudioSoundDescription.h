@@ -11,11 +11,11 @@
 
 #include <string>
 
-class APSoundDescription
+class APAudioSoundDescription
 {
 public:
     
-    APSoundDescription();
+    APAudioSoundDescription();
     bool listensToNote(int note);
     bool listensToChannel(int channel);
     std::string getID();

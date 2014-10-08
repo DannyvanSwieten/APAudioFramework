@@ -6,7 +6,7 @@
 //
 //
 
-#include "Sampler.h"
+#include "APAudioSampler.h"
 
 Sampler::Sampler(APAudioMainFrame* mainFrame ,APAudioFileManager* fileManager): APAudioModule(mainFrame)
 {
@@ -18,11 +18,11 @@ void Sampler::onNoteOn(int noteOn, float velocity, int channel)
     for(auto& description: _fileDescriptions)
         if(description.listensToNote(noteOn) && description.listensToChannel(channel))
         {
-            APSamplerVoice* voice = findFreeVoice();
+            APAudioSamplerVoice* voice = findFreeVoice();
             
             if(voice == nullptr)
             {
-                voice = new APSamplerVoice();
+                voice = new APAudioSamplerVoice();
                 voice->setFileToPlay(_fileManager->getFile(description.getID()));
                 voice->play();
                 _activeVoices.emplace_back(voice);
@@ -40,7 +40,7 @@ Sampler::~Sampler()
     
 }
 
-APSamplerVoice* Sampler::findFreeVoice()
+APAudioSamplerVoice* Sampler::findFreeVoice()
 {
     for(auto& voice: _activeVoices)
     {
@@ -62,7 +62,7 @@ void Sampler::renderBlock(SampleBuffer output)
 
 void Sampler::loadFile(std::string fileToLoad, int noteToListenTo, int channelToListenTo)
 {
-    APSoundDescription description;
+    APAudioSoundDescription description;
     description.setNoteToListenTo(noteToListenTo);
     description.setID(fileToLoad);
     description.setChannelToListenTo(channelToListenTo);

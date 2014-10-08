@@ -6,29 +6,29 @@
 //
 //
 
-#include "SamplerVoice.h"
+#include "APAudioSamplerVoice.h"
 
-APSamplerVoice::APSamplerVoice()
+APAudioSamplerVoice::APAudioSamplerVoice()
 {
     
 }
 
-void APSamplerVoice::play()
+void APAudioSamplerVoice::play()
 {
     _isPlaying = true;
 }
 
-bool APSamplerVoice::isPlaying()
+bool APAudioSamplerVoice::isPlaying()
 {
     return _isPlaying;
 }
 
-void APSamplerVoice::setFileToPlay(APAudioFile *fileToPlay)
+void APAudioSamplerVoice::setFileToPlay(APAudioFile *fileToPlay)
 {
     _fileToPlay = fileToPlay;
 }
 
-float APSamplerVoice::tick()
+float APAudioSamplerVoice::tick()
 {
     if(_position > _fileToPlay->getNumSamples())
         _position -= _fileToPlay->getNumSamples();

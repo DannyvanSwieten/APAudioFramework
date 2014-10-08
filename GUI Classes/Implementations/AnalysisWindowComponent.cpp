@@ -108,9 +108,9 @@ void AnalysisWindowComponent::drawFrequency(juce::Graphics &g)
     FrequencyAnalyzer analyzer(1024);
     if(!_drawPathWasSet)
     {
-        analyzer.readAndAnalyse(_fileManager->getFile(0).getAudioChannel(0), _fileManager->getFile(0).getNumSamples());
+        analyzer.readAndAnalyse(_fileManager->getFile(0)->getAudioChannel(0), _fileManager->getFile(0)->getNumSamples());
 
-        int analysisSize = _fileManager->getFile(0).getNumSamples() / 10;
+        int analysisSize = _fileManager->getFile(0)->getNumSamples() / 10;
         int step = analysisSize / getWidth();
         float heightScale = (float)getHeight() / 800.0;
         int count = 0;
@@ -138,7 +138,7 @@ void AnalysisWindowComponent::drawDFTSpectogram(juce::Graphics& g)
 {
     DFTAnalyzer analyzer(1024, 1, HANNING);
     
-    analyzer.readAndAnalyse(_fileManager->getFile(0).getAudioChannel(0), _fileManager->getFile(0).getNumSamples());
+    analyzer.readAndAnalyse(_fileManager->getFile(0)->getAudioChannel(0), _fileManager->getFile(0)->getNumSamples());
     analyzer.calculateAmplitudes();
     
     g.setColour(juce::Colour(juce::Colours::black));

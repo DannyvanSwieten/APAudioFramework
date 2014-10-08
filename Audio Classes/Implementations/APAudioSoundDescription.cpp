@@ -1,39 +1,39 @@
 //
-//  APSoundDescription.cpp
+//  APAudioSoundDescription.cpp
 //  FuChair
 //
 //  Created by Danny van Swieten on 10/7/14.
 //
 //
 
-#include "APSoundDescription.h"
+#include "APAudioSoundDescription.h"
 
-APSoundDescription::APSoundDescription()
+APAudioSoundDescription::APAudioSoundDescription()
 {
     
 }
 
-std::string APSoundDescription::getID()
+std::string APAudioSoundDescription::getID()
 {
     return _ID;
 }
 
-void APSoundDescription::setID(std::string ID)
+void APAudioSoundDescription::setID(std::string ID)
 {
     _ID = ID;
 }
 
-void APSoundDescription::setChannelToListenTo(int channel)
+void APAudioSoundDescription::setChannelToListenTo(int channel)
 {
     _channelToListenTo = channel;
 }
 
-void APSoundDescription::setNoteToListenTo(int note)
+void APAudioSoundDescription::setNoteToListenTo(int note)
 {
     _noteToListenTo = note;
 }
 
-bool APSoundDescription::listensToChannel(int channel)
+bool APAudioSoundDescription::listensToChannel(int channel)
 {
     if(channel == _channelToListenTo)
         return true;
@@ -41,7 +41,7 @@ bool APSoundDescription::listensToChannel(int channel)
         return false;
 }
 
-bool APSoundDescription::listensToNote(int note)
+bool APAudioSoundDescription::listensToNote(int note)
 {
     if(note == _noteToListenTo)
         return true;

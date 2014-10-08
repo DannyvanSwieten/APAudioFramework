@@ -10,8 +10,8 @@
 #define __FuChair__Sampler__
 
 #include "APAudioFileManager2.h"
-#include "APSoundDescription.h"
-#include "SamplerVoice.h"
+#include "APAudioSoundDescription.h"
+#include "APAudioSamplerVoice.h"
 #include "APAudioModule.h"
 
 class Sampler: public APAudioModule
@@ -20,15 +20,15 @@ public:
     Sampler(APAudioMainFrame* mainFrame ,APAudioFileManager* fileManager);
     ~Sampler();
     void onNoteOn(int noteOn, float velocity, int channel);
-    APSamplerVoice* findFreeVoice();
+    APAudioSamplerVoice* findFreeVoice();
     void renderBlock(SampleBuffer output);
     void loadFile(std::string fileToLoad, int noteToListenTo, int channelToListenTo);
     void calculateBuffer()override;
     
 private:
     
-    std::vector<APSamplerVoice* > _activeVoices;
-    std::vector<APSoundDescription> _fileDescriptions;
+    std::vector<APAudioSamplerVoice* > _activeVoices;
+    std::vector<APAudioSoundDescription> _fileDescriptions;
     APAudioFileManager* _fileManager;
 };
 
