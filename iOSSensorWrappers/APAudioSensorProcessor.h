@@ -12,6 +12,7 @@
 #include "Acceleration.h"
 #include <vector>
 #include <complex>
+#include <iostream>
 
 class APAudioSensorProcessor
 {

@@ -20,7 +20,7 @@ APAudioSensorProcessor::~APAudioSensorProcessor()
 
 float APAudioSensorProcessor::getAcceleration()
 {
-    return _sensor.getAccelerometerData()->z;
+    return _sensor.getAccelerometerData()->x;
 }
 
 std::vector<float> APAudioSensorProcessor::getAngle()
@@ -30,8 +30,16 @@ std::vector<float> APAudioSensorProcessor::getAngle()
     float z = _sensor.getAccelerometerData()->z;
     
     std::vector<float> angles;
+    
     std::complex<float> angleZ(sqrt(x*x + y*y), z);
     std::complex<float> angleY(sqrt(x*x + z*z), y);
     std::complex<float> angleX(sqrt(y*y + z*z), x);
-    angles.emplace_back(std::abs(angleZ));
+    
+//    std::cout<<std::arg(angleX)<<" "<<arg(angleY)<<" "<<arg(angleZ)<<std::endl;
+    
+    angles.emplace_back(std::arg(angleX));
+    angles.emplace_back(std::arg(angleY));
+    angles.emplace_back(std::arg(angleZ));
+    
+    return angles;
 }

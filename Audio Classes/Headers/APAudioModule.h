@@ -65,6 +65,7 @@ public:
     std::vector<Sample>outputBuffer;
     std::vector<APAudioModule*> inputList;
     std::vector<APAudioParameter*> parameters;
+    
 private:
     
     TimerValue  bufferSize;

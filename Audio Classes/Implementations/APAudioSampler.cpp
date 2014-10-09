@@ -13,7 +13,7 @@ Sampler::Sampler(APAudioMainFrame* mainFrame ,APAudioFileManager* fileManager): 
     _fileManager = fileManager;
 }
 
-void Sampler::onNoteOn(int noteOn, float velocity, int channel)
+void Sampler::onNoteOn(int noteOn, float velocity, int channel, bool repeat)
 {
     for(auto& description: _fileDescriptions)
         if(description.listensToNote(noteOn) && description.listensToChannel(channel))
@@ -24,14 +24,16 @@ void Sampler::onNoteOn(int noteOn, float velocity, int channel)
             {
                 voice = new APAudioSamplerVoice();
                 voice->setFileToPlay(_fileManager->getFile(description.getID()));
-                voice->play();
+                voice->setNote(noteOn);
+                voice->play(repeat);
                 _activeVoices.emplace_back(voice);
                 _numVoicesActive++;
             }
             else
             {
                 voice->setFileToPlay(_fileManager->getFile(description.getID()));
-                voice->play();
+                voice->setNote(noteOn);
+                voice->play(repeat);
             }
         }
 }
@@ -74,4 +76,17 @@ void Sampler::loadFile(std::string fileToLoad, int noteToListenTo, int channelTo
 void Sampler::calculateBuffer()
 {
     renderBlock(outputBuffer.data());
+}
+
+void Sampler::setSpeed(float speed)
+{
+    for(auto& voice: _activeVoices)
+        voice->setSpeed(speed);
+}
+
+void Sampler::setVoiceAmplitude(int note, float amp)
+{
+    for(auto& voice: _activeVoices)
+        if (voice->getNote() == note)
+            voice->setAmplitude(amp);
 }

@@ -19,6 +19,12 @@ enum WindowType
     BLACKMAN
 };
 
+static inline float scale(float oldValue, float oldMin, float oldMax, float newMin, float newMax)
+{
+    float newValue = (((oldValue - oldMin) * (newMax - newMin)) / (oldMax - oldMin)) + newMin;
+    return newValue;
+}
+
 static inline void createWindow(WindowType t, float* output, unsigned int N)
 {
     switch (t) {
