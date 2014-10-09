@@ -10,6 +10,7 @@
 #define __APASchedulerTest__APAScheduler__
 
 #include <vector>
+#include <algorithm>
 #include "APAEvent.h"
 
 class APAScheduler

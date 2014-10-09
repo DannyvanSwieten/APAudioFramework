@@ -30,6 +30,7 @@ private:
     std::vector<APAudioSamplerVoice* > _activeVoices;
     std::vector<APAudioSoundDescription> _fileDescriptions;
     APAudioFileManager* _fileManager;
+    int _numVoicesActive = 0;
 };
 
 #endif /* defined(__FuChair__Sampler__) */

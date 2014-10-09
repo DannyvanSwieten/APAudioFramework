@@ -25,18 +25,17 @@ void APAScheduler::play()
 
 void APAScheduler::addEvent(unsigned long int timeStamp, EventFuntion function, bool repeat)
 {
-    _timeLine.push_back(APAEvent(getGurrentTime() + timeStamp, function, repeat));
+    auto it = find_if(_timeLine.begin(), _timeLine.end(),[&](APAEvent event) {return event.getTimeStamp() >= timeStamp;});
+    _timeLine.emplace(it ,APAEvent(getGurrentTime() + timeStamp, function, repeat));
 }
 
 void APAScheduler::update(unsigned long timeStamp)
 {
     _currentTime = timeStamp;
-    for(auto& event : _timeLine)
+    
+    while(!_timeLine.empty() && _timeLine.front().getTimeStamp() <= _currentTime)
     {
-        if(timeStamp >= event.getTimeStamp())
-        {
-            event.process();
-            _timeLine.pop_back();
-        }
+        _timeLine.front().process();
+        _timeLine.erase(_timeLine.begin());
     }
 }

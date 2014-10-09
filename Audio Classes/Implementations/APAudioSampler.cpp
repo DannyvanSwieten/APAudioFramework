@@ -26,6 +26,7 @@ void Sampler::onNoteOn(int noteOn, float velocity, int channel)
                 voice->setFileToPlay(_fileManager->getFile(description.getID()));
                 voice->play();
                 _activeVoices.emplace_back(voice);
+                _numVoicesActive++;
             }
             else
             {
