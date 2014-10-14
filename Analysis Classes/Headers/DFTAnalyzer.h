@@ -25,10 +25,12 @@ public:
     void calculatePhases()override;
     void calculateInstantFrequencies()override;
     void calculateSpectralFlux();
+    void calculateLogSpectrum();
     std::vector<std::vector<float>> getAmplitudes(){return _amplitudes;};
     std::vector<std::vector<float>> getPhases(){return _phases;};
     std::vector<std::vector<float>> getFrequenies(){return _trueFrequencies;};
     std::vector<float> getSpectralFlux(){return _spectralFlux;};
+    
 private:
     
     class DFT dft;

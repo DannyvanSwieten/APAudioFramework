@@ -27,7 +27,7 @@ public:
     
 private:
     
-   APAudioFileManager* _fileManager;
+    APAudioFileManager* _fileManager;
 };
 
 

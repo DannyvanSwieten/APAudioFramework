@@ -22,7 +22,8 @@ void YINAnalyzer::init(int N)
 
 YINAnalyzer::~YINAnalyzer()
 {
-    
+    if(_window)
+        delete[] _window;
 }
 
 void YINAnalyzer::normalizedDifference()

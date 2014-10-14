@@ -10,8 +10,8 @@
 
 APAudioFileManager::APAudioFileManager()
 {
-    formatManager = new AudioFormatManager();
-    formatManager->registerBasicFormats();
+    _formatManager = std::make_unique<AudioFormatManager>();
+    _formatManager->registerBasicFormats();
 }
 
 APAudioFileManager::~APAudioFileManager()
@@ -21,12 +21,12 @@ APAudioFileManager::~APAudioFileManager()
 
 void APAudioFileManager::loadFile(File fileToLoad)
 {
-    AudioFormatReader* formatReader = formatManager->createReaderFor(fileToLoad);
+    AudioFormatReader* formatReader = _formatManager->createReaderFor(fileToLoad);
     
     int numChannels = formatReader->numChannels;
     int numSamples = formatReader->lengthInSamples;
     
-    APAudioFile* file = new APAudioFile();
+    auto file = std::make_unique<APAudioFile>();
     AudioSampleBuffer buffer;
     buffer.setSize(numChannels, numSamples);
     
@@ -36,10 +36,10 @@ void APAudioFileManager::loadFile(File fileToLoad)
     file->setNumChannels(numChannels);
     file->setNumSamples(numSamples);
     
-    _audioFiles.emplace_back(file);
+    _audioFiles.emplace_back(std::move(file));
     _filesLoaded++;
     
-//    delete formatReader;
+    delete formatReader;
 }
 
 void APAudioFileManager::loadFile(std::string fileToLoad)
@@ -49,12 +49,12 @@ void APAudioFileManager::loadFile(std::string fileToLoad)
     
     std::cout<<file.getFullPathName()<<std::endl;
     
-    AudioFormatReader* formatReader = formatManager->createReaderFor(file);
+    AudioFormatReader* formatReader = _formatManager->createReaderFor(file);
     
     int numChannels = formatReader->numChannels;
     int numSamples = formatReader->lengthInSamples;
     
-    APAudioFile* audioFile = new APAudioFile;
+    auto audioFile = std::make_unique<APAudioFile>();
     AudioSampleBuffer buffer;
     buffer.setSize(numChannels, numSamples);
     
@@ -64,10 +64,10 @@ void APAudioFileManager::loadFile(std::string fileToLoad)
     audioFile->setNumSamples(numSamples);
     audioFile->setAudio(buffer);
     
-    _audioFiles.emplace_back(audioFile);
+    _audioFiles.emplace_back(std::move(audioFile));
     _filesLoaded++;
     
-//    delete formatReader;
+    delete formatReader;
 }
 
 APAudioFile* APAudioFileManager::getFile(juce::String name)
@@ -75,7 +75,7 @@ APAudioFile* APAudioFileManager::getFile(juce::String name)
     for(auto& file: _audioFiles)
     {
         if (file->getName() == name)
-            return file;
+            return file.get();
     }
 
     return nullptr;
@@ -83,7 +83,7 @@ APAudioFile* APAudioFileManager::getFile(juce::String name)
 
 APAudioFile* APAudioFileManager::getFile(int index)
 {
-    return _audioFiles[index];
+    return _audioFiles[index].get();
 }
 
 int APAudioFileManager::getNumberOfFiles()

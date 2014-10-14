@@ -8,9 +8,10 @@
 
 #include "MainComponent.h"
 
-AnalysisWindowComponent::AnalysisWindowComponent(APAudioFileManager* fileManager)
+AnalysisWindowComponent::AnalysisWindowComponent(APAudioFileManager* fileManager) :
+    _fileManager(fileManager)
 {
-    _fileManager = fileManager;
+
 }
 
 AnalysisWindowComponent::~AnalysisWindowComponent()
@@ -27,7 +28,7 @@ void AnalysisWindowComponent::mouseDown(const juce::MouseEvent &event)
 {
     ModifierKeys modifiers = ModifierKeys::getCurrentModifiersRealtime();
     
-    if(modifiers.isRightButtonDown())
+    if(modifiers.isPopupMenu())
     {
         PopupMenu menu;
         PopupMenu DFT;
@@ -53,7 +54,15 @@ void AnalysisWindowComponent::mouseDown(const juce::MouseEvent &event)
         
         menu.addItem(10, "Frequency");
         
-        _whatToDraw = menu.show();
+        switch (menu.show())
+        {
+            case 0:
+                return;
+            case 5:
+//                computeDFTSpectralFlux();
+                // Dodfgdfg f in path
+                break;
+        }
     }
     
     repaint();
@@ -64,31 +73,12 @@ void AnalysisWindowComponent::mouseUp(const juce::MouseEvent &event)
     
 }
 
-//void AnalysisWindowComponent::mouseMove(const juce::MouseEvent &event)
-//{
-//    float y = (800.0 / getHeight());
-//    std::cout<<y * event.position.y<<std::endl;
-//}
-
-void AnalysisWindowComponent::draw(Graphics& g)
+void AnalysisWindowComponent::paint(Graphics& g)
 {
+    g.fillAll(Colours::white);
     
-    
-    switch (_whatToDraw)
-    {
-        case 1:
-            drawDFTSpectogram(g);
-            break;
-        case 2:
-            drawSpectralFlux(g);
-            break;
-        case 10:
-            drawFrequency(g);
-            break;
-        default:
-            
-            break;
-    }
+    g.setColour(Colours::black);
+    g.strokePath(_drawPath, PathStrokeType(1.0));
 }
 
 void AnalysisWindowComponent::getDrawData()
@@ -140,6 +130,7 @@ void AnalysisWindowComponent::drawDFTSpectogram(juce::Graphics& g)
     
     analyzer.readAndAnalyse(_fileManager->getFile(0)->getAudioChannel(0), _fileManager->getFile(0)->getNumSamples());
     analyzer.calculateAmplitudes();
+    analyzer.calculateSpectralFlux();
     
     g.setColour(juce::Colour(juce::Colours::black));
     
@@ -154,6 +145,7 @@ void AnalysisWindowComponent::drawDFTSpectogram(juce::Graphics& g)
         for(auto j = N / 2; j > 0; j--)
         {
             float alpha = (float)analyzer.getAmplitudes()[i][j];
+            if(isnan(alpha)) alpha = 0;
             g.setColour(juce::Colour(juce::Colours::black.withAlpha(alpha)));
             
             g.fillRect(widthScale * i ,
@@ -171,12 +163,33 @@ void AnalysisWindowComponent::drawWaveletSpectogram(juce::Graphics &g)
 
 void AnalysisWindowComponent::drawSpectralFlux(juce::Graphics &g)
 {
-    g.strokePath(_drawPath, juce::PathStrokeType(1.0));
-}
-
-void AnalysisWindowComponent::paint(juce::Graphics& g)
-{
-    g.fillAll(juce::Colour(juce::Colours::white));
-
-    draw(g);
+//    _drawPath.clear();
+//    
+//    DFTAnalyzer analyzer(1024, 1, HANNING);
+//
+//    analyzer.readAndAnalyse(_fileManager->getFile(0)->getAudioChannel(0), _fileManager->getFile(0)->getNumSamples());
+//    analyzer.calculateAmplitudes();
+//    analyzer.calculateSpectralFlux();
+//
+////    g.setColour(juce::Colour(juce::Colours::black));
+////    g.setOrigin(0, getHeight());
+////    
+////    int analysisSize = _fileManager->getFile(0)->getNumSamples() / 1024;
+////    
+////    float step = (getWidth() / analysisSize);
+////    float count = 0;
+//
+//    for(auto i = 0; i < 100; i++)
+//    {
+////        float y = -analyzer.getSpectralFlux()[i];
+////        if(isnan(y)) y = 0;
+////        _drawPath.lineTo(count, y * getHeight());
+////        count += step;
+//        
+//        _drawPath.lineTo(i, i);
+//    }
+    
+    g.fillAll(Colours::red);
+    g.setColour(Colours::white);
+    g.strokePath(_drawPath, PathStrokeType(1.0));
 }

@@ -31,7 +31,7 @@ void DFTAnalyzer::readAndAnalyse(const float *input, long numberOfSamples)
     {
         for (auto i = 0; i < windowSize; i++)
         {
-            if(position < numberOfSamples)
+            if(position < numberOfSamples - 1)
                 buffer[i] = input[position++];
             else
                 buffer[i] = 0;
@@ -86,6 +86,19 @@ void DFTAnalyzer::calculatePhases()
     }
 }
 
+void DFTAnalyzer::calculateLogSpectrum()
+{
+    for(auto& amplitudes: _amplitudes)
+    {
+        std::vector<float> logAmp;
+        for (auto i = 0; i < dft.getSize(); i++)
+        {
+            amplitudes[i] = 20 * log10(amplitudes[i]);
+        }
+        normalize(amplitudes.data(), dft.getSize());
+    }
+}
+
 void DFTAnalyzer::calculateInstantFrequencies()
 {
     for(auto i = 1; i < _phases.size(); i++)
@@ -104,19 +117,23 @@ void DFTAnalyzer::calculateSpectralFlux()
 {
     for (auto i = 0; i < _amplitudes.size()-2; i++)
     {
-        float amplitude = 0;
+        float amplitude1 = 0;
         float amplitude2 = 0;
-        float amplitude3 = 0;
+        float difference = 0;
+        float result = 0;
         for (auto j = 0; j < dft.getSize()/2; j++)
         {
-            amplitude += _amplitudes[i][j];
-            amplitude2 += _amplitudes[i+1][j];
-            amplitude3 += _amplitudes[i+2][j];
+            amplitude1 = _amplitudes[i][j];
+            amplitude2 = _amplitudes[i + 1][j];
+            difference = amplitude2 - amplitude1;
+            
+            if(difference > 0)
+                result += difference;
+            else
+                result += 0;
         }
-        float difference1 = amplitude2 - amplitude;
-        float difference2 = amplitude3 = amplitude2;
         
-        _spectralFlux.emplace_back(difference2 - difference1);
+        _spectralFlux.emplace_back(result);
     }
     
     normalize(_spectralFlux.data(), dft.getSize());

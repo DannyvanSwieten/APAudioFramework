@@ -19,22 +19,19 @@
 class AnalysisWindowComponent: public Component
 {
 public:
-    
     AnalysisWindowComponent(APAudioFileManager* fileManager);
     ~AnalysisWindowComponent();
     
-    void resized()override;
-    void paint(Graphics& g)override;
+    void resized() override final;
+    void paint(Graphics& g) override final;
     void getDrawData();
-    void mouseUp (const MouseEvent& event)override;
-    void mouseDown(const MouseEvent& event)override;
+    void mouseUp (const MouseEvent& event) override final;
+    void mouseDown(const MouseEvent& event) override final;
 //    void mouseMove(const MouseEvent& event)override;
     
 private:
-    
     APAudioFileManager* _fileManager;
     
-    int _whatToDraw = 0;
     void draw(juce::Graphics& g);
     void drawDFTSpectogram(Graphics& g);
     void drawTransientData(Graphics& g);

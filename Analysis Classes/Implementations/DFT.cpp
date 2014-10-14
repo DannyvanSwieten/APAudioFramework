@@ -15,7 +15,8 @@ DFT::DFT()
 
 DFT::~DFT()
 {
-    delete [] _window;
+    if (_window)
+        delete [] _window;
 }
 
 void DFT::init(unsigned int N, WindowType t)

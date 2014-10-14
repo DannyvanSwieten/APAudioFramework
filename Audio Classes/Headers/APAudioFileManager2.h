@@ -11,6 +11,7 @@
 
 #include "APAudioFile.h"
 #include <vector>
+#include <memory>
 
 class APAudioFileManager
 {
@@ -28,8 +29,8 @@ public:
     
 private:
     
-    std::vector<APAudioFile*> _audioFiles;
-    AudioFormatManager* formatManager;
+    std::vector<std::unique_ptr<APAudioFile>> _audioFiles;
+    std::unique_ptr<AudioFormatManager> _formatManager;
     int _filesLoaded = 0;
 };
 

@@ -54,11 +54,13 @@ static inline void normalize(float* input, int size)
     float max = 0.0;
     
     for(auto i = 0; i < size; i++)
-        max = std::max(max, input[i]);
+        max = std::max(fabs(max), fabs(input[i]));
     
     for(auto i = 0; i < size; i++)
         if(input[i] != 0.0)
             input[i] /= max;
+        else
+            input[i] = 0;
 }
 
 #endif

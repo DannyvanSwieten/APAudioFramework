@@ -32,7 +32,6 @@ void FrequencyAnalyzer::readAndAnalyse(const float *input, long int numberOfSamp
         position -= (windowSize - 10);
         
         numberOfSamples -= 10;
-//        std::cout<<yin.analyze(buffer)<<std::endl;
         _result.emplace_back(yin.analyze(buffer));
     }
 }

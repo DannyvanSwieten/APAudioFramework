@@ -13,6 +13,12 @@ WaveletTransform::WaveletTransform()
     
 }
 
+WaveletTransform::~WaveletTransform()
+{
+    if (_window)
+        delete [] _window;
+}
+
 void WaveletTransform::init(int N)
 {
     _N = N;

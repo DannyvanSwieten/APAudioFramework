@@ -19,6 +19,7 @@ class WaveletTransform
 public:
     
     WaveletTransform();
+    ~WaveletTransform();
     void init(int N);
     void process(float* input, int i);
     
