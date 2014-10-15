@@ -37,6 +37,7 @@ private:
     std::unique_ptr<ComboBox> _loadedFiles;
     
     std::unique_ptr<TextButton> _loadFileButton;
+    std::unique_ptr<TextButton> _analyzeButton;
     
     WaveFormComponent* _waveFormView;
     APAudioFileManager* _fileManager;

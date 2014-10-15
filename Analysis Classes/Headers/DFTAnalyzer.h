@@ -11,15 +11,15 @@
 
 #include "SpectralAnalyzer.h"
 #include "DFT.h"
-#include <iostream>
 
 class DFTAnalyzer: public SpectralAnalyzer
 {
 public:
     
-    DFTAnalyzer(unsigned int N, unsigned int overlap, WindowType t);
+    DFTAnalyzer();
     ~DFTAnalyzer();
     
+    void init(unsigned int N, unsigned int overlap, WindowType t);
     void readAndAnalyse(const float* input, long numberOfSamples) override;
     void calculateAmplitudes()override;
     void calculatePhases()override;
@@ -33,7 +33,7 @@ public:
     
 private:
     
-    class DFT dft;
+    class DFT _dft;
     float _freqPerBin = 0;
     std::vector<std::complex<float>> _buffer;
     std::vector<std::vector<std::complex<float>>> _analysisResult;

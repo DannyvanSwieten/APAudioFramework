@@ -17,10 +17,11 @@ public:
     APAudioWindowManager(APAudioFileManager* manager);
     ~APAudioWindowManager();
     
-    Component* showWindow(int index);
+    Component* getWindow(int index);
     
 private:
     
+    std::unique_ptr<DFTAnalyzer> _analyzer;
     std::unique_ptr<DFTSpectogram> _DFTSpectogramWindow;
 };
 

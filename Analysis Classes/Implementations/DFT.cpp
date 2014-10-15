@@ -19,19 +19,32 @@ DFT::~DFT()
         delete [] _window;
 }
 
-void DFT::init(unsigned int N, WindowType t)
+void DFT::init(int N, int overlap, int windowSize,  WindowType t)
 {
     _N = N;
-    _window = new float[N]();
+    _overlap = overlap;
+    _windowSize = windowSize;
+    _window = new float[_windowSize]();
     createWindow(t);
+    
+    _DFTBuffer.clear();
     _DFTBuffer.resize(_N);
+    
+    _twiddleFactors.clear();
     _twiddleFactors.resize(_N);
+    
+    _inverseTwiddleFactors.clear();
     _inverseTwiddleFactors.resize(_N);
+    
+    _DFTResult.clear();
     _DFTResult.resize(_N);
     
     for (auto k = 0; k < N; k++)
     {
+        _twiddleFactors[k].clear();
         _twiddleFactors[k].resize(_N);
+        
+        _inverseTwiddleFactors[k].clear();
         _inverseTwiddleFactors[k].resize(_N);
     }
     

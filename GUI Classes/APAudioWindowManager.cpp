@@ -10,7 +10,8 @@
 
 APAudioWindowManager::APAudioWindowManager(APAudioFileManager* manager)
 {
-    _DFTSpectogramWindow = std::make_unique<DFTSpectogram>(manager);
+    _analyzer = std::make_unique<DFTAnalyzer>();
+    _DFTSpectogramWindow = std::make_unique<DFTSpectogram>(manager, _analyzer.get());
 }
 
 APAudioWindowManager::~APAudioWindowManager()
@@ -18,7 +19,7 @@ APAudioWindowManager::~APAudioWindowManager()
     
 }
 
-Component* APAudioWindowManager::showWindow(int index)
+Component* APAudioWindowManager::getWindow(int index)
 {
     switch (index)
     {

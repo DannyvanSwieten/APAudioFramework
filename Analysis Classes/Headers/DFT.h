@@ -27,9 +27,10 @@ class DFT
 public:
     DFT();
     ~DFT();
+    
     unsigned int getSize(){return _N;};
     std::vector<std::complex<float>> getResult(){return _DFTResult;};
-    void init(unsigned int N, WindowType t);
+    void init(int N, int overlap, int windowSize,  WindowType t);
     void calculateDFT(float* input);
     void calculateIDFT(float* input);
     void createWindow(WindowType t);
@@ -38,12 +39,15 @@ private:
     
     void calculateTwiddleFactors();
     
-    unsigned int  _N;
+    int _N = 0;
+    int _overlap = 0;
+    int _windowSize = 0;
+    float* _window = nullptr;
+    
     std::vector<std::complex<float>> _DFTBuffer;
     std::vector<std::complex<float>> _DFTResult;
     std::vector<std::vector<std::complex<float>>> _twiddleFactors;
     std::vector<std::vector<std::complex<float>>> _inverseTwiddleFactors;
-    float* _window = nullptr;
 };
 
 #endif /* defined(__DFT__DFT__) */

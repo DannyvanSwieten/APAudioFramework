@@ -15,22 +15,26 @@ class SpectralAnalyzer
 {
 public:
     
-    SpectralAnalyzer(unsigned int N, unsigned int overlap);
+    SpectralAnalyzer();
     virtual ~SpectralAnalyzer() = 0;
     virtual void readAndAnalyse(const float* input, long numberOfSamples) = 0;
     virtual void calculatePhases() = 0;
     virtual void calculateAmplitudes() = 0;
     virtual void calculateInstantFrequencies() = 0;
     
-    unsigned int getHopsise(){return _ra;};
-    unsigned int getWindowSize(){return _N;};
-    unsigned int getOverlap(){return _overlap;};
+    void setHopsize(int hopSize);
+    void setN(int N);
+    void setOverlap(int N);
+    
+    int getHopsize(){return _ra;};
+    int getWindowSize(){return _N;};
+    int getOverlap(){return _overlap;};
     
 private:
     
-    unsigned int _ra = 0;
-    unsigned int _N = 0;
-    unsigned int _overlap = 0;
+    int _ra = 0;
+    int _N = 0;
+    int _overlap = 0;
 };
 
 #endif /* defined(__DFT__SpectralAnalyzer__) */

@@ -9,10 +9,9 @@
 #include "DFTAnalyzer.h"
 #include "YINAnalyzer.h"
 
-DFTAnalyzer::DFTAnalyzer(unsigned int N, unsigned int overlap, WindowType t): SpectralAnalyzer(N, overlap)
+DFTAnalyzer::DFTAnalyzer(): SpectralAnalyzer()
 {
-    dft.init(N, t);
-    _freqPerBin = 2*M_PI / N;
+
 }
 
 DFTAnalyzer::~DFTAnalyzer()
@@ -20,12 +19,22 @@ DFTAnalyzer::~DFTAnalyzer()
     
 }
 
+void DFTAnalyzer::init(unsigned int N, unsigned int overlap, WindowType t)
+{
+    setN(N);
+    setOverlap(overlap);
+    setHopsize(0);
+    _dft.init(N, overlap, N, t);
+}
+
 void DFTAnalyzer::readAndAnalyse(const float *input, long numberOfSamples)
 {
     unsigned long position = 0;
     float buffer[getWindowSize()];
     unsigned int windowSize = getWindowSize();
-    unsigned int hopSize = getHopsise();
+    unsigned int hopSize = getHopsize();
+    
+    _analysisResult.clear();
     
     while(numberOfSamples > 0)
     {
@@ -40,23 +49,24 @@ void DFTAnalyzer::readAndAnalyse(const float *input, long numberOfSamples)
             position -= (windowSize - hopSize);
 
         numberOfSamples -= hopSize;
-        dft.calculateDFT(buffer);
+        _dft.calculateDFT(buffer);
         
-        _analysisResult.emplace_back(dft.getResult());
+        _analysisResult.emplace_back(_dft.getResult());
     }
 }
 
 void DFTAnalyzer::calculateAmplitudes()
 {
+    _amplitudes.clear();
     for(auto i = 0; i < _analysisResult.size(); i++)
     {
         std::vector<float> amplitude;
-        for(auto n = 0; n < dft.getSize();n++)
+        for(auto n = 0; n < _dft.getSize();n++)
         {
-            amplitude.emplace_back( std::abs(_analysisResult[i][n])/((float)dft.getSize()/2));
+            amplitude.emplace_back( std::abs(_analysisResult[i][n])/((float)_dft.getSize()/2));
         }
         
-        normalize(amplitude.data(), dft.getSize());
+        normalize(amplitude.data(), _dft.getSize());
         
         _amplitudes.emplace_back(amplitude);
     }
@@ -67,7 +77,7 @@ void DFTAnalyzer::calculatePhases()
     for(auto i = 0; i < _analysisResult.size(); i++)
     {
         std::vector<float> phase;
-        for(auto n = 0; n < dft.getSize();n++)
+        for(auto n = 0; n < _dft.getSize();n++)
         {
             phase.emplace_back(std::arg(_analysisResult[i][n]));
         }
@@ -76,7 +86,7 @@ void DFTAnalyzer::calculatePhases()
     
     for(auto i = 1; i < _analysisResult.size(); i++)
     {
-        for(auto n = 0; n < dft.getSize();n++)
+        for(auto n = 0; n < _dft.getSize();n++)
         {
             while(_phases[i][n] - _phases[i-1][n] > M_PI)
                 _phases[i][n] -= 2*M_PI;
@@ -91,11 +101,11 @@ void DFTAnalyzer::calculateLogSpectrum()
     for(auto& amplitudes: _amplitudes)
     {
         std::vector<float> logAmp;
-        for (auto i = 0; i < dft.getSize(); i++)
+        for (auto i = 0; i < _dft.getSize(); i++)
         {
             amplitudes[i] = 20 * log10(amplitudes[i]);
         }
-        normalize(amplitudes.data(), dft.getSize());
+        normalize(amplitudes.data(), _dft.getSize());
     }
 }
 
@@ -104,10 +114,10 @@ void DFTAnalyzer::calculateInstantFrequencies()
     for(auto i = 1; i < _phases.size(); i++)
     {
         std::vector<float> freq;
-        for(auto j = 0; j < dft.getSize(); j++)
+        for(auto j = 0; j < _dft.getSize(); j++)
         {
-            float wrappedPhaseDetermination = phaseWrap((_phases[i][j] - _phases[i-1][j]) - (getHopsise() * (_freqPerBin) * j), M_PI);
-            freq.emplace_back((_freqPerBin * j) + (wrappedPhaseDetermination/getHopsise()));
+            float wrappedPhaseDetermination = phaseWrap((_phases[i][j] - _phases[i-1][j]) - (getHopsize() * (_freqPerBin) * j), M_PI);
+            freq.emplace_back((_freqPerBin * j) + (wrappedPhaseDetermination/getHopsize()));
         }
         _trueFrequencies.emplace_back(freq);
     }
@@ -121,7 +131,7 @@ void DFTAnalyzer::calculateSpectralFlux()
         float amplitude2 = 0;
         float difference = 0;
         float result = 0;
-        for (auto j = 0; j < dft.getSize()/2; j++)
+        for (auto j = 0; j < _dft.getSize()/2; j++)
         {
             amplitude1 = _amplitudes[i][j];
             amplitude2 = _amplitudes[i + 1][j];
@@ -136,5 +146,5 @@ void DFTAnalyzer::calculateSpectralFlux()
         _spectralFlux.emplace_back(result);
     }
     
-    normalize(_spectralFlux.data(), dft.getSize());
+    normalize(_spectralFlux.data(), _dft.getSize());
 }

@@ -19,22 +19,24 @@
 class DFTSpectogram: public Component
 {
 public:
-    DFTSpectogram(APAudioFileManager* fileManager);
+    
+    DFTSpectogram(APAudioFileManager* fileManager, DFTAnalyzer* analyzer);
     DFTSpectogram();
     
     void resized() override final;
     void paint(Graphics& g) override final;
-    void getDrawData();
+    void getDrawData(APAudioFile* audioFile, int N, int windowSize, int overlap);
     void mouseUp (const MouseEvent& event) override final;
     void mouseDown(const MouseEvent& event) override final;
 //    void mouseMove(const MouseEvent& event)override;
     
 private:
     
+    DFTAnalyzer* _analyzer;
     APAudioFileManager* _fileManager;
     
-    void draw(juce::Graphics& g);
-    void drawDFTSpectogram(Graphics& g);
+    bool _initalized = false;
+    
     void drawScale(Graphics& g);
 
     bool _dataWasRead = 0;

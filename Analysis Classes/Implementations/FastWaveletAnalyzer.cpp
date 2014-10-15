@@ -8,7 +8,7 @@
 
 #include "FastWaveletAnalyzer.h"
 
-FastWaveletAnalyzer::FastWaveletAnalyzer(unsigned int N, unsigned int overlap): SpectralAnalyzer(N, overlap)
+FastWaveletAnalyzer::FastWaveletAnalyzer(unsigned int N, unsigned int overlap): SpectralAnalyzer()
 {
     
 }
@@ -38,7 +38,7 @@ void FastWaveletAnalyzer::readAndAnalyse(const float *input, long numberOfSample
     unsigned long position = 0;
     unsigned int windowSize = getWindowSize();
     float buffer[windowSize];
-    unsigned int hopSize = getHopsise();
+    unsigned int hopSize = getHopsize();
     
     while(numberOfSamples > 0)
     {

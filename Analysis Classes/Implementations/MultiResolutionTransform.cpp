@@ -8,7 +8,7 @@
 
 #include "MultiResolutionTransform.h"
 
-MultiResolutionTransform::MultiResolutionTransform(unsigned int N, unsigned int overlap): SpectralAnalyzer(N, overlap)
+MultiResolutionTransform::MultiResolutionTransform(unsigned int N, unsigned int overlap): SpectralAnalyzer()
 {
     _waveletTransform.init(N);
 }
@@ -38,7 +38,7 @@ void MultiResolutionTransform::readAndAnalyse(const float *input, long numberOfS
     unsigned long position = 0;
     unsigned int windowSize = getWindowSize();
     float buffer[windowSize];
-    unsigned int hopSize = getHopsise();
+    unsigned int hopSize = getHopsize();
     
     while(numberOfSamples > 0)
     {

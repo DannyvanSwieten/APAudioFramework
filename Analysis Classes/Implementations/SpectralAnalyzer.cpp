@@ -8,14 +8,28 @@
 
 #include "SpectralAnalyzer.h"
 
-SpectralAnalyzer::SpectralAnalyzer(unsigned int N, unsigned int overlap)
+SpectralAnalyzer::SpectralAnalyzer()
 {
-    _N = N;
-    _overlap = overlap;
-    _ra = _N/_overlap;
+
 }
 
 SpectralAnalyzer::~SpectralAnalyzer()
 {
 
+}
+
+void SpectralAnalyzer::setN(int N)
+{
+    _N = N;
+}
+
+void SpectralAnalyzer::setOverlap(int overlap)
+{
+    _overlap = overlap;
+}
+
+void SpectralAnalyzer::setHopsize(int hopSize)
+{
+    _ra = hopSize;
+    _ra = _N/_overlap;
 }
