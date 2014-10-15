@@ -25,8 +25,11 @@ public:
     void mouseUp (const MouseEvent& event)override;
     void mouseDown(const MouseEvent& event)override;
     
+    void loadData(APAudioFile* file);
+    
 private:
     
+    Path _drawPath;
     APAudioFileManager* _fileManager;
 };
 

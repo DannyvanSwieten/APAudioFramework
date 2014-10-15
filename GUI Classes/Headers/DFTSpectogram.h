@@ -16,11 +16,11 @@
 #include "FrequencyAnalyzer.h"
 #include <iostream>
 
-class AnalysisWindowComponent: public Component
+class DFTSpectogram: public Component
 {
 public:
-    AnalysisWindowComponent(APAudioFileManager* fileManager);
-    ~AnalysisWindowComponent();
+    DFTSpectogram(APAudioFileManager* fileManager);
+    DFTSpectogram();
     
     void resized() override final;
     void paint(Graphics& g) override final;
@@ -30,16 +30,13 @@ public:
 //    void mouseMove(const MouseEvent& event)override;
     
 private:
+    
     APAudioFileManager* _fileManager;
     
     void draw(juce::Graphics& g);
     void drawDFTSpectogram(Graphics& g);
-    void drawTransientData(Graphics& g);
-    void drawSpectralFlux(Graphics& g);
-    void drawFrequency(Graphics& g);
     void drawScale(Graphics& g);
-    
-    void drawWaveletSpectogram(juce::Graphics& g);
+
     bool _dataWasRead = 0;
     bool _drawPathWasSet = 0;
     Path _drawPath;

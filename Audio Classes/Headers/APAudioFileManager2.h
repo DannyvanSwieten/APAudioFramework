@@ -21,6 +21,7 @@ public:
     
     void loadFile(File fileToLoad);
     void loadFile(std::string fileToLoad);
+    void loadFiles();
     
     APAudioFile* getFile(String name);
     APAudioFile* getFile(int index);
