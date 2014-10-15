@@ -48,7 +48,6 @@ void APAudioAnalysisMenu::buttonClicked(Button* buttonThatWasClicked)
 {
     if(buttonThatWasClicked == _loadFileButton.get())
     {
-        _loading = true;
         Array<File> files;
         FileChooser chooser("Please select the file you'd like to load",
                             File::getSpecialLocation(File::userHomeDirectory),
@@ -68,16 +67,14 @@ void APAudioAnalysisMenu::buttonClicked(Button* buttonThatWasClicked)
             }
         }
     }
-    _loading = false;
 }
 
 void APAudioAnalysisMenu::comboBoxChanged(ComboBox *comboBoxThatHasChanged)
 {
     if(comboBoxThatHasChanged == _loadedFiles.get())
     {
-        if(!_loading && comboBoxThatHasChanged->getSelectedId() != 0)
+        if(comboBoxThatHasChanged->getSelectedId() != 0)
         {
-            std::cout<<comboBoxThatHasChanged->getSelectedId()<<std::endl;
             _waveFormView->loadData(_fileManager->getFile(comboBoxThatHasChanged->getSelectedId()-1));
             _waveFormView->repaint();
         }

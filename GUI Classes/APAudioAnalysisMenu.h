@@ -41,8 +41,7 @@ private:
     WaveFormComponent* _waveFormView;
     APAudioFileManager* _fileManager;
     APAudioWindowManager* _windowManager;
-    
-    bool _loading = 0;
+
 };
 
 #endif /* defined(__FPTAnalyzer__APAudioAnalysisMenu__) */
