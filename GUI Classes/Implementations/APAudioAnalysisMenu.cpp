@@ -23,12 +23,10 @@ APAudioAnalysisMenu::APAudioAnalysisMenu(APAudioFileManager* fileManager, APAudi
     _analyzeButton->setBounds(2, 350, 100, 25);
     
     _analysisMethod = std::make_unique<ComboBox>("Analysis Method");
-    _analysisMethod->addListener(this);
     _analysisMethod->addItem("Fourier Transform", 1);
     _analysisMethod->setBounds(2, 200, 200, 25);
     
     _analysisSize = std::make_unique<ComboBox>("Analysis Method");
-    _analysisSize->addListener(this);
     _analysisSize->addItem("512", 1);
     _analysisSize->addItem("1024", 2);
     _analysisSize->addItem("2048", 3);
@@ -36,7 +34,6 @@ APAudioAnalysisMenu::APAudioAnalysisMenu(APAudioFileManager* fileManager, APAudi
     _analysisSize->setBounds(2, 230, 200, 25);
     
     _windowSize = std::make_unique<ComboBox>("Window Size");
-    _windowSize->addListener(this);
     _windowSize->addItem("512", 1);
     _windowSize->addItem("1024", 2);
     _windowSize->addItem("2048", 3);
@@ -44,7 +41,6 @@ APAudioAnalysisMenu::APAudioAnalysisMenu(APAudioFileManager* fileManager, APAudi
     _windowSize->setBounds(2, 260, 200, 25);
     
     _windowType = std::make_unique<ComboBox>("Window Type");
-    _windowType->addListener(this);
     _windowType->addItem("Hanning", 1);
     _windowType->setBounds(2, 290, 200, 25);
     

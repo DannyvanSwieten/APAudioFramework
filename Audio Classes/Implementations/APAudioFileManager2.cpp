@@ -35,6 +35,7 @@ void APAudioFileManager::loadFile(File fileToLoad)
     file->setFileName(fileToLoad.getFileName());
     file->setNumChannels(numChannels);
     file->setNumSamples(numSamples);
+    file->setSamplerate(formatReader->sampleRate);
     
     _audioFiles.emplace_back(std::move(file));
     _filesLoaded++;

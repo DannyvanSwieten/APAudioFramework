@@ -12,6 +12,7 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 
 #include "APAudioFileManager2.h"
+#include "APAudioScaleComponent.h"
 
 class WaveFormComponent: public Component
 {
@@ -26,11 +27,17 @@ public:
     void mouseDown(const MouseEvent& event)override;
     
     void loadData(APAudioFile* file);
+    void fillPath();
     
 private:
     
+    APAudioFile* _file = nullptr;
     Path _drawPath;
-    APAudioFileManager* _fileManager;
+    APAudioFileManager* _fileManager = nullptr;
+    int _step = 0;
+    int _zoom = 1;
+    
+    std::unique_ptr<APAudioScaleComponent> _timeScale;
 };
 
 

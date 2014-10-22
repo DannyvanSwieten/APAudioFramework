@@ -34,6 +34,7 @@ private:
     
     DFTAnalyzer* _analyzer;
     APAudioFileManager* _fileManager;
+    OpenGLContext _glContext;
     
     bool _initalized = false;
     

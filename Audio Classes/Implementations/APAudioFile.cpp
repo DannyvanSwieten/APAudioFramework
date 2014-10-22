@@ -18,6 +18,11 @@ void APAudioFile::setAudio(AudioSampleBuffer buffer)
     _audio = buffer;
 }
 
+void APAudioFile::setSamplerate(int sampleRate)
+{
+    _sampleRate = sampleRate;
+}
+
 void APAudioFile::setNumChannels(int channels)
 {
     _numChannels = channels;
@@ -46,6 +51,11 @@ const float* APAudioFile::getAudioChannel(int index)
 int APAudioFile::getNumChannels()
 {
     return _numChannels;
+}
+
+int APAudioFile::getSampleRate()
+{
+    return _sampleRate;
 }
 
 long int APAudioFile::getNumSamples()

@@ -12,24 +12,34 @@
 WaveFormComponent::WaveFormComponent(APAudioFileManager* manager)
 {
     _fileManager = manager;
+    _timeScale = std::make_unique<APAudioScaleComponent>();
+    addAndMakeVisible(_timeScale.get());
 }
 
 WaveFormComponent::~WaveFormComponent()
 {
-    _fileManager = nullptr;
+
+}
+
+void WaveFormComponent::fillPath()
+{
+    int step = _file->getNumSamples()/getWidth();
+    if(step < 1) step = 1;
+    int count = 0;
+    _drawPath.clear();
+    
+    for(auto i = 0; i < getWidth(); i++)
+    {
+        _drawPath.lineTo(i, -_file->getAudioChannel(0)[count] * (getHeight()-20));
+        count += step;
+    }
 }
 
 void WaveFormComponent::loadData(APAudioFile *file)
 {
-    _drawPath.clear();
-    int step = file->getNumSamples()/getWidth();
-    int count = 0;
-    
-    for(auto i = 0; i < getWidth(); i++)
-    {
-        _drawPath.lineTo(i, -file->getAudioChannel(0)[count] * getHeight());
-        count+= step;
-    }
+    _file = file;
+    _timeScale->setValues(file->getNumSamples(), file->getSampleRate());
+    fillPath();
 }
 
 void WaveFormComponent::paint(Graphics& g)
@@ -42,7 +52,7 @@ void WaveFormComponent::paint(Graphics& g)
 
 void WaveFormComponent::resized()
 {
-    
+    _timeScale->setBounds(0, getHeight()-20, getWidth(), 20);
 }
 
 void WaveFormComponent::mouseDown(const juce::MouseEvent &event)
@@ -52,5 +62,12 @@ void WaveFormComponent::mouseDown(const juce::MouseEvent &event)
 
 void WaveFormComponent::mouseUp(const juce::MouseEvent &event)
 {
-    
+    if(getWidth()*2 >! _file->getNumSamples())
+    {
+        _zoom *= 2;
+        _timeScale->setZoom(_zoom);
+        _timeScale->setValues(_file->getNumSamples()/_zoom, 44100);
+        setBounds(0, 0, getWidth()*2, getHeight());
+        fillPath();
+    }
 }

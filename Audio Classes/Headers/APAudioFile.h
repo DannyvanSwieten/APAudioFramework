@@ -20,11 +20,13 @@ public:
     void setNumChannels(int channels);
     void setNumSamples(long int samples);
     void setFileName(String name);
+    void setSamplerate(int sampleRate);
     
     String getName();
     const float* getAudioChannel(int index);
     int getNumChannels();
     long int getNumSamples();
+    int getSampleRate();
     
 private:
     
@@ -32,6 +34,7 @@ private:
     String _fileName;
     int _numChannels = 0;
     long int _numSamples = 0;
+    int _sampleRate = 0;
 };
 
 #endif /* defined(__APAAnalyzer__APAudioFile__) */

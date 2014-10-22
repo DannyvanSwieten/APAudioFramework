@@ -10,6 +10,7 @@
 #define __FPTAnalyzer__APAudioWindowManager__
 
 #include "DFTSpectogram.h"
+#include "YINAnalyzer.h"
 
 class APAudioWindowManager
 {
@@ -21,7 +22,9 @@ public:
     
 private:
     
-    std::unique_ptr<DFTAnalyzer> _analyzer;
+    std::unique_ptr<DFTAnalyzer> _dftAnalyzer;
+    std::unique_ptr<YINAnalyzer> _yinAnalyzer;
+    
     std::unique_ptr<DFTSpectogram> _DFTSpectogramWindow;
 };
 
