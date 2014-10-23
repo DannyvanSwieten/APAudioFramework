@@ -40,11 +40,6 @@ void DFTSpectogram::mouseUp(const juce::MouseEvent &event)
 void DFTSpectogram::paint(Graphics& g)
 {
     g.fillAll(Colours::white);
-//    Result result = _shader->checkCompilation(g.getInternalContext());
-//    if(result.wasOk())
-//    {
-//        _shader->fillRect(g.getInternalContext(), Rectangle<int>(0,0,getWidth(),getHeight()));
-//    }
     
     if(_initalized)
     {
@@ -53,25 +48,27 @@ void DFTSpectogram::paint(Graphics& g)
 
         int N = _analyzer->getWindowSize()/2.0;
         int analysisSize = _analyzer->getAmplitudes().size();
-        float widthScale = (float)getWidth() / (analysisSize/2);
         float heightScale = (float)getHeight() / (N/10);
-
-        auto rect = Rectangle<int>(widthScale , heightScale, widthScale, heightScale);
         
-        for (auto i = 0; i < analysisSize; i++)
-        {
-            int counter = 0;
-            for(auto j = N / 10; j > 0; j--)
-            {
-                float alpha = (float)_analyzer->getAmplitudes()[i][j];
-                if(isnan(alpha)) alpha = 0;
-                g.setColour(juce::Colour(255 - (alpha*255), 255 - (alpha*255*.5), 255 - (alpha*255 * .25)));
+        float step = (float)analysisSize/(float)getWidth();
 
-                g.fillRect(widthScale * i ,
-                           heightScale * counter++,
-                           widthScale,
+        float counter = 0;
+        for (auto i = 0; i < getWidth(); i++)
+        {
+            int counter2 = 0;
+            for(auto j = N / 10; j > 1; j--)
+            {
+                float alpha = (float)_analyzer->getAmplitudes()[(int)counter][j];
+                if(isnan(alpha)) alpha = 0;
+                g.setColour(juce::Colour(255 - (alpha*255), 255 - (alpha*255*.5), 255 - (alpha*255 * .5)));
+
+                g.fillRect((float)i * 2 ,
+                           heightScale * counter2++,
+                           2.0,
                            heightScale);
+                
             }
+            counter+=step;
         }
     }
 }

@@ -14,12 +14,17 @@
 #include "APAudioFileManager2.h"
 #include "APAudioWindowManager.h"
 #include "WaveFormComponent.h"
+#include "FPTAnalyzerAudioProcessor.h"
 
 class APAudioAnalysisMenu: public Component, public Button::Listener, public ComboBox::Listener
 {
 public:
     
-    APAudioAnalysisMenu(APAudioFileManager* fileManager, APAudioWindowManager* windowManager, WaveFormComponent* waveformComponent);
+    APAudioAnalysisMenu(APAudioFileManager* fileManager,
+                        APAudioWindowManager* windowManager,
+                        WaveFormComponent* waveformComponent,
+                        FPTAnalyzerAudioProcessor* processor);
+    
     ~APAudioAnalysisMenu();
     
     void resized() override final;
@@ -38,10 +43,12 @@ private:
     
     std::unique_ptr<TextButton> _loadFileButton;
     std::unique_ptr<TextButton> _analyzeButton;
+    std::unique_ptr<TextButton> _playButton;
     
     WaveFormComponent* _waveFormView;
     APAudioFileManager* _fileManager;
     APAudioWindowManager* _windowManager;
+    FPTAnalyzerAudioProcessor* _processor;
 
 };
 

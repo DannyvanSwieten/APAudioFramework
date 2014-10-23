@@ -18,10 +18,28 @@ APAudioFilePlayer::~APAudioFilePlayer()
     
 }
 
-float APAudioFilePlayer::play(APAudioFile *file, int channel, float speed)
+void APAudioFilePlayer::setFile(APAudioFile *file)
 {
-    if (channel > file->getNumChannels())
-        return 0;
+    _file = file;
+}
+
+void APAudioFilePlayer::setPlay()
+{
+    _playing = true;
+}
+
+float APAudioFilePlayer::play()
+{
+    if(_playing)
+    {
+        if (_position + 1 > _file->getNumSamples())
+        {
+            _position = 0;
+            _playing = false;
+            return 0;
+        }
+        return _file->getAudioChannel(0)[_position++];
+    }
     else
-        return file->getAudioChannel(channel)[_position++];
+        return 0;
 }

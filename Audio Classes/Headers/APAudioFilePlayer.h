@@ -18,11 +18,14 @@ public:
     APAudioFilePlayer();
     ~APAudioFilePlayer();
     
-    float play(APAudioFile* file, int channel, float speed);
-    
+    float play();
+    void setPlay();
+    void setFile(APAudioFile* file);
 private:
     
-    int _position;
+    APAudioFile* _file = nullptr;
+    int _position = 0;
+    bool _playing = 0;
 };
 
 #endif

@@ -8,7 +8,7 @@
 
 #include "APAudioAnalysisMenu.h"
 
-APAudioAnalysisMenu::APAudioAnalysisMenu(APAudioFileManager* fileManager, APAudioWindowManager* windowManager, WaveFormComponent* waveformComponent)
+APAudioAnalysisMenu::APAudioAnalysisMenu(APAudioFileManager* fileManager, APAudioWindowManager* windowManager, WaveFormComponent* waveformComponent, FPTAnalyzerAudioProcessor* processor)
 {
     _fileManager = fileManager;
     _windowManager = windowManager;
@@ -21,6 +21,10 @@ APAudioAnalysisMenu::APAudioAnalysisMenu(APAudioFileManager* fileManager, APAudi
     _analyzeButton = std::make_unique<TextButton>("Analyze and Draw");
     _analyzeButton->addListener(this);
     _analyzeButton->setBounds(2, 350, 100, 25);
+    
+    _playButton = std::make_unique<TextButton>("Play");
+    _playButton->setBounds(0, 60, 100, 25);
+    _playButton->addListener(this);
     
     _analysisMethod = std::make_unique<ComboBox>("Analysis Method");
     _analysisMethod->addItem("Fourier Transform", 1);
@@ -66,6 +70,9 @@ APAudioAnalysisMenu::APAudioAnalysisMenu(APAudioFileManager* fileManager, APAudi
     
     addAndMakeVisible(_loadFileButton.get());
     addAndMakeVisible(_analyzeButton.get());
+    addAndMakeVisible(_playButton.get());
+    
+    _processor = processor;
 }
 
 APAudioAnalysisMenu::~APAudioAnalysisMenu()
@@ -95,6 +102,14 @@ void APAudioAnalysisMenu::buttonClicked(Button* buttonThatWasClicked)
                 _loadedFiles->addItem(files[i].getFileName(), i+1);
             }
         }
+    }
+    
+    if(buttonThatWasClicked == _playButton.get())
+    {
+        APAudioFile* file = _fileManager->getFile(_loadedFiles->getSelectedId()-1);
+        
+        _processor->_filePlayer->setFile(file);
+        _processor->_filePlayer->setPlay();
     }
     
     if(buttonThatWasClicked == _analyzeButton.get())

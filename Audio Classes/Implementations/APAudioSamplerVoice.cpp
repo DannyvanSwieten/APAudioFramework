@@ -61,8 +61,15 @@ float APAudioSamplerVoice::tick()
         return 0;
     }
     
-    if(_position < 0)
+    if(_position < 0 && _repeat)
         _position += _fileToPlay->getNumSamples();
+    
+    if(_position < 0 && !_repeat)
+    {
+        _position = 0;
+        _isPlaying = false;
+        return 0;
+    }
     
     _floorIndex = (int)_position;
     _nextFloorIndex = _floorIndex + 1;
