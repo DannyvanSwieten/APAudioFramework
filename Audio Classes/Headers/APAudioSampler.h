@@ -14,12 +14,13 @@
 #include "APAudioSamplerVoice.h"
 #include "APAudioModule.h"
 
-class Sampler: public APAudioModule
+class APAudioSampler: public APAudioModule
 {
 public:
-    Sampler(APAudioMainFrame* mainFrame ,APAudioFileManager* fileManager);
-    ~Sampler();
+    APAudioSampler(APAudioMainFrame* mainFrame ,APAudioFileManager* fileManager);
+    ~APAudioSampler();
     void onNoteOn(int noteOn, float velocity, int channel, bool repeat);
+    void onNoteOn(std::string file, float velocity, int channel, bool repeat);
     APAudioSamplerVoice* findFreeVoice();
     void renderBlock(SampleBuffer output);
     void loadFile(std::string fileToLoad, int noteToListenTo, int channelToListenTo);

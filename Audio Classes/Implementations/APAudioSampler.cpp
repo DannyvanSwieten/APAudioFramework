@@ -1,5 +1,5 @@
 //
-//  Sampler.cpp
+//  APAudioSampler.cpp
 //  FuChair
 //
 //  Created by Danny van Swieten on 10/7/14.
@@ -8,12 +8,12 @@
 
 #include "APAudioSampler.h"
 
-Sampler::Sampler(APAudioMainFrame* mainFrame ,APAudioFileManager* fileManager): APAudioModule(mainFrame)
+APAudioSampler::APAudioSampler(APAudioMainFrame* mainFrame ,APAudioFileManager* fileManager): APAudioModule(mainFrame)
 {
     _fileManager = fileManager;
 }
 
-void Sampler::onNoteOn(int noteOn, float velocity, int channel, bool repeat)
+void APAudioSampler::onNoteOn(int noteOn, float velocity, int channel, bool repeat)
 {
     for(auto& description: _fileDescriptions)
         if(description.listensToNote(noteOn) && description.listensToChannel(channel))
@@ -38,12 +38,35 @@ void Sampler::onNoteOn(int noteOn, float velocity, int channel, bool repeat)
         }
 }
 
-Sampler::~Sampler()
+void APAudioSampler::onNoteOn(std::string file, float velocity, int channel, bool repeat)
+{
+    for(auto& description: _fileDescriptions)
+        if(description.getID() == file)
+        {
+            APAudioSamplerVoice* voice = findFreeVoice();
+            
+            if(voice == nullptr)
+            {
+                voice = new APAudioSamplerVoice();
+                voice->setFileToPlay(_fileManager->getFile(description.getID()));
+                voice->play(repeat);
+                _activeVoices.emplace_back(voice);
+                _numVoicesActive++;
+            }
+            else
+            {
+                voice->setFileToPlay(_fileManager->getFile(description.getID()));
+                voice->play(repeat);
+            }
+        }
+}
+
+APAudioSampler::~APAudioSampler()
 {
     
 }
 
-APAudioSamplerVoice* Sampler::findFreeVoice()
+APAudioSamplerVoice* APAudioSampler::findFreeVoice()
 {
     for(auto& voice: _activeVoices)
     {
@@ -53,7 +76,7 @@ APAudioSamplerVoice* Sampler::findFreeVoice()
     return nullptr;
 }
 
-void Sampler::renderBlock(SampleBuffer output)
+void APAudioSampler::renderBlock(SampleBuffer output)
 {
     memset(outputBuffer.data(), 0, sizeof(Sample)*getBufferSize());
     
@@ -63,7 +86,7 @@ void Sampler::renderBlock(SampleBuffer output)
                 output[i] += voice->tick();
 }
 
-void Sampler::loadFile(std::string fileToLoad, int noteToListenTo, int channelToListenTo)
+void APAudioSampler::loadFile(std::string fileToLoad, int noteToListenTo, int channelToListenTo)
 {
     APAudioSoundDescription description;
     description.setNoteToListenTo(noteToListenTo);
@@ -73,18 +96,18 @@ void Sampler::loadFile(std::string fileToLoad, int noteToListenTo, int channelTo
     _fileManager->loadFile(fileToLoad);
 }
 
-void Sampler::calculateBuffer()
+void APAudioSampler::calculateBuffer()
 {
     renderBlock(outputBuffer.data());
 }
 
-void Sampler::setSpeed(float speed)
+void APAudioSampler::setSpeed(float speed)
 {
     for(auto& voice: _activeVoices)
         voice->setSpeed(speed);
 }
 
-void Sampler::setVoiceAmplitude(int note, float amp)
+void APAudioSampler::setVoiceAmplitude(int note, float amp)
 {
     for(auto& voice: _activeVoices)
         if (voice->getNote() == note)
