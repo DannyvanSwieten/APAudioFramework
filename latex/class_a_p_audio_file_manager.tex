@@ -1,0 +1,169 @@
+\hypertarget{class_a_p_audio_file_manager}{\section{A\+P\+Audio\+File\+Manager Class Reference}
+\label{class_a_p_audio_file_manager}\index{A\+P\+Audio\+File\+Manager@{A\+P\+Audio\+File\+Manager}}
+}
+
+
+{\ttfamily \#include $<$A\+P\+Audio\+File\+Manager2.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_a_p_audio_file_manager_a3a0dd7cfb1e16412c66f898511d46b34}{A\+P\+Audio\+File\+Manager} ()
+\item 
+\hyperlink{class_a_p_audio_file_manager_a1a1bb07cf3c8710c695c77cb6cd9baef}{$\sim$\+A\+P\+Audio\+File\+Manager} ()
+\item 
+void \hyperlink{class_a_p_audio_file_manager_ac07981ccd2caa78533d0399473aac33d}{load\+File} (File file\+To\+Load)
+\item 
+void \hyperlink{class_a_p_audio_file_manager_ac08c787e5180479048b53e0a5788ae98}{load\+File} (std\+::string file\+To\+Load)
+\item 
+void \hyperlink{class_a_p_audio_file_manager_a9968679e6778a46b45db09496eaf34ec}{load\+Files} ()
+\item 
+\hyperlink{class_a_p_audio_file}{A\+P\+Audio\+File} $\ast$ \hyperlink{class_a_p_audio_file_manager_a93197d9a8c4fd221a508713b000d5a98}{get\+File} (String name)
+\item 
+\hyperlink{class_a_p_audio_file}{A\+P\+Audio\+File} $\ast$ \hyperlink{class_a_p_audio_file_manager_a5d1cfd0ef9052f5185c3d75ae389c869}{get\+File} (int index)
+\item 
+void \hyperlink{class_a_p_audio_file_manager_a31affbe18da5e74ae2f06c660b62b0dc}{clear\+Manager} ()
+\item 
+int \hyperlink{class_a_p_audio_file_manager_a29bb102b0dea509bfedb280b0b8b2dac}{get\+Number\+Of\+Files} ()
+\item 
+\hyperlink{class_a_p_audio_file_manager_a3a0dd7cfb1e16412c66f898511d46b34}{A\+P\+Audio\+File\+Manager} ()
+\item 
+O\+S\+Status \hyperlink{class_a_p_audio_file_manager_a6d214b9b918cfae6c5ffdbc2ae8d4100}{get\+Available\+Sound\+File\+Libraries} ()
+\item 
+O\+S\+Status \hyperlink{class_a_p_audio_file_manager_a26d042ceefccb1c736975fac512a5c72}{get\+File\+List\+For\+Sound\+File\+Library} (N\+S\+String $\ast$library\+Name)
+\item 
+O\+S\+Status \hyperlink{class_a_p_audio_file_manager_ac23bd578b59c7baeab62802a1a7f4e50}{load\+File} (N\+S\+String $\ast$file\+Name, N\+S\+String $\ast$library\+Name)
+\item 
+O\+S\+Status \hyperlink{class_a_p_audio_file_manager_a7981965b1aa9f06eeef67c349211fb53}{setup\+Mono\+Stream\+Format} ()
+\item 
+O\+S\+Status \hyperlink{class_a_p_audio_file_manager_a761a4bdfa40e0a6bebfddede172c0a72}{setup\+Stereo\+Stream\+Format} ()
+\item 
+\hyperlink{struct_audio_file}{Audio\+File} $\ast$ \hyperlink{class_a_p_audio_file_manager_ac51cd969fe764d494a262522c1cca067}{find\+File} (std\+::string file\+Name)
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_a_p_audio_file_manager_a3a0dd7cfb1e16412c66f898511d46b34}{\index{A\+P\+Audio\+File\+Manager@{A\+P\+Audio\+File\+Manager}!A\+P\+Audio\+File\+Manager@{A\+P\+Audio\+File\+Manager}}
+\index{A\+P\+Audio\+File\+Manager@{A\+P\+Audio\+File\+Manager}!A\+P\+Audio\+File\+Manager@{A\+P\+Audio\+File\+Manager}}
+\subsubsection[{A\+P\+Audio\+File\+Manager}]{\setlength{\rightskip}{0pt plus 5cm}A\+P\+Audio\+File\+Manager\+::\+A\+P\+Audio\+File\+Manager (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_a_p_audio_file_manager_a3a0dd7cfb1e16412c66f898511d46b34}
+\hypertarget{class_a_p_audio_file_manager_a1a1bb07cf3c8710c695c77cb6cd9baef}{\index{A\+P\+Audio\+File\+Manager@{A\+P\+Audio\+File\+Manager}!````~A\+P\+Audio\+File\+Manager@{$\sim$\+A\+P\+Audio\+File\+Manager}}
+\index{````~A\+P\+Audio\+File\+Manager@{$\sim$\+A\+P\+Audio\+File\+Manager}!A\+P\+Audio\+File\+Manager@{A\+P\+Audio\+File\+Manager}}
+\subsubsection[{$\sim$\+A\+P\+Audio\+File\+Manager}]{\setlength{\rightskip}{0pt plus 5cm}A\+P\+Audio\+File\+Manager\+::$\sim$\+A\+P\+Audio\+File\+Manager (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_a_p_audio_file_manager_a1a1bb07cf3c8710c695c77cb6cd9baef}
+\hypertarget{class_a_p_audio_file_manager_a3a0dd7cfb1e16412c66f898511d46b34}{\index{A\+P\+Audio\+File\+Manager@{A\+P\+Audio\+File\+Manager}!A\+P\+Audio\+File\+Manager@{A\+P\+Audio\+File\+Manager}}
+\index{A\+P\+Audio\+File\+Manager@{A\+P\+Audio\+File\+Manager}!A\+P\+Audio\+File\+Manager@{A\+P\+Audio\+File\+Manager}}
+\subsubsection[{A\+P\+Audio\+File\+Manager}]{\setlength{\rightskip}{0pt plus 5cm}A\+P\+Audio\+File\+Manager\+::\+A\+P\+Audio\+File\+Manager (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_a_p_audio_file_manager_a3a0dd7cfb1e16412c66f898511d46b34}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_a_p_audio_file_manager_a31affbe18da5e74ae2f06c660b62b0dc}{\index{A\+P\+Audio\+File\+Manager@{A\+P\+Audio\+File\+Manager}!clear\+Manager@{clear\+Manager}}
+\index{clear\+Manager@{clear\+Manager}!A\+P\+Audio\+File\+Manager@{A\+P\+Audio\+File\+Manager}}
+\subsubsection[{clear\+Manager}]{\setlength{\rightskip}{0pt plus 5cm}void A\+P\+Audio\+File\+Manager\+::clear\+Manager (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_a_p_audio_file_manager_a31affbe18da5e74ae2f06c660b62b0dc}
+\hypertarget{class_a_p_audio_file_manager_ac51cd969fe764d494a262522c1cca067}{\index{A\+P\+Audio\+File\+Manager@{A\+P\+Audio\+File\+Manager}!find\+File@{find\+File}}
+\index{find\+File@{find\+File}!A\+P\+Audio\+File\+Manager@{A\+P\+Audio\+File\+Manager}}
+\subsubsection[{find\+File}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Audio\+File} $\ast$ A\+P\+Audio\+File\+Manager\+::find\+File (
+\begin{DoxyParamCaption}
+\item[{std\+::string}]{file\+Name}
+\end{DoxyParamCaption}
+)}}\label{class_a_p_audio_file_manager_ac51cd969fe764d494a262522c1cca067}
+\hypertarget{class_a_p_audio_file_manager_a6d214b9b918cfae6c5ffdbc2ae8d4100}{\index{A\+P\+Audio\+File\+Manager@{A\+P\+Audio\+File\+Manager}!get\+Available\+Sound\+File\+Libraries@{get\+Available\+Sound\+File\+Libraries}}
+\index{get\+Available\+Sound\+File\+Libraries@{get\+Available\+Sound\+File\+Libraries}!A\+P\+Audio\+File\+Manager@{A\+P\+Audio\+File\+Manager}}
+\subsubsection[{get\+Available\+Sound\+File\+Libraries}]{\setlength{\rightskip}{0pt plus 5cm}O\+S\+Status A\+P\+Audio\+File\+Manager\+::get\+Available\+Sound\+File\+Libraries (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_a_p_audio_file_manager_a6d214b9b918cfae6c5ffdbc2ae8d4100}
+\hypertarget{class_a_p_audio_file_manager_a93197d9a8c4fd221a508713b000d5a98}{\index{A\+P\+Audio\+File\+Manager@{A\+P\+Audio\+File\+Manager}!get\+File@{get\+File}}
+\index{get\+File@{get\+File}!A\+P\+Audio\+File\+Manager@{A\+P\+Audio\+File\+Manager}}
+\subsubsection[{get\+File}]{\setlength{\rightskip}{0pt plus 5cm}{\bf A\+P\+Audio\+File}$\ast$ A\+P\+Audio\+File\+Manager\+::get\+File (
+\begin{DoxyParamCaption}
+\item[{String}]{name}
+\end{DoxyParamCaption}
+)}}\label{class_a_p_audio_file_manager_a93197d9a8c4fd221a508713b000d5a98}
+\hypertarget{class_a_p_audio_file_manager_a5d1cfd0ef9052f5185c3d75ae389c869}{\index{A\+P\+Audio\+File\+Manager@{A\+P\+Audio\+File\+Manager}!get\+File@{get\+File}}
+\index{get\+File@{get\+File}!A\+P\+Audio\+File\+Manager@{A\+P\+Audio\+File\+Manager}}
+\subsubsection[{get\+File}]{\setlength{\rightskip}{0pt plus 5cm}{\bf A\+P\+Audio\+File} $\ast$ A\+P\+Audio\+File\+Manager\+::get\+File (
+\begin{DoxyParamCaption}
+\item[{int}]{index}
+\end{DoxyParamCaption}
+)}}\label{class_a_p_audio_file_manager_a5d1cfd0ef9052f5185c3d75ae389c869}
+\hypertarget{class_a_p_audio_file_manager_a26d042ceefccb1c736975fac512a5c72}{\index{A\+P\+Audio\+File\+Manager@{A\+P\+Audio\+File\+Manager}!get\+File\+List\+For\+Sound\+File\+Library@{get\+File\+List\+For\+Sound\+File\+Library}}
+\index{get\+File\+List\+For\+Sound\+File\+Library@{get\+File\+List\+For\+Sound\+File\+Library}!A\+P\+Audio\+File\+Manager@{A\+P\+Audio\+File\+Manager}}
+\subsubsection[{get\+File\+List\+For\+Sound\+File\+Library}]{\setlength{\rightskip}{0pt plus 5cm}O\+S\+Status A\+P\+Audio\+File\+Manager\+::get\+File\+List\+For\+Sound\+File\+Library (
+\begin{DoxyParamCaption}
+\item[{N\+S\+String $\ast$}]{library\+Name}
+\end{DoxyParamCaption}
+)}}\label{class_a_p_audio_file_manager_a26d042ceefccb1c736975fac512a5c72}
+\hypertarget{class_a_p_audio_file_manager_a29bb102b0dea509bfedb280b0b8b2dac}{\index{A\+P\+Audio\+File\+Manager@{A\+P\+Audio\+File\+Manager}!get\+Number\+Of\+Files@{get\+Number\+Of\+Files}}
+\index{get\+Number\+Of\+Files@{get\+Number\+Of\+Files}!A\+P\+Audio\+File\+Manager@{A\+P\+Audio\+File\+Manager}}
+\subsubsection[{get\+Number\+Of\+Files}]{\setlength{\rightskip}{0pt plus 5cm}int A\+P\+Audio\+File\+Manager\+::get\+Number\+Of\+Files (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_a_p_audio_file_manager_a29bb102b0dea509bfedb280b0b8b2dac}
+\hypertarget{class_a_p_audio_file_manager_ac07981ccd2caa78533d0399473aac33d}{\index{A\+P\+Audio\+File\+Manager@{A\+P\+Audio\+File\+Manager}!load\+File@{load\+File}}
+\index{load\+File@{load\+File}!A\+P\+Audio\+File\+Manager@{A\+P\+Audio\+File\+Manager}}
+\subsubsection[{load\+File}]{\setlength{\rightskip}{0pt plus 5cm}void A\+P\+Audio\+File\+Manager\+::load\+File (
+\begin{DoxyParamCaption}
+\item[{File}]{file\+To\+Load}
+\end{DoxyParamCaption}
+)}}\label{class_a_p_audio_file_manager_ac07981ccd2caa78533d0399473aac33d}
+\hypertarget{class_a_p_audio_file_manager_ac08c787e5180479048b53e0a5788ae98}{\index{A\+P\+Audio\+File\+Manager@{A\+P\+Audio\+File\+Manager}!load\+File@{load\+File}}
+\index{load\+File@{load\+File}!A\+P\+Audio\+File\+Manager@{A\+P\+Audio\+File\+Manager}}
+\subsubsection[{load\+File}]{\setlength{\rightskip}{0pt plus 5cm}void A\+P\+Audio\+File\+Manager\+::load\+File (
+\begin{DoxyParamCaption}
+\item[{std\+::string}]{file\+To\+Load}
+\end{DoxyParamCaption}
+)}}\label{class_a_p_audio_file_manager_ac08c787e5180479048b53e0a5788ae98}
+\hypertarget{class_a_p_audio_file_manager_ac23bd578b59c7baeab62802a1a7f4e50}{\index{A\+P\+Audio\+File\+Manager@{A\+P\+Audio\+File\+Manager}!load\+File@{load\+File}}
+\index{load\+File@{load\+File}!A\+P\+Audio\+File\+Manager@{A\+P\+Audio\+File\+Manager}}
+\subsubsection[{load\+File}]{\setlength{\rightskip}{0pt plus 5cm}O\+S\+Status A\+P\+Audio\+File\+Manager\+::load\+File (
+\begin{DoxyParamCaption}
+\item[{N\+S\+String $\ast$}]{file\+Name, }
+\item[{N\+S\+String $\ast$}]{library\+Name}
+\end{DoxyParamCaption}
+)}}\label{class_a_p_audio_file_manager_ac23bd578b59c7baeab62802a1a7f4e50}
+\hypertarget{class_a_p_audio_file_manager_a9968679e6778a46b45db09496eaf34ec}{\index{A\+P\+Audio\+File\+Manager@{A\+P\+Audio\+File\+Manager}!load\+Files@{load\+Files}}
+\index{load\+Files@{load\+Files}!A\+P\+Audio\+File\+Manager@{A\+P\+Audio\+File\+Manager}}
+\subsubsection[{load\+Files}]{\setlength{\rightskip}{0pt plus 5cm}void A\+P\+Audio\+File\+Manager\+::load\+Files (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_a_p_audio_file_manager_a9968679e6778a46b45db09496eaf34ec}
+\hypertarget{class_a_p_audio_file_manager_a7981965b1aa9f06eeef67c349211fb53}{\index{A\+P\+Audio\+File\+Manager@{A\+P\+Audio\+File\+Manager}!setup\+Mono\+Stream\+Format@{setup\+Mono\+Stream\+Format}}
+\index{setup\+Mono\+Stream\+Format@{setup\+Mono\+Stream\+Format}!A\+P\+Audio\+File\+Manager@{A\+P\+Audio\+File\+Manager}}
+\subsubsection[{setup\+Mono\+Stream\+Format}]{\setlength{\rightskip}{0pt plus 5cm}O\+S\+Status A\+P\+Audio\+File\+Manager\+::setup\+Mono\+Stream\+Format (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_a_p_audio_file_manager_a7981965b1aa9f06eeef67c349211fb53}
+\hypertarget{class_a_p_audio_file_manager_a761a4bdfa40e0a6bebfddede172c0a72}{\index{A\+P\+Audio\+File\+Manager@{A\+P\+Audio\+File\+Manager}!setup\+Stereo\+Stream\+Format@{setup\+Stereo\+Stream\+Format}}
+\index{setup\+Stereo\+Stream\+Format@{setup\+Stereo\+Stream\+Format}!A\+P\+Audio\+File\+Manager@{A\+P\+Audio\+File\+Manager}}
+\subsubsection[{setup\+Stereo\+Stream\+Format}]{\setlength{\rightskip}{0pt plus 5cm}O\+S\+Status A\+P\+Audio\+File\+Manager\+::setup\+Stereo\+Stream\+Format (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_a_p_audio_file_manager_a761a4bdfa40e0a6bebfddede172c0a72}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Audio Classes/\+Headers/\hyperlink{_a_p_audio_file_manager2_8h}{A\+P\+Audio\+File\+Manager2.\+h}\item 
+In Development (don't include)/\hyperlink{_a_p_audio_file_manager_8h}{A\+P\+Audio\+File\+Manager.\+h}\item 
+Audio Classes/\+Implementations/\hyperlink{_a_p_audio_file_manager2_8cpp}{A\+P\+Audio\+File\+Manager2.\+cpp}\item 
+In Development (don't include)/\hyperlink{_a_p_audio_file_manager_8cpp}{A\+P\+Audio\+File\+Manager.\+cpp}\end{DoxyCompactItemize}

@@ -32,7 +32,7 @@ public:
     std::vector<std::complex<float>> getResult(){return _DFTResult;};
     void init(int N, int overlap, int windowSize,  WindowType t);
     void calculateDFT(float* input);
-    void calculateIDFT(float* input);
+    void calculateIDFT(std::vector<float>& buffer, std::vector<std::complex<float>> analysis);
     void createWindow(WindowType t);
     
 private:

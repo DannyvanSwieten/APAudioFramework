@@ -15,6 +15,7 @@
 #include "APAudioWindowManager.h"
 #include "WaveFormComponent.h"
 #include "FPTAnalyzerAudioProcessor.h"
+#include "PitchAnalysisWindow.h"
 
 class APAudioAnalysisMenu: public Component, public Button::Listener, public ComboBox::Listener
 {
@@ -23,6 +24,7 @@ public:
     APAudioAnalysisMenu(APAudioFileManager* fileManager,
                         APAudioWindowManager* windowManager,
                         WaveFormComponent* waveformComponent,
+                        Viewport* viewport,
                         FPTAnalyzerAudioProcessor* processor);
     
     ~APAudioAnalysisMenu();
@@ -44,11 +46,15 @@ private:
     std::unique_ptr<TextButton> _loadFileButton;
     std::unique_ptr<TextButton> _analyzeButton;
     std::unique_ptr<TextButton> _playButton;
+    std::unique_ptr<TextButton> _process;
     
     WaveFormComponent* _waveFormView;
     APAudioFileManager* _fileManager;
     APAudioWindowManager* _windowManager;
     FPTAnalyzerAudioProcessor* _processor;
+    Viewport* _analysisViewport;
+    
+    bool _initialized;
 
 };
 

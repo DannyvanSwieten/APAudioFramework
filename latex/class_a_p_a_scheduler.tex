@@ -1,0 +1,98 @@
+\hypertarget{class_a_p_a_scheduler}{\section{A\+P\+A\+Scheduler Class Reference}
+\label{class_a_p_a_scheduler}\index{A\+P\+A\+Scheduler@{A\+P\+A\+Scheduler}}
+}
+
+
+{\ttfamily \#include $<$A\+P\+A\+Scheduler.\+h$>$}
+
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+using \hyperlink{class_a_p_a_scheduler_a51416792b9612857bf15bd1452f822e5}{Event\+Funtion} = std\+::function$<$ void()$>$
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_a_p_a_scheduler_a606aca3e9180d776ecd62cc3454c5c17}{A\+P\+A\+Scheduler} ()
+\item 
+\hyperlink{class_a_p_a_scheduler_ad9929c81e793d38ad0d55b34af6f6ba5}{$\sim$\+A\+P\+A\+Scheduler} ()
+\item 
+void \hyperlink{class_a_p_a_scheduler_a0553ca2cf524a6ad833568bbdb204558}{add\+Event} (unsigned long int time\+Stamp, \hyperlink{class_a_p_a_scheduler_a51416792b9612857bf15bd1452f822e5}{Event\+Funtion} function, bool repeat)
+\item 
+void \hyperlink{class_a_p_a_scheduler_afe745232bb05ab60f69a05c9e72f6f5b}{update} (unsigned long int time\+Stamp)
+\item 
+void \hyperlink{class_a_p_a_scheduler_a56a89836651d889fd91e4b8f4a84318b}{play} ()
+\item 
+void \hyperlink{class_a_p_a_scheduler_a568323cec2e3bf967648815ca39c130f}{stop} ()
+\item 
+unsigned long int \hyperlink{class_a_p_a_scheduler_a541c53fb4eb562029cb05a18de3fe9c2}{get\+Gurrent\+Time} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Typedef Documentation}
+\hypertarget{class_a_p_a_scheduler_a51416792b9612857bf15bd1452f822e5}{\index{A\+P\+A\+Scheduler@{A\+P\+A\+Scheduler}!Event\+Funtion@{Event\+Funtion}}
+\index{Event\+Funtion@{Event\+Funtion}!A\+P\+A\+Scheduler@{A\+P\+A\+Scheduler}}
+\subsubsection[{Event\+Funtion}]{\setlength{\rightskip}{0pt plus 5cm}using {\bf A\+P\+A\+Scheduler\+::\+Event\+Funtion} =  std\+::function$<$void()$>$}}\label{class_a_p_a_scheduler_a51416792b9612857bf15bd1452f822e5}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_a_p_a_scheduler_a606aca3e9180d776ecd62cc3454c5c17}{\index{A\+P\+A\+Scheduler@{A\+P\+A\+Scheduler}!A\+P\+A\+Scheduler@{A\+P\+A\+Scheduler}}
+\index{A\+P\+A\+Scheduler@{A\+P\+A\+Scheduler}!A\+P\+A\+Scheduler@{A\+P\+A\+Scheduler}}
+\subsubsection[{A\+P\+A\+Scheduler}]{\setlength{\rightskip}{0pt plus 5cm}A\+P\+A\+Scheduler\+::\+A\+P\+A\+Scheduler (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_a_p_a_scheduler_a606aca3e9180d776ecd62cc3454c5c17}
+\hypertarget{class_a_p_a_scheduler_ad9929c81e793d38ad0d55b34af6f6ba5}{\index{A\+P\+A\+Scheduler@{A\+P\+A\+Scheduler}!````~A\+P\+A\+Scheduler@{$\sim$\+A\+P\+A\+Scheduler}}
+\index{````~A\+P\+A\+Scheduler@{$\sim$\+A\+P\+A\+Scheduler}!A\+P\+A\+Scheduler@{A\+P\+A\+Scheduler}}
+\subsubsection[{$\sim$\+A\+P\+A\+Scheduler}]{\setlength{\rightskip}{0pt plus 5cm}A\+P\+A\+Scheduler\+::$\sim$\+A\+P\+A\+Scheduler (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_a_p_a_scheduler_ad9929c81e793d38ad0d55b34af6f6ba5}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_a_p_a_scheduler_a0553ca2cf524a6ad833568bbdb204558}{\index{A\+P\+A\+Scheduler@{A\+P\+A\+Scheduler}!add\+Event@{add\+Event}}
+\index{add\+Event@{add\+Event}!A\+P\+A\+Scheduler@{A\+P\+A\+Scheduler}}
+\subsubsection[{add\+Event}]{\setlength{\rightskip}{0pt plus 5cm}void A\+P\+A\+Scheduler\+::add\+Event (
+\begin{DoxyParamCaption}
+\item[{unsigned long int}]{time\+Stamp, }
+\item[{{\bf Event\+Funtion}}]{function, }
+\item[{bool}]{repeat}
+\end{DoxyParamCaption}
+)}}\label{class_a_p_a_scheduler_a0553ca2cf524a6ad833568bbdb204558}
+\hypertarget{class_a_p_a_scheduler_a541c53fb4eb562029cb05a18de3fe9c2}{\index{A\+P\+A\+Scheduler@{A\+P\+A\+Scheduler}!get\+Gurrent\+Time@{get\+Gurrent\+Time}}
+\index{get\+Gurrent\+Time@{get\+Gurrent\+Time}!A\+P\+A\+Scheduler@{A\+P\+A\+Scheduler}}
+\subsubsection[{get\+Gurrent\+Time}]{\setlength{\rightskip}{0pt plus 5cm}unsigned long int A\+P\+A\+Scheduler\+::get\+Gurrent\+Time (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_a_p_a_scheduler_a541c53fb4eb562029cb05a18de3fe9c2}
+\hypertarget{class_a_p_a_scheduler_a56a89836651d889fd91e4b8f4a84318b}{\index{A\+P\+A\+Scheduler@{A\+P\+A\+Scheduler}!play@{play}}
+\index{play@{play}!A\+P\+A\+Scheduler@{A\+P\+A\+Scheduler}}
+\subsubsection[{play}]{\setlength{\rightskip}{0pt plus 5cm}void A\+P\+A\+Scheduler\+::play (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_a_p_a_scheduler_a56a89836651d889fd91e4b8f4a84318b}
+\hypertarget{class_a_p_a_scheduler_a568323cec2e3bf967648815ca39c130f}{\index{A\+P\+A\+Scheduler@{A\+P\+A\+Scheduler}!stop@{stop}}
+\index{stop@{stop}!A\+P\+A\+Scheduler@{A\+P\+A\+Scheduler}}
+\subsubsection[{stop}]{\setlength{\rightskip}{0pt plus 5cm}void A\+P\+A\+Scheduler\+::stop (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_a_p_a_scheduler_a568323cec2e3bf967648815ca39c130f}
+\hypertarget{class_a_p_a_scheduler_afe745232bb05ab60f69a05c9e72f6f5b}{\index{A\+P\+A\+Scheduler@{A\+P\+A\+Scheduler}!update@{update}}
+\index{update@{update}!A\+P\+A\+Scheduler@{A\+P\+A\+Scheduler}}
+\subsubsection[{update}]{\setlength{\rightskip}{0pt plus 5cm}void A\+P\+A\+Scheduler\+::update (
+\begin{DoxyParamCaption}
+\item[{unsigned long int}]{time\+Stamp}
+\end{DoxyParamCaption}
+)}}\label{class_a_p_a_scheduler_afe745232bb05ab60f69a05c9e72f6f5b}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Sequencer Classes/\+Headers/\hyperlink{_a_p_a_scheduler_8h}{A\+P\+A\+Scheduler.\+h}\item 
+Sequencer Classes/\+Implementations/\hyperlink{_a_p_a_scheduler_8cpp}{A\+P\+A\+Scheduler.\+cpp}\end{DoxyCompactItemize}

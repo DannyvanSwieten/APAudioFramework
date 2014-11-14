@@ -17,13 +17,15 @@ public:
     APAudioSamplerVoice();
     
     void play(bool repeat);
+    void stop();
     bool isPlaying();
     float tick();
     void setFileToPlay(APAudioFile* fileToPlay);
+    APAudioFile* getPlayingFile(){return _fileToPlay;};
     void setSpeed(float speed);
     void setAmplitude(float amp);
     void setNote(int note);
-    
+    void setPosition(){_position = 0;};
     int getNote();
     
 private:

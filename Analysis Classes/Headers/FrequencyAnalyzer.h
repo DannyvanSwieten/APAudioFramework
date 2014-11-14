@@ -14,12 +14,15 @@
 class FrequencyAnalyzer
 {
 public:
-    FrequencyAnalyzer(int N);
+    FrequencyAnalyzer();
     void readAndAnalyse(const float* input, long int numberOfSamples);
     std::vector<float> getResult(){return _result;};
+    void init(int N);
 private:
     
     YINAnalyzer yin;
+    float _prevSample = 0;
+    int _downsample = 1;
     int _N;
     std::vector<float> _result;
 };

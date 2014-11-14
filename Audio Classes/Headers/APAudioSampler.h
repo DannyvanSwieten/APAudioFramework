@@ -21,12 +21,15 @@ public:
     ~APAudioSampler();
     void onNoteOn(int noteOn, float velocity, int channel, bool repeat);
     void onNoteOn(std::string file, float velocity, int channel, bool repeat);
+    void onNoteOff(std::string file);
     APAudioSamplerVoice* findFreeVoice();
     void renderBlock(SampleBuffer output);
     void loadFile(std::string fileToLoad, int noteToListenTo, int channelToListenTo);
     void calculateBuffer()override;
     void setSpeed(float speed);
+    void setSpeed(std::string file,float speed);
     void setVoiceAmplitude(int voice, float amp);
+    void clearVoices(){_activeVoices.clear();};
     
 private:
     

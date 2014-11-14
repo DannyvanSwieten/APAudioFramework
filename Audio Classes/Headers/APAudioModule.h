@@ -21,7 +21,7 @@
 using Sample        = float;
 using SampleBuffer  = float*;
 using ControlValue  = double;
-using TimerValue     = unsigned int;
+using TimerValue     = long long;
 using UInt          = unsigned int;
 
 class APAudioModule;

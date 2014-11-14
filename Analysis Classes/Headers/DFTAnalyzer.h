@@ -11,25 +11,30 @@
 
 #include "SpectralAnalyzer.h"
 #include "DFT.h"
+#include "../JuceLibraryCode/JuceHeader.h"
 
 class DFTAnalyzer: public SpectralAnalyzer
 {
 public:
     
-    DFTAnalyzer();
+    DFTAnalyzer(unsigned int N, unsigned int overlap, WindowType t);
     ~DFTAnalyzer();
     
     void init(unsigned int N, unsigned int overlap, WindowType t);
-    void readAndAnalyse(const float* input, long numberOfSamples) override;
-    void calculateAmplitudes()override;
-    void calculatePhases()override;
-    void calculateInstantFrequencies()override;
+    void readAndAnalyse(const float* input, long numberOfSamples) override final;
+    void calculateAmplitudes()override final;
+    void calculatePhases()override final;
+    void calculateInstantFrequencies()override final;
     void calculateSpectralFlux();
     void calculateLogSpectrum();
-    std::vector<std::vector<float>> getAmplitudes(){return _amplitudes;};
-    std::vector<std::vector<float>> getPhases(){return _phases;};
+    void generatePeakMap();
+    void searchStableSinusoids();
+    void inverse();
+    
     std::vector<std::vector<float>> getFrequenies(){return _trueFrequencies;};
     std::vector<float> getSpectralFlux(){return _spectralFlux;};
+    std::vector<std::vector<int>> _getPeaks(){return _peakMaps;};
+    AudioSampleBuffer _synthesisBuffer;
     
 private:
     
@@ -37,10 +42,11 @@ private:
     float _freqPerBin = 0;
     std::vector<std::complex<float>> _buffer;
     std::vector<std::vector<std::complex<float>>> _analysisResult;
-    std::vector<std::vector<float>> _phases;
-    std::vector<std::vector<float>> _amplitudes;
     std::vector<std::vector<float>> _trueFrequencies;
     std::vector<float> _spectralFlux;
+    std::vector<std::vector<int>> _peakMaps;
+    
+    std::vector<std::vector<float>> _resynthesisMatrix;
 };
 
 #endif /* defined(__DFT__DFTAnalyzer__) */

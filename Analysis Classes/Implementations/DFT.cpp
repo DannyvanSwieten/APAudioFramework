@@ -86,13 +86,13 @@ void DFT::calculateDFT(float *input)
     }
 }
 
-void DFT::calculateIDFT(float *input)
+void DFT::calculateIDFT(std::vector<float>& buffer, std::vector<std::complex<float>> analysis)
 {
     for (auto k = 0; k < _N; k++)
     {
         for (auto n = 0; n < _N; n++)
         {
-            input[n] += (1.0/_N) * std::complex<float>(_DFTResult[k] * _inverseTwiddleFactors[k][n]).real();
+            buffer[n] += (1.0/_N) * std::complex<float>(analysis[k] * _inverseTwiddleFactors[k][n]).real();
         }
     }
 }

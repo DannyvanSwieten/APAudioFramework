@@ -10,6 +10,8 @@
 #define __DFT__SpectralAnalyzer__
 
 #include <math.h>
+#include <vector>
+#include "Utility.h"
 
 class SpectralAnalyzer
 {
@@ -30,7 +32,13 @@ public:
     int getWindowSize(){return _N;};
     int getOverlap(){return _overlap;};
     
+    std::vector<std::vector<float>>& getAmplitudes(){return _amplitudes;};
+    std::vector<std::vector<float>>& getPhases(){return _phases;};
+    
 private:
+    
+    std::vector<std::vector<float>> _amplitudes;
+    std::vector<std::vector<float>> _phases;
     
     int _ra = 0;
     int _N = 0;

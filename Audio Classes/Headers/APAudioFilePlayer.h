@@ -21,10 +21,17 @@ public:
     float play();
     void setPlay();
     void setFile(APAudioFile* file);
+    void setSampleRate(float sr);
+    void setSpeed(float speed);
 private:
     
     APAudioFile* _file = nullptr;
-    int _position = 0;
+    float _sampleRate = 0;
+    float _position = 0;
+    float _speed = 0;
+    float _frac = 0;
+    int _index = 0;
+    int _nextIndex = 0;
     bool _playing = 0;
 };
 

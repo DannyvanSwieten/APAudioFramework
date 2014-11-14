@@ -8,11 +8,16 @@
 
 #include "APAudioAnalysisMenu.h"
 
-APAudioAnalysisMenu::APAudioAnalysisMenu(APAudioFileManager* fileManager, APAudioWindowManager* windowManager, WaveFormComponent* waveformComponent, FPTAnalyzerAudioProcessor* processor)
+APAudioAnalysisMenu::APAudioAnalysisMenu(APAudioFileManager* fileManager,
+                                         APAudioWindowManager* windowManager,
+                                         WaveFormComponent* waveformComponent,
+                                         Viewport* analysisViewport,
+                                         FPTAnalyzerAudioProcessor* processor)
 {
     _fileManager = fileManager;
     _windowManager = windowManager;
     _waveFormView = waveformComponent;
+    _analysisViewport = analysisViewport;
     
     _loadFileButton = std::make_unique<TextButton>("Load Files");
     _loadFileButton->addListener(this);
@@ -28,9 +33,10 @@ APAudioAnalysisMenu::APAudioAnalysisMenu(APAudioFileManager* fileManager, APAudi
     
     _analysisMethod = std::make_unique<ComboBox>("Analysis Method");
     _analysisMethod->addItem("Fourier Transform", 1);
+    _analysisMethod->addItem("Yin", 2);
     _analysisMethod->setBounds(2, 200, 200, 25);
     
-    _analysisSize = std::make_unique<ComboBox>("Analysis Method");
+    _analysisSize = std::make_unique<ComboBox>("Analysis Size");
     _analysisSize->addItem("512", 1);
     _analysisSize->addItem("1024", 2);
     _analysisSize->addItem("2048", 3);
@@ -46,6 +52,7 @@ APAudioAnalysisMenu::APAudioAnalysisMenu(APAudioFileManager* fileManager, APAudi
     
     _windowType = std::make_unique<ComboBox>("Window Type");
     _windowType->addItem("Hanning", 1);
+    _windowType->addItem("Blackman", 2);
     _windowType->setBounds(2, 290, 200, 25);
     
     _overlap = std::make_unique<ComboBox>("Overlap");
@@ -58,8 +65,11 @@ APAudioAnalysisMenu::APAudioAnalysisMenu(APAudioFileManager* fileManager, APAudi
     
     _loadedFiles = std::make_unique<ComboBox>("Loaded Files");
     _loadedFiles->addListener(this);
-    
     _loadedFiles->setBounds(2, 30, 200, 25);
+    
+    _process = std::make_unique<TextButton>("Process");
+    _process->setBounds(2, 400, 200, 25);
+    _process->addListener(this);
     
     addAndMakeVisible(_loadedFiles.get());
     addAndMakeVisible(_analysisMethod.get());
@@ -71,6 +81,7 @@ APAudioAnalysisMenu::APAudioAnalysisMenu(APAudioFileManager* fileManager, APAudi
     addAndMakeVisible(_loadFileButton.get());
     addAndMakeVisible(_analyzeButton.get());
     addAndMakeVisible(_playButton.get());
+    addAndMakeVisible(_process.get());
     
     _processor = processor;
 }
@@ -117,6 +128,7 @@ void APAudioAnalysisMenu::buttonClicked(Button* buttonThatWasClicked)
         int N = 0;
         int windowSize = 0;
         int overlap = 0;
+        WindowType t;
         
         _analysisSize->getSelectedId();
         
@@ -177,14 +189,40 @@ void APAudioAnalysisMenu::buttonClicked(Button* buttonThatWasClicked)
                 break;
         }
         
+        switch (_windowType->getSelectedId())
+        {
+            case 1:
+                t = HANNING;
+                break;
+            case 2:
+                t = BLACKMAN;
+                break;
+            case 3:
+                overlap = 4;
+                break;
+            case 4:
+                overlap = 8;
+                break;
+                
+            default:
+                break;
+        }
+        
         switch (_analysisMethod->getSelectedId())
         {
             case 1:
             {
                 DFTSpectogram* spectogram = (DFTSpectogram*)_windowManager->getWindow(1);
-                spectogram->getDrawData(_fileManager->getFile(_loadedFiles->getSelectedId()-1), N, windowSize, overlap);
-                spectogram->repaint();
+                spectogram->getDrawData(_fileManager->getFile(_loadedFiles->getSelectedId()-1), N, windowSize, overlap, t);
+                _analysisViewport->setViewedComponent(spectogram);
                 break;
+            }
+                
+            case 2:
+            {
+                PitchAnalysisWindow* pitchWindow = (PitchAnalysisWindow*)_windowManager->getWindow(2);
+                pitchWindow->getDrawData(_fileManager->getFile(_loadedFiles->getSelectedId()-1), N, windowSize, overlap, t);
+                _analysisViewport->setViewedComponent(pitchWindow);
             }
                 
             default:

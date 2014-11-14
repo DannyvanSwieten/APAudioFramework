@@ -44,6 +44,7 @@ void APAudioSampler::onNoteOn(std::string file, float velocity, int channel, boo
         if(description.getID() == file)
         {
             APAudioSamplerVoice* voice = findFreeVoice();
+//            APAudioSamplerVoice* voice = new APAudioSamplerVoice();
             
             if(voice == nullptr)
             {
@@ -57,7 +58,18 @@ void APAudioSampler::onNoteOn(std::string file, float velocity, int channel, boo
             {
                 voice->setFileToPlay(_fileManager->getFile(description.getID()));
                 voice->play(repeat);
+                voice->setPosition();
             }
+        }
+}
+
+void APAudioSampler::onNoteOff(std::string file)
+{
+    for(auto& activeVoice: _activeVoices)
+        if(activeVoice->getPlayingFile()->getName() == file && activeVoice->isPlaying())
+        {
+            activeVoice->stop();
+            _numVoicesActive--;
         }
 }
 
@@ -105,6 +117,13 @@ void APAudioSampler::setSpeed(float speed)
 {
     for(auto& voice: _activeVoices)
         voice->setSpeed(speed);
+}
+
+void APAudioSampler::setSpeed(std::string file,float speed)
+{
+    for(auto& voice: _activeVoices)
+        if(voice->getPlayingFile()->getName()==file)
+            voice->setSpeed(speed);
 }
 
 void APAudioSampler::setVoiceAmplitude(int note, float amp)

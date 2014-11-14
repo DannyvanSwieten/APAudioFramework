@@ -19,6 +19,7 @@ public:
     APAudioFileManager();
     ~APAudioFileManager();
     
+    void loadFile(APAudioFile file);
     void loadFile(File fileToLoad);
     void loadFile(std::string fileToLoad);
     void loadFiles();

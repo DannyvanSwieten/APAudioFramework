@@ -19,6 +19,15 @@ void APAudioSamplerVoice::play(bool repeat)
     _repeat = repeat;
 }
 
+void APAudioSamplerVoice::stop()
+{
+    _isPlaying = false;
+    _repeat = false;
+    _frac = 0.0;
+    _floorIndex = 0;
+    _nextFloorIndex = 0;
+}
+
 bool APAudioSamplerVoice::isPlaying()
 {
     return _isPlaying;

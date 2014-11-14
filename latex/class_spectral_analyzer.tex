@@ -1,0 +1,153 @@
+\hypertarget{class_spectral_analyzer}{\section{Spectral\+Analyzer Class Reference}
+\label{class_spectral_analyzer}\index{Spectral\+Analyzer@{Spectral\+Analyzer}}
+}
+
+
+{\ttfamily \#include $<$Spectral\+Analyzer.\+h$>$}
+
+Inheritance diagram for Spectral\+Analyzer\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_spectral_analyzer}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_spectral_analyzer_a4f1f8101066e641d76af29dbafe2ffc4}{Spectral\+Analyzer} ()
+\item 
+virtual \hyperlink{class_spectral_analyzer_af15c01ed65303bf3dfd736384fcf6c2b}{$\sim$\+Spectral\+Analyzer} ()=0
+\item 
+virtual void \hyperlink{class_spectral_analyzer_a9d3c04321ce7c2066acfe03f5e172e4d}{read\+And\+Analyse} (const float $\ast$input, long number\+Of\+Samples)=0
+\item 
+virtual void \hyperlink{class_spectral_analyzer_a78d1748783b9597e6d1a3389db35c88f}{calculate\+Phases} ()=0
+\item 
+virtual void \hyperlink{class_spectral_analyzer_a78c2e37bef122ee6463023532abd0613}{calculate\+Amplitudes} ()=0
+\item 
+virtual void \hyperlink{class_spectral_analyzer_a0d3a2251d76a4083aec38b64af82b07e}{calculate\+Instant\+Frequencies} ()=0
+\item 
+void \hyperlink{class_spectral_analyzer_a23db8cab6892758fabc4cb779a315b96}{set\+Hopsize} (int hop\+Size)
+\item 
+void \hyperlink{class_spectral_analyzer_a4009ad3b900d4bc4539f76fa4dff088e}{set\+N} (int N)
+\item 
+void \hyperlink{class_spectral_analyzer_aa2bedb0e6e0370c2492b8d225f020b10}{set\+Overlap} (int N)
+\item 
+int \hyperlink{class_spectral_analyzer_afc9cfa190b98ddc1176d8ace6158c490}{get\+Hopsize} ()
+\item 
+int \hyperlink{class_spectral_analyzer_a87075bcd7cf8cc4c0a4729f8ed3f86c0}{get\+Window\+Size} ()
+\item 
+int \hyperlink{class_spectral_analyzer_a205d6ff6464ccf510afd9a7c3429276f}{get\+Overlap} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_spectral_analyzer_a4f1f8101066e641d76af29dbafe2ffc4}{\index{Spectral\+Analyzer@{Spectral\+Analyzer}!Spectral\+Analyzer@{Spectral\+Analyzer}}
+\index{Spectral\+Analyzer@{Spectral\+Analyzer}!Spectral\+Analyzer@{Spectral\+Analyzer}}
+\subsubsection[{Spectral\+Analyzer}]{\setlength{\rightskip}{0pt plus 5cm}Spectral\+Analyzer\+::\+Spectral\+Analyzer (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_spectral_analyzer_a4f1f8101066e641d76af29dbafe2ffc4}
+\hypertarget{class_spectral_analyzer_af15c01ed65303bf3dfd736384fcf6c2b}{\index{Spectral\+Analyzer@{Spectral\+Analyzer}!````~Spectral\+Analyzer@{$\sim$\+Spectral\+Analyzer}}
+\index{````~Spectral\+Analyzer@{$\sim$\+Spectral\+Analyzer}!Spectral\+Analyzer@{Spectral\+Analyzer}}
+\subsubsection[{$\sim$\+Spectral\+Analyzer}]{\setlength{\rightskip}{0pt plus 5cm}Spectral\+Analyzer\+::$\sim$\+Spectral\+Analyzer (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}}\label{class_spectral_analyzer_af15c01ed65303bf3dfd736384fcf6c2b}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_spectral_analyzer_a78c2e37bef122ee6463023532abd0613}{\index{Spectral\+Analyzer@{Spectral\+Analyzer}!calculate\+Amplitudes@{calculate\+Amplitudes}}
+\index{calculate\+Amplitudes@{calculate\+Amplitudes}!Spectral\+Analyzer@{Spectral\+Analyzer}}
+\subsubsection[{calculate\+Amplitudes}]{\setlength{\rightskip}{0pt plus 5cm}virtual void Spectral\+Analyzer\+::calculate\+Amplitudes (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}}\label{class_spectral_analyzer_a78c2e37bef122ee6463023532abd0613}
+
+
+Implemented in \hyperlink{class_d_f_t_analyzer_aa1882d12d45eea36098449bcf460c1de}{D\+F\+T\+Analyzer}.
+
+\hypertarget{class_spectral_analyzer_a0d3a2251d76a4083aec38b64af82b07e}{\index{Spectral\+Analyzer@{Spectral\+Analyzer}!calculate\+Instant\+Frequencies@{calculate\+Instant\+Frequencies}}
+\index{calculate\+Instant\+Frequencies@{calculate\+Instant\+Frequencies}!Spectral\+Analyzer@{Spectral\+Analyzer}}
+\subsubsection[{calculate\+Instant\+Frequencies}]{\setlength{\rightskip}{0pt plus 5cm}virtual void Spectral\+Analyzer\+::calculate\+Instant\+Frequencies (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}}\label{class_spectral_analyzer_a0d3a2251d76a4083aec38b64af82b07e}
+
+
+Implemented in \hyperlink{class_d_f_t_analyzer_a4ccfe430f6137293c2b83a6954805959}{D\+F\+T\+Analyzer}.
+
+\hypertarget{class_spectral_analyzer_a78d1748783b9597e6d1a3389db35c88f}{\index{Spectral\+Analyzer@{Spectral\+Analyzer}!calculate\+Phases@{calculate\+Phases}}
+\index{calculate\+Phases@{calculate\+Phases}!Spectral\+Analyzer@{Spectral\+Analyzer}}
+\subsubsection[{calculate\+Phases}]{\setlength{\rightskip}{0pt plus 5cm}virtual void Spectral\+Analyzer\+::calculate\+Phases (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}}\label{class_spectral_analyzer_a78d1748783b9597e6d1a3389db35c88f}
+
+
+Implemented in \hyperlink{class_d_f_t_analyzer_a92edf947d0ea4b4182d95510fabaeaaf}{D\+F\+T\+Analyzer}.
+
+\hypertarget{class_spectral_analyzer_afc9cfa190b98ddc1176d8ace6158c490}{\index{Spectral\+Analyzer@{Spectral\+Analyzer}!get\+Hopsize@{get\+Hopsize}}
+\index{get\+Hopsize@{get\+Hopsize}!Spectral\+Analyzer@{Spectral\+Analyzer}}
+\subsubsection[{get\+Hopsize}]{\setlength{\rightskip}{0pt plus 5cm}int Spectral\+Analyzer\+::get\+Hopsize (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_spectral_analyzer_afc9cfa190b98ddc1176d8ace6158c490}
+\hypertarget{class_spectral_analyzer_a205d6ff6464ccf510afd9a7c3429276f}{\index{Spectral\+Analyzer@{Spectral\+Analyzer}!get\+Overlap@{get\+Overlap}}
+\index{get\+Overlap@{get\+Overlap}!Spectral\+Analyzer@{Spectral\+Analyzer}}
+\subsubsection[{get\+Overlap}]{\setlength{\rightskip}{0pt plus 5cm}int Spectral\+Analyzer\+::get\+Overlap (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_spectral_analyzer_a205d6ff6464ccf510afd9a7c3429276f}
+\hypertarget{class_spectral_analyzer_a87075bcd7cf8cc4c0a4729f8ed3f86c0}{\index{Spectral\+Analyzer@{Spectral\+Analyzer}!get\+Window\+Size@{get\+Window\+Size}}
+\index{get\+Window\+Size@{get\+Window\+Size}!Spectral\+Analyzer@{Spectral\+Analyzer}}
+\subsubsection[{get\+Window\+Size}]{\setlength{\rightskip}{0pt plus 5cm}int Spectral\+Analyzer\+::get\+Window\+Size (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_spectral_analyzer_a87075bcd7cf8cc4c0a4729f8ed3f86c0}
+\hypertarget{class_spectral_analyzer_a9d3c04321ce7c2066acfe03f5e172e4d}{\index{Spectral\+Analyzer@{Spectral\+Analyzer}!read\+And\+Analyse@{read\+And\+Analyse}}
+\index{read\+And\+Analyse@{read\+And\+Analyse}!Spectral\+Analyzer@{Spectral\+Analyzer}}
+\subsubsection[{read\+And\+Analyse}]{\setlength{\rightskip}{0pt plus 5cm}virtual void Spectral\+Analyzer\+::read\+And\+Analyse (
+\begin{DoxyParamCaption}
+\item[{const float $\ast$}]{input, }
+\item[{long}]{number\+Of\+Samples}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}}\label{class_spectral_analyzer_a9d3c04321ce7c2066acfe03f5e172e4d}
+
+
+Implemented in \hyperlink{class_d_f_t_analyzer_a770f6798a76d08c346238c4f1d6e653a}{D\+F\+T\+Analyzer}.
+
+\hypertarget{class_spectral_analyzer_a23db8cab6892758fabc4cb779a315b96}{\index{Spectral\+Analyzer@{Spectral\+Analyzer}!set\+Hopsize@{set\+Hopsize}}
+\index{set\+Hopsize@{set\+Hopsize}!Spectral\+Analyzer@{Spectral\+Analyzer}}
+\subsubsection[{set\+Hopsize}]{\setlength{\rightskip}{0pt plus 5cm}void Spectral\+Analyzer\+::set\+Hopsize (
+\begin{DoxyParamCaption}
+\item[{int}]{hop\+Size}
+\end{DoxyParamCaption}
+)}}\label{class_spectral_analyzer_a23db8cab6892758fabc4cb779a315b96}
+\hypertarget{class_spectral_analyzer_a4009ad3b900d4bc4539f76fa4dff088e}{\index{Spectral\+Analyzer@{Spectral\+Analyzer}!set\+N@{set\+N}}
+\index{set\+N@{set\+N}!Spectral\+Analyzer@{Spectral\+Analyzer}}
+\subsubsection[{set\+N}]{\setlength{\rightskip}{0pt plus 5cm}void Spectral\+Analyzer\+::set\+N (
+\begin{DoxyParamCaption}
+\item[{int}]{N}
+\end{DoxyParamCaption}
+)}}\label{class_spectral_analyzer_a4009ad3b900d4bc4539f76fa4dff088e}
+\hypertarget{class_spectral_analyzer_aa2bedb0e6e0370c2492b8d225f020b10}{\index{Spectral\+Analyzer@{Spectral\+Analyzer}!set\+Overlap@{set\+Overlap}}
+\index{set\+Overlap@{set\+Overlap}!Spectral\+Analyzer@{Spectral\+Analyzer}}
+\subsubsection[{set\+Overlap}]{\setlength{\rightskip}{0pt plus 5cm}void Spectral\+Analyzer\+::set\+Overlap (
+\begin{DoxyParamCaption}
+\item[{int}]{N}
+\end{DoxyParamCaption}
+)}}\label{class_spectral_analyzer_aa2bedb0e6e0370c2492b8d225f020b10}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Analysis Classes/\+Headers/\hyperlink{_spectral_analyzer_8h}{Spectral\+Analyzer.\+h}\item 
+Analysis Classes/\+Implementations/\hyperlink{_spectral_analyzer_8cpp}{Spectral\+Analyzer.\+cpp}\end{DoxyCompactItemize}

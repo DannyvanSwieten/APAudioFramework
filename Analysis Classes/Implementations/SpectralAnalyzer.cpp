@@ -31,5 +31,5 @@ void SpectralAnalyzer::setOverlap(int overlap)
 void SpectralAnalyzer::setHopsize(int hopSize)
 {
     _ra = hopSize;
-    _ra = _N/_overlap;
+    _ra = _N/1;
 }

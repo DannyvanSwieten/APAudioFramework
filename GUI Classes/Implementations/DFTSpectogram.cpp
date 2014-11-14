@@ -58,9 +58,9 @@ void DFTSpectogram::paint(Graphics& g)
             int counter2 = 0;
             for(auto j = N / 10; j > 1; j--)
             {
-                float alpha = (float)_analyzer->getAmplitudes()[(int)counter][j];
+                float alpha = _analyzer->getAmplitudes()[(int)counter][j] * (float)_analyzer->_getPeaks()[(int)counter][j];
                 if(isnan(alpha)) alpha = 0;
-                g.setColour(juce::Colour(255 - (alpha*255), 255 - (alpha*255*.5), 255 - (alpha*255 * .5)));
+                g.setColour(juce::Colour(255 - (alpha*255), 255 - (alpha*255*.7), 255 - (alpha*255 * .3)));
 
                 g.fillRect((float)i * 2 ,
                            heightScale * counter2++,
@@ -73,11 +73,14 @@ void DFTSpectogram::paint(Graphics& g)
     }
 }
 
-void DFTSpectogram::getDrawData(APAudioFile* audioFile, int N, int windowSize, int overlap)
+void DFTSpectogram::getDrawData(APAudioFile* audioFile, int N, int windowSize, int overlap, WindowType t)
 {
-    _analyzer->init(N, overlap, HANNING);
+    _analyzer->init(N, overlap, t);
     _analyzer->readAndAnalyse(audioFile->getAudioChannel(0), audioFile->getNumSamples());
     _analyzer->calculateAmplitudes();
+    _analyzer->generatePeakMap();
+    _analyzer->searchStableSinusoids();
+    _analyzer->calculatePhases();
     _initalized = true;
 }
 

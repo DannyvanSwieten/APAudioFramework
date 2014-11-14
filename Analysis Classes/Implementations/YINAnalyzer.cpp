@@ -30,7 +30,7 @@ void YINAnalyzer::normalizedDifference()
 {
     _tau[0] = 1.0;
     float sum = 0;
-    for (auto i = 1; i < _N/2; i++)
+    for (auto i = 1; i < _N/2; i+= _downSample)
     {
         sum += _tau[i];
         if(sum != 0.0)
@@ -43,7 +43,7 @@ void YINAnalyzer::normalizedDifference()
 int YINAnalyzer::absoluteThreshold()
 {
     int i = 0;
-    for (i = 2; i < _N/2; i++)
+    for (i = 2; i < _N/2; i+= _downSample)
     {
         if(_tau[i] < _threshold)
         {
@@ -65,8 +65,6 @@ int YINAnalyzer::absoluteThreshold()
     
     return i;
 }
-
-
 
 float YINAnalyzer::analyze(float *input)
 {

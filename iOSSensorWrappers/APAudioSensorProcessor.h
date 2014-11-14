@@ -13,6 +13,7 @@
 #include <vector>
 #include <complex>
 #include <iostream>
+#include <mutex>
 
 class APAudioSensorProcessor
 {
@@ -20,13 +21,13 @@ public:
     APAudioSensorProcessor();
     ~APAudioSensorProcessor();
     
-    std::vector<float> getAngle();
+    float getAngle();
     float getAcceleration();
     float rotationPerSecond();
     
 private:
     
-    
+    std::mutex _mutex;
     APAAcceleration _sensor;
 };
 

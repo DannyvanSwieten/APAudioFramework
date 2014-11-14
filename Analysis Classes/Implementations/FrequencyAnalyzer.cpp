@@ -8,10 +8,9 @@
 
 #include "FrequencyAnalyzer.h"
 
-FrequencyAnalyzer::FrequencyAnalyzer(int N)
+FrequencyAnalyzer::FrequencyAnalyzer()
 {
-    _N = N;
-    yin.init(_N);
+
 }
 void FrequencyAnalyzer::readAndAnalyse(const float *input, long int numberOfSamples)
 {
@@ -24,14 +23,23 @@ void FrequencyAnalyzer::readAndAnalyse(const float *input, long int numberOfSamp
         for (auto i = 0; i < windowSize; i++)
         {
             if(position < numberOfSamples)
+            {
                 buffer[i] = input[position++];
+                _prevSample = buffer[i];
+            }
             else
                 buffer[i] = 0;
         }
         
-        position -= (windowSize - 10);
+        if(position < 0) return;
         
-        numberOfSamples -= 10;
+        numberOfSamples-= windowSize;
         _result.emplace_back(yin.analyze(buffer));
     }
+}
+
+void FrequencyAnalyzer::init(int N)
+{
+    _N = N;
+    yin.init(N);
 }

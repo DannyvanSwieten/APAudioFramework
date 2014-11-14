@@ -1,0 +1,78 @@
+\hypertarget{_a_p_audio_processor_8h}{\section{In Development (don't include)/\+A\+P\+Audio\+Processor.h File Reference}
+\label{_a_p_audio_processor_8h}\index{In Development (don't include)/\+A\+P\+Audio\+Processor.\+h@{In Development (don't include)/\+A\+P\+Audio\+Processor.\+h}}
+}
+{\ttfamily \#include $<$Audio\+Toolbox/\+Audio\+Toolbox.\+h$>$}\\*
+{\ttfamily \#include $<$Core\+Foundation/\+Core\+Foundation.\+h$>$}\\*
+{\ttfamily \#include $<$Accelerate/\+Accelerate.\+h$>$}\\*
+{\ttfamily \#include $<$vector$>$}\\*
+{\ttfamily \#include $<$memory$>$}\\*
+{\ttfamily \#include $<$iostream$>$}\\*
+{\ttfamily \#include $<$cassert$>$}\\*
+{\ttfamily \#include $<$functional$>$}\\*
+{\ttfamily \#include $<$A\+V\+Foundation/\+A\+V\+Foundation.\+h$>$}\\*
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_a_p_audio_processor_c_p_p}{A\+P\+Audio\+Processor\+C\+P\+P}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{_a_p_audio_processor_8h_a73fc2b87945a292905a7658efc1e9ca6}{U\+S\+I\+N\+G\+\_\+\+I\+O\+S}
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef Float32 \hyperlink{_a_p_audio_processor_8h_a00feaa44ad61ae1009ff1a85792a8177}{Sample}
+\begin{DoxyCompactList}\small\item\em A\+P\+Audio\+Processor. \end{DoxyCompactList}\item 
+typedef Float32 $\ast$ \hyperlink{_a_p_audio_processor_8h_a0982440f1e5e21d21be985f67930e645}{Sample\+Buffer}
+\item 
+typedef Float64 \hyperlink{_a_p_audio_processor_8h_a84f496b9b0e9a1ccd27e376ded681a61}{Control\+Value}
+\item 
+typedef U\+Int64 \hyperlink{_a_p_audio_processor_8h_a86849268e15ac7a4099ed42acf8af4e7}{Discrete\+Time\+Value}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+O\+S\+Status \hyperlink{_a_p_audio_processor_8h_a15de3dbb20d2b0515e3a2b810c497a75}{output\+Render\+Callback} (void $\ast$in\+Ref\+Con, Audio\+Unit\+Render\+Action\+Flags $\ast$io\+Action\+Flags, const Audio\+Time\+Stamp $\ast$in\+Time\+Stamp, U\+Int32 in\+Bus\+Number, U\+Int32 in\+Number\+Frames, Audio\+Buffer\+List $\ast$io\+Data)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{_a_p_audio_processor_8h_a73fc2b87945a292905a7658efc1e9ca6}{\index{A\+P\+Audio\+Processor.\+h@{A\+P\+Audio\+Processor.\+h}!U\+S\+I\+N\+G\+\_\+\+I\+O\+S@{U\+S\+I\+N\+G\+\_\+\+I\+O\+S}}
+\index{U\+S\+I\+N\+G\+\_\+\+I\+O\+S@{U\+S\+I\+N\+G\+\_\+\+I\+O\+S}!A\+P\+Audio\+Processor.\+h@{A\+P\+Audio\+Processor.\+h}}
+\subsubsection[{U\+S\+I\+N\+G\+\_\+\+I\+O\+S}]{\setlength{\rightskip}{0pt plus 5cm}\#define U\+S\+I\+N\+G\+\_\+\+I\+O\+S}}\label{_a_p_audio_processor_8h_a73fc2b87945a292905a7658efc1e9ca6}
+
+
+\subsection{Typedef Documentation}
+\hypertarget{_a_p_audio_processor_8h_a84f496b9b0e9a1ccd27e376ded681a61}{\index{A\+P\+Audio\+Processor.\+h@{A\+P\+Audio\+Processor.\+h}!Control\+Value@{Control\+Value}}
+\index{Control\+Value@{Control\+Value}!A\+P\+Audio\+Processor.\+h@{A\+P\+Audio\+Processor.\+h}}
+\subsubsection[{Control\+Value}]{\setlength{\rightskip}{0pt plus 5cm}typedef Float64 {\bf Control\+Value}}}\label{_a_p_audio_processor_8h_a84f496b9b0e9a1ccd27e376ded681a61}
+\hypertarget{_a_p_audio_processor_8h_a86849268e15ac7a4099ed42acf8af4e7}{\index{A\+P\+Audio\+Processor.\+h@{A\+P\+Audio\+Processor.\+h}!Discrete\+Time\+Value@{Discrete\+Time\+Value}}
+\index{Discrete\+Time\+Value@{Discrete\+Time\+Value}!A\+P\+Audio\+Processor.\+h@{A\+P\+Audio\+Processor.\+h}}
+\subsubsection[{Discrete\+Time\+Value}]{\setlength{\rightskip}{0pt plus 5cm}typedef U\+Int64 {\bf Discrete\+Time\+Value}}}\label{_a_p_audio_processor_8h_a86849268e15ac7a4099ed42acf8af4e7}
+\hypertarget{_a_p_audio_processor_8h_a00feaa44ad61ae1009ff1a85792a8177}{\index{A\+P\+Audio\+Processor.\+h@{A\+P\+Audio\+Processor.\+h}!Sample@{Sample}}
+\index{Sample@{Sample}!A\+P\+Audio\+Processor.\+h@{A\+P\+Audio\+Processor.\+h}}
+\subsubsection[{Sample}]{\setlength{\rightskip}{0pt plus 5cm}typedef Float32 {\bf Sample}}}\label{_a_p_audio_processor_8h_a00feaa44ad61ae1009ff1a85792a8177}
+
+
+A\+P\+Audio\+Processor. 
+
+This is a singleton from which all the streams are played and all modules are managed and updated. \hypertarget{_a_p_audio_processor_8h_a0982440f1e5e21d21be985f67930e645}{\index{A\+P\+Audio\+Processor.\+h@{A\+P\+Audio\+Processor.\+h}!Sample\+Buffer@{Sample\+Buffer}}
+\index{Sample\+Buffer@{Sample\+Buffer}!A\+P\+Audio\+Processor.\+h@{A\+P\+Audio\+Processor.\+h}}
+\subsubsection[{Sample\+Buffer}]{\setlength{\rightskip}{0pt plus 5cm}typedef Float32$\ast$ {\bf Sample\+Buffer}}}\label{_a_p_audio_processor_8h_a0982440f1e5e21d21be985f67930e645}
+
+
+\subsection{Function Documentation}
+\hypertarget{_a_p_audio_processor_8h_a15de3dbb20d2b0515e3a2b810c497a75}{\index{A\+P\+Audio\+Processor.\+h@{A\+P\+Audio\+Processor.\+h}!output\+Render\+Callback@{output\+Render\+Callback}}
+\index{output\+Render\+Callback@{output\+Render\+Callback}!A\+P\+Audio\+Processor.\+h@{A\+P\+Audio\+Processor.\+h}}
+\subsubsection[{output\+Render\+Callback}]{\setlength{\rightskip}{0pt plus 5cm}O\+S\+Status output\+Render\+Callback (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{in\+Ref\+Con, }
+\item[{Audio\+Unit\+Render\+Action\+Flags $\ast$}]{io\+Action\+Flags, }
+\item[{const Audio\+Time\+Stamp $\ast$}]{in\+Time\+Stamp, }
+\item[{U\+Int32}]{in\+Bus\+Number, }
+\item[{U\+Int32}]{in\+Number\+Frames, }
+\item[{Audio\+Buffer\+List $\ast$}]{io\+Data}
+\end{DoxyParamCaption}
+)}}\label{_a_p_audio_processor_8h_a15de3dbb20d2b0515e3a2b810c497a75}

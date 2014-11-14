@@ -26,11 +26,12 @@ private:
     
     inline void squaredDifference(float *input)
     {
+        _tau.clear();
         float delta = 0;
         for (auto tau = 0; tau < _N/2; tau++)
         {
             _tau[tau] = 0;
-            for (auto i = 0; i < _N/2; i++)
+            for (auto i = 0; i < _N/2; i+= _downSample)
             {
                 delta = input[i] - input[i + tau];
                 _tau[tau] += delta * delta;
@@ -46,6 +47,7 @@ private:
     float _threshold = 0;
     float _probability = 0;
     float* _window = nullptr;
+    int _downSample = 1;
 };
 
 #endif /* defined(__FPTAnalyzer__YINAnalyser__) */

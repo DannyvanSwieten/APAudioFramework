@@ -9,9 +9,11 @@
 #include "DFTAnalyzer.h"
 #include "YINAnalyzer.h"
 
-DFTAnalyzer::DFTAnalyzer(): SpectralAnalyzer()
-{
+using namespace std;
 
+DFTAnalyzer::DFTAnalyzer(unsigned int N, unsigned int overlap, WindowType t): SpectralAnalyzer()
+{
+    init(N, overlap, t);
 }
 
 DFTAnalyzer::~DFTAnalyzer()
@@ -23,7 +25,7 @@ void DFTAnalyzer::init(unsigned int N, unsigned int overlap, WindowType t)
 {
     setN(N);
     setOverlap(overlap);
-    setHopsize(0);
+    setHopsize(1);
     _dft.init(N, overlap, N, t);
 }
 
@@ -57,18 +59,53 @@ void DFTAnalyzer::readAndAnalyse(const float *input, long numberOfSamples)
 
 void DFTAnalyzer::calculateAmplitudes()
 {
-    _amplitudes.clear();
+    getAmplitudes().clear();
     for(auto i = 0; i < _analysisResult.size(); i++)
     {
-        std::vector<float> amplitude;
-        for(auto n = 0; n < _dft.getSize();n++)
+        vector<float> amplitudes;
+        for (auto n = 0; n < _dft.getSize(); n++)
+            amplitudes.emplace_back( std::abs(_analysisResult[i][n])/((float)_dft.getSize()/2));
+        
+        normalize(amplitudes.data(), _dft.getSize());
+        
+        getAmplitudes().emplace_back(move(amplitudes));
+        std::cout<< getAmplitudes().size()<<std::endl;
+    }
+}
+
+void DFTAnalyzer::generatePeakMap()
+{
+    _peakMaps.clear();
+    for(auto i = 0; i < getAmplitudes().size(); i++)
+    {
+        std::vector<int> peakMap;
+        float* frame = getAmplitudes()[i].data();
+        for(auto n = 1; n < _dft.getSize()-1;n++)
         {
-            amplitude.emplace_back( std::abs(_analysisResult[i][n])/((float)_dft.getSize()/2));
+            if(frame[n] > frame[n-1] && frame[n] > frame[n+1])
+                peakMap.emplace_back(1);
+            else
+                peakMap.emplace_back(0);
         }
         
-        normalize(amplitude.data(), _dft.getSize());
-        
-        _amplitudes.emplace_back(amplitude);
+        _peakMaps.emplace_back(peakMap);
+    }
+}
+
+void DFTAnalyzer::searchStableSinusoids()
+{
+    for(auto i = 2; i < getAmplitudes().size(); i++)
+    {
+        int* frame = _peakMaps[i].data();
+        int* frameDiv = _peakMaps[i-1].data();
+        int* frameDiv2 = _peakMaps[i-2].data();
+        for(auto n = 0; n < _dft.getSize();n++)
+        {
+            if(frame[n] == 1 && frameDiv[n] == 1 && frameDiv2[n] == 1)
+                frame[n] = 1;
+            else
+                frame[n] = 0;
+        }
     }
 }
 
@@ -81,24 +118,24 @@ void DFTAnalyzer::calculatePhases()
         {
             phase.emplace_back(std::arg(_analysisResult[i][n]));
         }
-        _phases.emplace_back(phase);
+        getPhases().emplace_back(phase);
     }
     
     for(auto i = 1; i < _analysisResult.size(); i++)
     {
         for(auto n = 0; n < _dft.getSize();n++)
         {
-            while(_phases[i][n] - _phases[i-1][n] > M_PI)
-                _phases[i][n] -= 2*M_PI;
-            while(_phases[i][n] - _phases[i-1][n] < -M_PI)
-                _phases[i][n] += 2*M_PI;
+            while(getPhases()[i][n] - getPhases()[i-1][n] > M_PI)
+                getPhases()[i][n] -= 2*M_PI;
+            while(getPhases()[i][n] - getPhases()[i-1][n] < -M_PI)
+                getPhases()[i][n] += 2*M_PI;
         }
     }
 }
 
 void DFTAnalyzer::calculateLogSpectrum()
 {
-    for(auto& amplitudes: _amplitudes)
+    for(auto& amplitudes: getAmplitudes())
     {
         std::vector<float> logAmp;
         for (auto i = 0; i < _dft.getSize(); i++)
@@ -111,12 +148,12 @@ void DFTAnalyzer::calculateLogSpectrum()
 
 void DFTAnalyzer::calculateInstantFrequencies()
 {
-    for(auto i = 1; i < _phases.size(); i++)
+    for(auto i = 1; i < getPhases().size(); i++)
     {
         std::vector<float> freq;
         for(auto j = 0; j < _dft.getSize(); j++)
         {
-            float wrappedPhaseDetermination = phaseWrap((_phases[i][j] - _phases[i-1][j]) - (getHopsize() * (_freqPerBin) * j), M_PI);
+            float wrappedPhaseDetermination = phaseWrap((getPhases()[i][j] - getPhases()[i-1][j]) - (getHopsize() * (_freqPerBin) * j), M_PI);
             freq.emplace_back((_freqPerBin * j) + (wrappedPhaseDetermination/getHopsize()));
         }
         _trueFrequencies.emplace_back(freq);
@@ -125,7 +162,7 @@ void DFTAnalyzer::calculateInstantFrequencies()
 
 void DFTAnalyzer::calculateSpectralFlux()
 {
-    for (auto i = 0; i < _amplitudes.size()-2; i++)
+    for (auto i = 0; i < getAmplitudes().size()-2; i++)
     {
         float amplitude1 = 0;
         float amplitude2 = 0;
@@ -133,8 +170,8 @@ void DFTAnalyzer::calculateSpectralFlux()
         float result = 0;
         for (auto j = 0; j < _dft.getSize()/2; j++)
         {
-            amplitude1 = _amplitudes[i][j];
-            amplitude2 = _amplitudes[i + 1][j];
+            amplitude1 = getAmplitudes()[i][j];
+            amplitude2 = getAmplitudes()[i + 1][j];
             difference = amplitude2 - amplitude1;
             
             if(difference > 0)
@@ -147,4 +184,26 @@ void DFTAnalyzer::calculateSpectralFlux()
     }
     
     normalize(_spectralFlux.data(), _dft.getSize());
+}
+
+void DFTAnalyzer::inverse()
+{
+    for(auto i = 0; i < getAmplitudes().size(); i++)
+    {
+        std::vector<std::complex<float>> _inverseVector;
+        std::vector<float> _synthesisVector;
+        _synthesisVector.resize(getWindowSize());
+        
+        for (auto j = 0; j < getWindowSize(); j++)
+        {
+            _inverseVector.emplace_back(std::complex<float>(cos(getPhases()[i][j]), sin(getPhases()[i][j]))*getAmplitudes()[i][j]);
+        }
+        
+        _dft.calculateIDFT(_synthesisVector, _inverseVector);
+        _resynthesisMatrix.emplace_back(_synthesisVector);
+        _synthesisBuffer.setSize(1, getWindowSize()*getAmplitudes().size());
+        
+        for(auto n = 0; n < getWindowSize(); n++)
+            _synthesisBuffer.getWritePointer(0)[n * i] = _synthesisVector[n];
+    }
 }

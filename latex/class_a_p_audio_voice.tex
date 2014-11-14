@@ -1,0 +1,202 @@
+\hypertarget{class_a_p_audio_voice}{\section{A\+P\+Audio\+Voice Class Reference}
+\label{class_a_p_audio_voice}\index{A\+P\+Audio\+Voice@{A\+P\+Audio\+Voice}}
+}
+
+
+{\ttfamily \#include $<$A\+P\+Audio\+Voice.\+h$>$}
+
+Inheritance diagram for A\+P\+Audio\+Voice\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_a_p_audio_voice}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_a_p_audio_voice_a59098dc9b3c7b3f8cb369fef98c96506}{A\+P\+Audio\+Voice} ()
+\item 
+virtual \hyperlink{class_a_p_audio_voice_a7961e8c9c214303de643a6a30e232d47}{$\sim$\+A\+P\+Audio\+Voice} ()
+\item 
+virtual void \hyperlink{class_a_p_audio_voice_a151ae804092f9c6b9925f450565e3df4}{render\+Next\+Block} (\hyperlink{_a_p_audio_module_8h_a2c2f997fdc6b0e88b3723fb20dc502f0}{Sample\+Buffer} output\+Buffer, int start\+Sample, int num\+Samples, \hyperlink{_a_p_audio_module_8h_a9cc0620fb2e91b51587c6936060d4161}{U\+Int} channel)=0
+\item 
+virtual void \hyperlink{class_a_p_audio_voice_a25b0e54f49472f05ccafb38c782faae8}{stop\+Voice} ()=0
+\item 
+virtual bool \hyperlink{class_a_p_audio_voice_a4c534683ad441b5ff7e14ed528e058a4}{can\+Play\+Sound} (\hyperlink{class_a_p_audio_sound_description}{A\+P\+Audio\+Sound\+Description} $\ast$sound)=0
+\item 
+void \hyperlink{class_a_p_audio_voice_a5bf36c5ec20444b19e6f02c8a1a0ef7d}{set\+Sound} (\hyperlink{class_a_p_audio_sound_description}{A\+P\+Audio\+Sound\+Description} $\ast$sound)
+\item 
+void \hyperlink{class_a_p_audio_voice_ae14f422e9e88b3be33c2c75ac0876113}{release\+Voice} ()
+\item 
+void \hyperlink{class_a_p_audio_voice_aff7b4b5bbcc39b3f5f052ad9f5f1c883}{set\+Is\+Playing} (bool playing)
+\item 
+void \hyperlink{class_a_p_audio_voice_abec08aad18d389152591a381ae1932aa}{set\+Pitch} (\hyperlink{_a_p_audio_module_8h_a9219378a2632ccf0389d00317ce8cdc4}{Control\+Value} pitch)
+\item 
+void \hyperlink{class_a_p_audio_voice_ab77f46e9e96eed6a2ecf34d295c162b6}{set\+I\+D} (\hyperlink{_a_p_audio_module_8h_a9cc0620fb2e91b51587c6936060d4161}{U\+Int} I\+D)
+\item 
+\hyperlink{_a_p_audio_module_8h_a9cc0620fb2e91b51587c6936060d4161}{U\+Int} \hyperlink{class_a_p_audio_voice_a7a4588bb43f5c2618da0d0bd405296cc}{get\+I\+D} ()
+\item 
+bool \hyperlink{class_a_p_audio_voice_ade02900fae46f947b66bfb5148cd282d}{get\+Is\+Playing} ()
+\item 
+\hyperlink{_a_p_audio_module_8h_a9219378a2632ccf0389d00317ce8cdc4}{Control\+Value} \hyperlink{class_a_p_audio_voice_a505816cfb3fddbbf8fe23a8391142f5c}{get\+Pitch} ()
+\item 
+\hyperlink{class_a_p_audio_sound_description}{A\+P\+Audio\+Sound\+Description} $\ast$ \hyperlink{class_a_p_audio_voice_a6e4872c0f74fee2796bf402e51fc28a3}{get\+Sound} ()
+\item 
+\hyperlink{class_a_p_audio_envelope}{A\+P\+Audio\+Envelope} $\ast$ \hyperlink{class_a_p_audio_voice_a8b28ea28b7372dd8cc17039c303dbdd3}{get\+Envelope} () const 
+\item 
+virtual void \hyperlink{class_a_p_audio_voice_a9d8807cb399e9d5fb5ce207ab9f89416}{reset} ()=0
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_a_p_audio_voice_ab3756667a3eeab1aa8d1398d2cfce2eb}{A\+P\+Audio\+Voice\+Manager}
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_a_p_audio_voice_a59098dc9b3c7b3f8cb369fef98c96506}{\index{A\+P\+Audio\+Voice@{A\+P\+Audio\+Voice}!A\+P\+Audio\+Voice@{A\+P\+Audio\+Voice}}
+\index{A\+P\+Audio\+Voice@{A\+P\+Audio\+Voice}!A\+P\+Audio\+Voice@{A\+P\+Audio\+Voice}}
+\subsubsection[{A\+P\+Audio\+Voice}]{\setlength{\rightskip}{0pt plus 5cm}A\+P\+Audio\+Voice\+::\+A\+P\+Audio\+Voice (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_a_p_audio_voice_a59098dc9b3c7b3f8cb369fef98c96506}
+\hypertarget{class_a_p_audio_voice_a7961e8c9c214303de643a6a30e232d47}{\index{A\+P\+Audio\+Voice@{A\+P\+Audio\+Voice}!````~A\+P\+Audio\+Voice@{$\sim$\+A\+P\+Audio\+Voice}}
+\index{````~A\+P\+Audio\+Voice@{$\sim$\+A\+P\+Audio\+Voice}!A\+P\+Audio\+Voice@{A\+P\+Audio\+Voice}}
+\subsubsection[{$\sim$\+A\+P\+Audio\+Voice}]{\setlength{\rightskip}{0pt plus 5cm}A\+P\+Audio\+Voice\+::$\sim$\+A\+P\+Audio\+Voice (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_a_p_audio_voice_a7961e8c9c214303de643a6a30e232d47}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_a_p_audio_voice_a4c534683ad441b5ff7e14ed528e058a4}{\index{A\+P\+Audio\+Voice@{A\+P\+Audio\+Voice}!can\+Play\+Sound@{can\+Play\+Sound}}
+\index{can\+Play\+Sound@{can\+Play\+Sound}!A\+P\+Audio\+Voice@{A\+P\+Audio\+Voice}}
+\subsubsection[{can\+Play\+Sound}]{\setlength{\rightskip}{0pt plus 5cm}virtual bool A\+P\+Audio\+Voice\+::can\+Play\+Sound (
+\begin{DoxyParamCaption}
+\item[{{\bf A\+P\+Audio\+Sound\+Description} $\ast$}]{sound}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}}\label{class_a_p_audio_voice_a4c534683ad441b5ff7e14ed528e058a4}
+
+
+Implemented in \hyperlink{class_a_p_audio_sampler_voice_af9959b4be2689341d32e697b5cef7ab5}{A\+P\+Audio\+Sampler\+Voice}.
+
+\hypertarget{class_a_p_audio_voice_a8b28ea28b7372dd8cc17039c303dbdd3}{\index{A\+P\+Audio\+Voice@{A\+P\+Audio\+Voice}!get\+Envelope@{get\+Envelope}}
+\index{get\+Envelope@{get\+Envelope}!A\+P\+Audio\+Voice@{A\+P\+Audio\+Voice}}
+\subsubsection[{get\+Envelope}]{\setlength{\rightskip}{0pt plus 5cm}{\bf A\+P\+Audio\+Envelope}$\ast$ A\+P\+Audio\+Voice\+::get\+Envelope (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_a_p_audio_voice_a8b28ea28b7372dd8cc17039c303dbdd3}
+\hypertarget{class_a_p_audio_voice_a7a4588bb43f5c2618da0d0bd405296cc}{\index{A\+P\+Audio\+Voice@{A\+P\+Audio\+Voice}!get\+I\+D@{get\+I\+D}}
+\index{get\+I\+D@{get\+I\+D}!A\+P\+Audio\+Voice@{A\+P\+Audio\+Voice}}
+\subsubsection[{get\+I\+D}]{\setlength{\rightskip}{0pt plus 5cm}{\bf U\+Int} A\+P\+Audio\+Voice\+::get\+I\+D (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_a_p_audio_voice_a7a4588bb43f5c2618da0d0bd405296cc}
+\hypertarget{class_a_p_audio_voice_ade02900fae46f947b66bfb5148cd282d}{\index{A\+P\+Audio\+Voice@{A\+P\+Audio\+Voice}!get\+Is\+Playing@{get\+Is\+Playing}}
+\index{get\+Is\+Playing@{get\+Is\+Playing}!A\+P\+Audio\+Voice@{A\+P\+Audio\+Voice}}
+\subsubsection[{get\+Is\+Playing}]{\setlength{\rightskip}{0pt plus 5cm}bool A\+P\+Audio\+Voice\+::get\+Is\+Playing (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_a_p_audio_voice_ade02900fae46f947b66bfb5148cd282d}
+\hypertarget{class_a_p_audio_voice_a505816cfb3fddbbf8fe23a8391142f5c}{\index{A\+P\+Audio\+Voice@{A\+P\+Audio\+Voice}!get\+Pitch@{get\+Pitch}}
+\index{get\+Pitch@{get\+Pitch}!A\+P\+Audio\+Voice@{A\+P\+Audio\+Voice}}
+\subsubsection[{get\+Pitch}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Control\+Value} A\+P\+Audio\+Voice\+::get\+Pitch (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_a_p_audio_voice_a505816cfb3fddbbf8fe23a8391142f5c}
+\hypertarget{class_a_p_audio_voice_a6e4872c0f74fee2796bf402e51fc28a3}{\index{A\+P\+Audio\+Voice@{A\+P\+Audio\+Voice}!get\+Sound@{get\+Sound}}
+\index{get\+Sound@{get\+Sound}!A\+P\+Audio\+Voice@{A\+P\+Audio\+Voice}}
+\subsubsection[{get\+Sound}]{\setlength{\rightskip}{0pt plus 5cm}{\bf A\+P\+Audio\+Sound\+Description}$\ast$ A\+P\+Audio\+Voice\+::get\+Sound (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_a_p_audio_voice_a6e4872c0f74fee2796bf402e51fc28a3}
+\hypertarget{class_a_p_audio_voice_ae14f422e9e88b3be33c2c75ac0876113}{\index{A\+P\+Audio\+Voice@{A\+P\+Audio\+Voice}!release\+Voice@{release\+Voice}}
+\index{release\+Voice@{release\+Voice}!A\+P\+Audio\+Voice@{A\+P\+Audio\+Voice}}
+\subsubsection[{release\+Voice}]{\setlength{\rightskip}{0pt plus 5cm}void A\+P\+Audio\+Voice\+::release\+Voice (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_a_p_audio_voice_ae14f422e9e88b3be33c2c75ac0876113}
+\hypertarget{class_a_p_audio_voice_a151ae804092f9c6b9925f450565e3df4}{\index{A\+P\+Audio\+Voice@{A\+P\+Audio\+Voice}!render\+Next\+Block@{render\+Next\+Block}}
+\index{render\+Next\+Block@{render\+Next\+Block}!A\+P\+Audio\+Voice@{A\+P\+Audio\+Voice}}
+\subsubsection[{render\+Next\+Block}]{\setlength{\rightskip}{0pt plus 5cm}virtual void A\+P\+Audio\+Voice\+::render\+Next\+Block (
+\begin{DoxyParamCaption}
+\item[{{\bf Sample\+Buffer}}]{output\+Buffer, }
+\item[{int}]{start\+Sample, }
+\item[{int}]{num\+Samples, }
+\item[{{\bf U\+Int}}]{channel}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}}\label{class_a_p_audio_voice_a151ae804092f9c6b9925f450565e3df4}
+
+
+Implemented in \hyperlink{class_a_p_audio_sampler_voice_a2771cb306e331a458cea4283048c374c}{A\+P\+Audio\+Sampler\+Voice}.
+
+\hypertarget{class_a_p_audio_voice_a9d8807cb399e9d5fb5ce207ab9f89416}{\index{A\+P\+Audio\+Voice@{A\+P\+Audio\+Voice}!reset@{reset}}
+\index{reset@{reset}!A\+P\+Audio\+Voice@{A\+P\+Audio\+Voice}}
+\subsubsection[{reset}]{\setlength{\rightskip}{0pt plus 5cm}virtual void A\+P\+Audio\+Voice\+::reset (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}}\label{class_a_p_audio_voice_a9d8807cb399e9d5fb5ce207ab9f89416}
+
+
+Implemented in \hyperlink{class_a_p_audio_sampler_voice_acc47dbbd5d5835092c4806d245c53188}{A\+P\+Audio\+Sampler\+Voice}.
+
+\hypertarget{class_a_p_audio_voice_ab77f46e9e96eed6a2ecf34d295c162b6}{\index{A\+P\+Audio\+Voice@{A\+P\+Audio\+Voice}!set\+I\+D@{set\+I\+D}}
+\index{set\+I\+D@{set\+I\+D}!A\+P\+Audio\+Voice@{A\+P\+Audio\+Voice}}
+\subsubsection[{set\+I\+D}]{\setlength{\rightskip}{0pt plus 5cm}void A\+P\+Audio\+Voice\+::set\+I\+D (
+\begin{DoxyParamCaption}
+\item[{{\bf U\+Int}}]{I\+D}
+\end{DoxyParamCaption}
+)}}\label{class_a_p_audio_voice_ab77f46e9e96eed6a2ecf34d295c162b6}
+\hypertarget{class_a_p_audio_voice_aff7b4b5bbcc39b3f5f052ad9f5f1c883}{\index{A\+P\+Audio\+Voice@{A\+P\+Audio\+Voice}!set\+Is\+Playing@{set\+Is\+Playing}}
+\index{set\+Is\+Playing@{set\+Is\+Playing}!A\+P\+Audio\+Voice@{A\+P\+Audio\+Voice}}
+\subsubsection[{set\+Is\+Playing}]{\setlength{\rightskip}{0pt plus 5cm}void A\+P\+Audio\+Voice\+::set\+Is\+Playing (
+\begin{DoxyParamCaption}
+\item[{bool}]{playing}
+\end{DoxyParamCaption}
+)}}\label{class_a_p_audio_voice_aff7b4b5bbcc39b3f5f052ad9f5f1c883}
+\hypertarget{class_a_p_audio_voice_abec08aad18d389152591a381ae1932aa}{\index{A\+P\+Audio\+Voice@{A\+P\+Audio\+Voice}!set\+Pitch@{set\+Pitch}}
+\index{set\+Pitch@{set\+Pitch}!A\+P\+Audio\+Voice@{A\+P\+Audio\+Voice}}
+\subsubsection[{set\+Pitch}]{\setlength{\rightskip}{0pt plus 5cm}void A\+P\+Audio\+Voice\+::set\+Pitch (
+\begin{DoxyParamCaption}
+\item[{{\bf Control\+Value}}]{pitch}
+\end{DoxyParamCaption}
+)}}\label{class_a_p_audio_voice_abec08aad18d389152591a381ae1932aa}
+\hypertarget{class_a_p_audio_voice_a5bf36c5ec20444b19e6f02c8a1a0ef7d}{\index{A\+P\+Audio\+Voice@{A\+P\+Audio\+Voice}!set\+Sound@{set\+Sound}}
+\index{set\+Sound@{set\+Sound}!A\+P\+Audio\+Voice@{A\+P\+Audio\+Voice}}
+\subsubsection[{set\+Sound}]{\setlength{\rightskip}{0pt plus 5cm}void A\+P\+Audio\+Voice\+::set\+Sound (
+\begin{DoxyParamCaption}
+\item[{{\bf A\+P\+Audio\+Sound\+Description} $\ast$}]{sound}
+\end{DoxyParamCaption}
+)}}\label{class_a_p_audio_voice_a5bf36c5ec20444b19e6f02c8a1a0ef7d}
+\hypertarget{class_a_p_audio_voice_a25b0e54f49472f05ccafb38c782faae8}{\index{A\+P\+Audio\+Voice@{A\+P\+Audio\+Voice}!stop\+Voice@{stop\+Voice}}
+\index{stop\+Voice@{stop\+Voice}!A\+P\+Audio\+Voice@{A\+P\+Audio\+Voice}}
+\subsubsection[{stop\+Voice}]{\setlength{\rightskip}{0pt plus 5cm}virtual void A\+P\+Audio\+Voice\+::stop\+Voice (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}}\label{class_a_p_audio_voice_a25b0e54f49472f05ccafb38c782faae8}
+
+
+Implemented in \hyperlink{class_a_p_audio_sampler_voice_af251bd2529b4472729db61d54753cc56}{A\+P\+Audio\+Sampler\+Voice}.
+
+
+
+\subsection{Friends And Related Function Documentation}
+\hypertarget{class_a_p_audio_voice_ab3756667a3eeab1aa8d1398d2cfce2eb}{\index{A\+P\+Audio\+Voice@{A\+P\+Audio\+Voice}!A\+P\+Audio\+Voice\+Manager@{A\+P\+Audio\+Voice\+Manager}}
+\index{A\+P\+Audio\+Voice\+Manager@{A\+P\+Audio\+Voice\+Manager}!A\+P\+Audio\+Voice@{A\+P\+Audio\+Voice}}
+\subsubsection[{A\+P\+Audio\+Voice\+Manager}]{\setlength{\rightskip}{0pt plus 5cm}friend class {\bf A\+P\+Audio\+Voice\+Manager}\hspace{0.3cm}{\ttfamily [friend]}}}\label{class_a_p_audio_voice_ab3756667a3eeab1aa8d1398d2cfce2eb}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+In Development (don't include)/\hyperlink{_a_p_audio_voice_8h}{A\+P\+Audio\+Voice.\+h}\item 
+In Development (don't include)/\hyperlink{_a_p_audio_voice_8cpp}{A\+P\+Audio\+Voice.\+cpp}\end{DoxyCompactItemize}

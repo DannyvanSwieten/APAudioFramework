@@ -35,6 +35,15 @@ static inline void createWindow(WindowType t, float* output, unsigned int N)
             }
             break;
             
+        case BLACKMAN:
+        {
+            float a0=0.35875, a1=0.48829, a2=0.14128, a3=0.01168;
+            
+            for (auto i = 0; i < N; i++)
+            {
+                output[i] = a0-a1*cos(2*M_PI/N-1)+a2*cos(4*M_PI/N-1)-a3*cos(6*M_PI/N-1);
+            }
+        }
         default:
             break;
     }
