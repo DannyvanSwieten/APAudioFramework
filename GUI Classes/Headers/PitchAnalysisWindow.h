@@ -10,26 +10,27 @@
 #define __FPTAnalyzer__PitchAnalysisWindow__
 
 #include "../JuceLibraryCode/JuceHeader.h"
-#include "FrequencyAnalyzer.h"
-#include "APAudioFileManager2.h"
+
+class MainContentComponent;
 
 class PitchAnalysisWindow: public Component
 {
 public:
-    PitchAnalysisWindow(APAudioFileManager* fileManager, FrequencyAnalyzer* analyzer);
+
+    PitchAnalysisWindow(MainContentComponent& mainComponent);
     ~PitchAnalysisWindow();
     
     void resized()override;
     void paint(Graphics& g)override;
-    void getDrawData(APAudioFile* audioFile, int N, int windowSize, int overlap, WindowType t);
+    void getDrawData();
     void generateNamesAndFrequencies();
     int findNote(float frequency);
     std::string findNoteName(int bin);
 private:
     
+    MainContentComponent& _mainComponent;
     Path _drawPath;
-    APAudioFileManager* _fileManager;
-    FrequencyAnalyzer* _analyzer;
+    std::vector<std::vector<float>> _drawData;
     std::vector<float> _noteFrequencies;
     std::string _noteNames[12];
     bool _initialized = false;

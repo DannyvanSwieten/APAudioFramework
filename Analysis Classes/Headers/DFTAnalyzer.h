@@ -9,14 +9,15 @@
 #ifndef __DFT__DFTAnalyzer__
 #define __DFT__DFTAnalyzer__
 
-#include "SpectralAnalyzer.h"
+#include "AudioAnalyzer.h"
 #include "DFT.h"
 #include "../JuceLibraryCode/JuceHeader.h"
 
-class DFTAnalyzer: public SpectralAnalyzer
+class DFTAnalyzer: public AudioAnalyzer
 {
 public:
     
+    DFTAnalyzer() = default;
     DFTAnalyzer(unsigned int N, unsigned int overlap, WindowType t);
     ~DFTAnalyzer();
     
@@ -25,6 +26,7 @@ public:
     void calculateAmplitudes()override final;
     void calculatePhases()override final;
     void calculateInstantFrequencies()override final;
+    void calculatePitch()override final;
     void calculateSpectralFlux();
     void calculateLogSpectrum();
     void generatePeakMap();

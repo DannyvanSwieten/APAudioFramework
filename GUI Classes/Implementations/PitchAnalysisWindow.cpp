@@ -7,11 +7,10 @@
 //
 
 #include "PitchAnalysisWindow.h"
+#include "MainComponent.h"
 
-PitchAnalysisWindow::PitchAnalysisWindow(APAudioFileManager* fileManager, FrequencyAnalyzer* analyzer)
+PitchAnalysisWindow::PitchAnalysisWindow(MainContentComponent& mainComponent): _mainComponent(mainComponent)
 {
-    _fileManager = fileManager;
-    _analyzer = analyzer;
     generateNamesAndFrequencies();
 }
 
@@ -85,30 +84,34 @@ void PitchAnalysisWindow::generateNamesAndFrequencies()
 
 void PitchAnalysisWindow::paint(Graphics& g)
 {
-    g.fillAll(Colours::white);
+    g.fillAll(Colours::whitesmoke);
     
-    if(_initialized)
+    g.setOrigin(0, getHeight());
+    int octave = 0;
+    for (auto i = 0; i < 88; i++)
+    {
+        if(i % 12 == 0) octave++;
+        
+        g.drawRect(0, -20*i, getWidth(), 20);
+        g.drawText(_noteNames[i % 12] + std::to_string(octave), 0, -20*(i+1), 30, 10, Justification::topLeft, false);
+    }
+    
+    std::string file = _mainComponent.getMenu().getSelectedFile();
+    
+    if(_mainComponent.getAnalysisFactory().yinDataAvailable())
     {
         _drawPath.clear();
         g.setColour(juce::Colour(juce::Colours::black));
         
-        float analysisSize = _analyzer->getResult().size();
-        float rectSize = (float)getWidth() / (float)analysisSize;
+        int analysisSize = _mainComponent.getAnalysisFactory().getYinData(file).pitch.size();
         
-        g.setOrigin(0, getHeight());
-        int octave = 0;
-        for (auto i = 0; i < 88; i++)
-        {
-            if(i % 12 == 0) octave++;
-            
-            g.drawRect(0, -20*i, getWidth(), 20);
-            g.drawText(_noteNames[i % 12] + std::to_string(octave), 0, -20*(i+1), 20, 10, Justification::topLeft, false);
-        }
+        float rectSize = _mainComponent.getAnalysisFactory().getYinData(file).N;
         
-        g.setColour(Colour(Colours::red));
+        setSize((analysisSize * rectSize) / 100.0, getHeight());
+
         for(auto i = 0; i < analysisSize; i++)
         {
-            float freq = _analyzer->getResult()[i];
+            float freq = _mainComponent.getAnalysisFactory().getYinData(file).pitch[i];
             float idealFreq = _noteFrequencies[findNote(freq)];
             float idealNextFreq = _noteFrequencies[findNote(freq) + 1];
             float idealPrevFreq = _noteFrequencies[findNote(freq) - 1];
@@ -116,11 +119,12 @@ void PitchAnalysisWindow::paint(Graphics& g)
             float maxDiv1 = (idealNextFreq - idealFreq) / 2.0;
             float maxDiv2 = (idealFreq - idealPrevFreq) / 2.0;
             
-            int top = (findNote(freq)) * 20;
+            int top = (findNote(freq) + 1) * 20;
             
             float freqDiv = freq - idealFreq;
             
-            g.fillRect(i* (int)rectSize, -top, (int)rectSize, 20);
+            g.setColour(Colour(Colours::red));
+            g.fillRect((i * (int)rectSize)/100, -top, rectSize/100.0, 20);
             
             float scaledDiv;
             
@@ -144,9 +148,7 @@ void PitchAnalysisWindow::resized()
     
 }
 
-void PitchAnalysisWindow::getDrawData(APAudioFile* audioFile, int N, int windowSize, int overlap, WindowType t)
+void PitchAnalysisWindow::getDrawData()
 {
-    _analyzer->init(N);
-    _analyzer->readAndAnalyse(audioFile->getAudioChannel(0), audioFile->getNumSamples());
     _initialized = true;
 }

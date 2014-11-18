@@ -19,10 +19,10 @@ public:
     void setAudio(AudioSampleBuffer buffer);
     void setNumChannels(int channels);
     void setNumSamples(long int samples);
-    void setFileName(String name);
+    void setFileName(std::string name);
     void setSamplerate(int sampleRate);
     
-    String getName();
+    std::string getName();
     const float* getAudioChannel(int index);
     int getNumChannels();
     long int getNumSamples();
@@ -31,7 +31,7 @@ public:
 private:
     
     AudioSampleBuffer _audio;
-    String _fileName;
+    std::string _fileName;
     int _numChannels = 0;
     long int _numSamples = 0;
     int _sampleRate = 0;

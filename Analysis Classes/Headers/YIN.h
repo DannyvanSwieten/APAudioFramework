@@ -13,11 +13,11 @@
 #include "Utility.h"
 #include <iostream>
 
-class YINAnalyzer
+class YIN
 {
 public:
-    YINAnalyzer();
-    ~YINAnalyzer();
+    YIN();
+    ~YIN();
     
     void init(int N);
     void process(float* audioData, int numSamples);

@@ -33,12 +33,12 @@ void APAudioFile::setNumSamples(long int samples)
     _numSamples = samples;
 };
 
-void APAudioFile::setFileName(String name)
+void APAudioFile::setFileName(std::string name)
 {
     _fileName = name;
 }
 
-String APAudioFile::getName()
+std::string APAudioFile::getName()
 {
     return _fileName;
 }

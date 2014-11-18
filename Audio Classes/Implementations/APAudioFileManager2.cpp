@@ -32,7 +32,7 @@ void APAudioFileManager::loadFile(File fileToLoad)
     
     formatReader->read(&buffer, 0, numSamples, 0, true, true);
     file->setAudio(buffer);
-    file->setFileName(fileToLoad.getFileName());
+    file->setFileName(fileToLoad.getFileName().toStdString());
     file->setNumChannels(numChannels);
     file->setNumSamples(numSamples);
     file->setSamplerate(formatReader->sampleRate);
@@ -71,7 +71,7 @@ void APAudioFileManager::loadFile(std::string fileToLoad)
     delete formatReader;
 }
 
-APAudioFile* APAudioFileManager::getFile(juce::String name)
+APAudioFile* APAudioFileManager::getFile(std::string name)
 {
     for(auto& file: _audioFiles)
     {

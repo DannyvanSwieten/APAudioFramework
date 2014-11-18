@@ -9,32 +9,26 @@
 #ifndef FPTAnalyzer_AnalysisWindowComponent_h
 #define FPTAnalyzer_AnalysisWindowComponent_h
 
-#include "DFTAnalyzer.h"
-#include "WaveletTransform.h"
-#include "APAudioFileManager2.h"
-#include "FrequencyAnalyzer.h"
 #include <iostream>
+#include "../JuceLibraryCode/JuceHeader.h"
+class MainContentComponent;
 
 class DFTSpectogram: public Component
 {
 public:
     
-    DFTSpectogram(APAudioFileManager* fileManager, DFTAnalyzer* analyzer);
-    DFTSpectogram();
+    DFTSpectogram(MainContentComponent& mainComponent);
+    ~DFTSpectogram();
     
     void resized() override final;
     void paint(Graphics& g) override final;
-    void getDrawData(APAudioFile* audioFile, int N, int windowSize, int overlap, WindowType t);
+    void getDrawData();
     void mouseUp (const MouseEvent& event) override final;
     void mouseDown(const MouseEvent& event) override final;
-//    void mouseMove(const MouseEvent& event)override;
     
 private:
     
-    DFTAnalyzer* _analyzer;
-    APAudioFileManager* _fileManager;
-    OpenGLContext _glContext;
-    
+    MainContentComponent& _mainComponent;
     bool _initalized = false;
     
     void drawScale(Graphics& g);

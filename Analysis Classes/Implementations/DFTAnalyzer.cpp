@@ -11,7 +11,7 @@
 
 using namespace std;
 
-DFTAnalyzer::DFTAnalyzer(unsigned int N, unsigned int overlap, WindowType t): SpectralAnalyzer()
+DFTAnalyzer::DFTAnalyzer(unsigned int N, unsigned int overlap, WindowType t): AudioAnalyzer()
 {
     init(N, overlap, t);
 }
@@ -69,7 +69,6 @@ void DFTAnalyzer::calculateAmplitudes()
         normalize(amplitudes.data(), _dft.getSize());
         
         getAmplitudes().emplace_back(move(amplitudes));
-        std::cout<< getAmplitudes().size()<<std::endl;
     }
 }
 
@@ -206,4 +205,9 @@ void DFTAnalyzer::inverse()
         for(auto n = 0; n < getWindowSize(); n++)
             _synthesisBuffer.getWritePointer(0)[n * i] = _synthesisVector[n];
     }
+}
+
+void DFTAnalyzer::calculatePitch()
+{
+    
 }

@@ -7,19 +7,16 @@
 //
 
 #include "DFTSpectogram.h"
+#include "MainComponent.h"
 
-DFTSpectogram::DFTSpectogram(APAudioFileManager* fileManager, DFTAnalyzer* analyzer)
+DFTSpectogram::DFTSpectogram(MainContentComponent& mainComponent): _mainComponent(mainComponent)
 {
-    _analyzer = analyzer;
-    _fileManager = fileManager;
-    setBufferedToImage(true);
-    
-    _glContext.attachTo(*this);
+
 }
 
-DFTSpectogram::DFTSpectogram()
+DFTSpectogram::~DFTSpectogram()
 {
-    _fileManager = nullptr;
+    
 }
 
 void DFTSpectogram::resized()
@@ -41,46 +38,39 @@ void DFTSpectogram::paint(Graphics& g)
 {
     g.fillAll(Colours::white);
     
-    if(_initalized)
+    if(_mainComponent.getAnalysisFactory().fourierDataAvailable())
     {
-
         g.setColour(juce::Colour(juce::Colours::black));
-
-        int N = _analyzer->getWindowSize()/2.0;
-        int analysisSize = _analyzer->getAmplitudes().size();
+        std::string file = _mainComponent.getMenu().getSelectedFile();
+        
+        int N = _mainComponent.getAnalysisFactory().getFourierData(file).N;
+        
+        int analysisSize = _mainComponent.getAnalysisFactory().getFourierData(file).amplitudes.size();
         float heightScale = (float)getHeight() / (N/10);
         
-        float step = (float)analysisSize/(float)getWidth();
+        setSize((analysisSize * N) / 100 , getHeight());
 
-        float counter = 0;
-        for (auto i = 0; i < getWidth(); i++)
+        for (auto i = 0; i < analysisSize; i++)
         {
             int counter2 = 0;
             for(auto j = N / 10; j > 1; j--)
             {
-                float alpha = _analyzer->getAmplitudes()[(int)counter][j] * (float)_analyzer->_getPeaks()[(int)counter][j];
+                float alpha = _mainComponent.getAnalysisFactory().getFourierData(file).amplitudes[i][j]; //* (float)_analyzer->_getPeaks()[(int)counter][j];
                 if(isnan(alpha)) alpha = 0;
                 g.setColour(juce::Colour(255 - (alpha*255), 255 - (alpha*255*.7), 255 - (alpha*255 * .3)));
 
-                g.fillRect((float)i * 2 ,
+                g.fillRect((float)i * N / 100.0 ,
                            heightScale * counter2++,
-                           2.0,
+                           (float)N / 100.0,
                            heightScale);
                 
             }
-            counter+=step;
         }
     }
 }
 
-void DFTSpectogram::getDrawData(APAudioFile* audioFile, int N, int windowSize, int overlap, WindowType t)
+void DFTSpectogram::getDrawData()
 {
-    _analyzer->init(N, overlap, t);
-    _analyzer->readAndAnalyse(audioFile->getAudioChannel(0), audioFile->getNumSamples());
-    _analyzer->calculateAmplitudes();
-    _analyzer->generatePeakMap();
-    _analyzer->searchStableSinusoids();
-    _analyzer->calculatePhases();
     _initalized = true;
 }
 

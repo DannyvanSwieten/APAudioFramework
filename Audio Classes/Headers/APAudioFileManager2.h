@@ -24,7 +24,7 @@ public:
     void loadFile(std::string fileToLoad);
     void loadFiles();
     
-    APAudioFile* getFile(String name);
+    APAudioFile* getFile(std::string name);
     APAudioFile* getFile(int index);
     void clearManager();
     int getNumberOfFiles();
