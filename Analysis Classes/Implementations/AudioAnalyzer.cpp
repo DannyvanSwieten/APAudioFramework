@@ -8,28 +8,34 @@
 
 #include "AudioAnalyzer.h"
 
-AudioAnalyzer::AudioAnalyzer()
+namespace APAudio
 {
+    namespace Analysis
+    {
+        AudioAnalyzer::AudioAnalyzer()
+        {
 
-}
+        }
 
-AudioAnalyzer::~AudioAnalyzer()
-{
+        AudioAnalyzer::~AudioAnalyzer()
+        {
 
-}
+        }
 
-void AudioAnalyzer::setN(int N)
-{
-    _N = N;
-}
+        void AudioAnalyzer::setN(int N)
+        {
+            _N = N;
+        }
 
-void AudioAnalyzer::setOverlap(int overlap)
-{
-    _overlap = overlap;
-}
+        void AudioAnalyzer::setOverlap(int overlap)
+        {
+            _overlap = overlap;
+        }
 
-void AudioAnalyzer::setHopsize(int hopSize)
-{
-    _ra = hopSize;
-    _ra = _N/1;
+        void AudioAnalyzer::setHopsize(int hopSize)
+        {
+            _ra = hopSize;
+            _ra = _N/1;
+        }
+    }
 }

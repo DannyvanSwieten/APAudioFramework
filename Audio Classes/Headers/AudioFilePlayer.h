@@ -27,6 +27,7 @@ namespace APAudio
             void setFile(AudioFile* file);
             void setSampleRate(float sr);
             void setSpeed(float speed);
+            
         private:
             
             AudioFile* _file = nullptr;

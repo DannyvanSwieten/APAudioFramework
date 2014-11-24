@@ -5,6 +5,7 @@
 //  Created by Danny van Swieten on 9/11/14.
 //  Copyright (c) 2014 Danny van Swieten. All rights reserved.
 //
+
 /*
  This is a class that calculates the Discrete Fourier Transform (DFT) of a signal.
  This is NOT a Fast Fourier Transform, because it is created only to analyse signals for acedamic purposes and not to be used for real time processes.
@@ -22,32 +23,38 @@
 #include <complex>
 #include "Utility.h"
 
-class DFT
+namespace APAudio
 {
-public:
-    DFT();
-    ~DFT();
-    
-    unsigned int getSize(){return _N;};
-    std::vector<std::complex<float>> getResult(){return _DFTResult;};
-    void init(int N, int overlap, int windowSize,  WindowType t);
-    void calculateDFT(float* input);
-    void calculateIDFT(std::vector<float>& buffer, std::vector<std::complex<float>> analysis);
-    void createWindow(WindowType t);
-    
-private:
-    
-    void calculateTwiddleFactors();
-    
-    int _N = 0;
-    int _overlap = 0;
-    int _windowSize = 0;
-    float* _window = nullptr;
-    
-    std::vector<std::complex<float>> _DFTBuffer;
-    std::vector<std::complex<float>> _DFTResult;
-    std::vector<std::vector<std::complex<float>>> _twiddleFactors;
-    std::vector<std::vector<std::complex<float>>> _inverseTwiddleFactors;
-};
+    namespace Analysis
+    {
+        class DFT
+        {
+        public:
+            DFT();
+            ~DFT();
+            
+            unsigned int getSize(){return _N;};
+            std::vector<std::complex<float>> getResult(){return _DFTResult;};
+            void init(int N, int overlap, int windowSize,  WindowType t);
+            void calculateDFT(float* input);
+            void calculateIDFT(std::vector<float>& buffer, std::vector<std::complex<float>> analysis);
+            void createWindow(WindowType t);
+            
+        private:
+            
+            void calculateTwiddleFactors();
+            
+            int _N = 0;
+            int _overlap = 0;
+            int _windowSize = 0;
+            float* _window = nullptr;
+            
+            std::vector<std::complex<float>> _DFTBuffer;
+            std::vector<std::complex<float>> _DFTResult;
+            std::vector<std::vector<std::complex<float>>> _twiddleFactors;
+            std::vector<std::vector<std::complex<float>>> _inverseTwiddleFactors;
+        };
+    }
+}
 
 #endif /* defined(__DFT__DFT__) */

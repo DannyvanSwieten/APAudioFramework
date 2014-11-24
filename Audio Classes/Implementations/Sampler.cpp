@@ -28,7 +28,7 @@ namespace APAudio
                     if(voice == nullptr)
                     {
                         voice = new SamplerVoice();
-                        voice->setFileToPlay(_fileManager->getFile(description.getID()));
+                        voice->setFileToPlay(&_fileManager->getFile(description.getID()));
                         voice->setNote(noteOn);
                         voice->play(repeat);
                         _activeVoices.emplace_back(voice);
@@ -36,7 +36,7 @@ namespace APAudio
                     }
                     else
                     {
-                        voice->setFileToPlay(_fileManager->getFile(description.getID()));
+                        voice->setFileToPlay(&_fileManager->getFile(description.getID()));
                         voice->setNote(noteOn);
                         voice->play(repeat);
                     }
@@ -54,14 +54,14 @@ namespace APAudio
                     if(voice == nullptr)
                     {
                         voice = new SamplerVoice();
-                        voice->setFileToPlay(_fileManager->getFile(description.getID()));
+                        voice->setFileToPlay(&_fileManager->getFile(description.getID()));
                         voice->play(repeat);
                         _activeVoices.emplace_back(voice);
                         _numVoicesActive++;
                     }
                     else
                     {
-                        voice->setFileToPlay(_fileManager->getFile(description.getID()));
+                        voice->setFileToPlay(&_fileManager->getFile(description.getID()));
                         voice->play(repeat);
                         voice->setPosition();
                     }
