@@ -11,7 +11,7 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 
-#include "APAudioFileManager2.h"
+#include "AudioFileManager.h"
 #include "AnalysisFactory.h"
 
 class MainContentComponent;

@@ -10,7 +10,7 @@
 #define __FPTAnalyzer__AnalysisFactory__
 
 #include "DFTAnalyzer.h"
-#include "APAudioFileManager2.h"
+#include "AudioFileManager.h"
 #include "YINAnalyzer.h"
 
 class SpectralAnalysis
@@ -63,7 +63,7 @@ public:
         NUMRESULTS
     };
     
-    void analyze(APAudioFile* audio,
+    void analyze(APAudio::Audio::AudioFile audio,
                  ANALYSISMETHOD method,
                  int N,
                  int overlap,
@@ -82,7 +82,6 @@ private:
     bool _yinDataAvailable = false;
     std::vector<SpectralAnalysis> _fourierResults;
     std::vector<YINAnalysis> _yinResults;
-
 };
 
 #endif /* defined(__FPTAnalyzer__AnalysisFactory__) */

@@ -105,7 +105,7 @@ void APAudioAnalysisMenu::buttonClicked(Button* buttonThatWasClicked)
         
             for(auto i = 0; i < files.size(); i++)
             {
-                _mainComponent.getFileManager().loadFile(files[i]);
+                _mainComponent.getFileManager().loadFile(files[i].getFullPathName().toStdString());
                 _loadedFiles.addItem(files[i].getFileName(), i+1);
             }
         }
@@ -222,7 +222,7 @@ void APAudioAnalysisMenu::buttonClicked(Button* buttonThatWasClicked)
                 break;
         }
         
-        APAudioFile* fileToAnalyse = _mainComponent.getFileManager().getFile(_loadedFiles.getSelectedItemIndex());
+        APAudio::Audio::AudioFile fileToAnalyse = _mainComponent.getFileManager().getFile(_loadedFiles.getSelectedItemIndex());
         
         _mainComponent.getAnalysisFactory().analyze( fileToAnalyse,
                                                      m,

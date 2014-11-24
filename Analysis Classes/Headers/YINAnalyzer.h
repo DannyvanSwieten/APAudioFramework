@@ -9,7 +9,7 @@
 #ifndef __APAAnalyzer__FrequencyAnalyzer__
 #define __APAAnalyzer__FrequencyAnalyzer__
 #include "YIN.h"
-#include "APAudioFileManager2.h"
+#include "AudioFileManager.h"
 #include "AudioAnalyzer.h"
 
 class YINAnalyzer: AudioAnalyzer

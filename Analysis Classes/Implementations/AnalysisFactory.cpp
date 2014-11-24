@@ -18,7 +18,7 @@ AnalysisFactory::~AnalysisFactory()
     
 }
 
-void AnalysisFactory::analyze(APAudioFile* audio,
+void AnalysisFactory::analyze(APAudio::Audio::AudioFile audio,
                               ANALYSISMETHOD method,
                               int N,
                               int overlap,
@@ -31,18 +31,18 @@ void AnalysisFactory::analyze(APAudioFile* audio,
             SpectralAnalysis _fourierAnalysis;
             
             for(auto& data: _fourierResults)
-                if(data.name == audio->getName() && data.type == "fourier")
+                if(data.name == audio.getName() && data.type == "fourier")
                     _fourierAnalysis = data;
             
             DFTAnalyzer _fourierAnalyzer;
             
             _fourierAnalyzer.init(N, overlap, t);
-            _fourierAnalyzer.readAndAnalyse(audio->getAudioChannel(0), audio->getNumSamples());
+            _fourierAnalyzer.readAndAnalyse(audio.getAudioChannel(0), audio.getNumSamples());
             _fourierAnalyzer.calculateAmplitudes();
             _fourierAnalyzer.calculatePhases();
             _fourierAnalyzer.generatePeakMap();
             
-            _fourierAnalysis.name = audio->getName();
+            _fourierAnalysis.name = audio.getName();
             _fourierAnalysis.type = "Fourier";
             _fourierAnalysis.N = N;
             _fourierAnalysis.overlap = overlap;
@@ -61,9 +61,9 @@ void AnalysisFactory::analyze(APAudioFile* audio,
             YINAnalysis _yinAnalysis;
             
             _yinAnalyzer.init(N);
-            _yinAnalyzer.readAndAnalyse(audio->getAudioChannel(0), audio->getNumSamples());
+            _yinAnalyzer.readAndAnalyse(audio.getAudioChannel(0), audio.getNumSamples());
             
-            _yinAnalysis.name = audio->getName();
+            _yinAnalysis.name = audio.getName();
             _yinAnalysis.type = "yin";
             _yinAnalysis.N = N;
             _yinAnalysis.pitch = _yinAnalyzer.getResult();
