@@ -16,7 +16,7 @@
 
 class MainContentComponent;
 
-class APAudioAnalysisMenu: public Component, public Button::Listener, public ComboBox::Listener
+class APAudioAnalysisMenu: public Component, public Button::Listener, public ComboBox::Listener, public Slider::Listener
 {
 public:
     
@@ -40,8 +40,9 @@ public:
     void paint(Graphics& g) override final;
     void buttonClicked(Button* buttonThatWhasClicked)override final;
     void comboBoxChanged (ComboBox* comboBoxThatHasChanged)override final;
+    void sliderValueChanged (Slider* slider) override final;
     std::string getSelectedFile() const {return _loadedFiles.getText().toStdString();};
-    
+    float getDrawScale(){return _drawScale;};
 private:
     
     MainContentComponent& _mainComponent;
@@ -58,8 +59,11 @@ private:
     TextButton _playButton;
     TextButton _process;
     
+    Slider _scale;
+    
     AnalysisDescription _description;
     
+    float _drawScale = 1;
     bool _initialized;
 
 };

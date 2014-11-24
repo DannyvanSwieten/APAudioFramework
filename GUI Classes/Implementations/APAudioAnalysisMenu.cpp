@@ -55,6 +55,11 @@ APAudioAnalysisMenu::APAudioAnalysisMenu(MainContentComponent& mainComponent): _
     _process.setBounds(2, 400, 200, 25);
     _process.addListener(this);
     
+    _scale.setBounds(2, 100, 200, 20);
+    _scale.setRange(0.1, 1000);
+    _scale.addListener(this);
+    
+    
     addAndMakeVisible(_loadedFiles);
     addAndMakeVisible(_analysisMethod);
     addAndMakeVisible(_analysisSize);
@@ -66,11 +71,20 @@ APAudioAnalysisMenu::APAudioAnalysisMenu(MainContentComponent& mainComponent): _
     addAndMakeVisible(_analyzeButton);
     addAndMakeVisible(_playButton);
     addAndMakeVisible(_process);
+    addAndMakeVisible(_scale);
 }
 
 APAudioAnalysisMenu::~APAudioAnalysisMenu()
 {
     
+}
+
+void APAudioAnalysisMenu::sliderValueChanged(juce::Slider *slider)
+{
+    if (slider == &_scale)
+    {
+        _drawScale = slider->getValue();
+    }
 }
 
 void APAudioAnalysisMenu::buttonClicked(Button* buttonThatWasClicked)

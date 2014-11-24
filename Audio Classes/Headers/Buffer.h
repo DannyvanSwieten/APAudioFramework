@@ -24,7 +24,8 @@ public:
             channel.resize(numSamples);
     };
     
-    std::vector<T> getChannel(int channel){return _buffer[channel];};
+    std::vector<T>& getChannel(int channel){return _buffer[channel];};
+    std::vector<std::vector<T>>& getBuffer(){return _buffer;};
 private:
     
     std::vector<std::vector<T>> _buffer;

@@ -43,12 +43,14 @@ void DFTSpectogram::paint(Graphics& g)
         g.setColour(juce::Colour(juce::Colours::black));
         std::string file = _mainComponent.getMenu().getSelectedFile();
         
+        auto drawScale = _mainComponent.getMenu().getDrawScale();
+        
         int N = _mainComponent.getAnalysisFactory().getFourierData(file).N;
         
         int analysisSize = _mainComponent.getAnalysisFactory().getFourierData(file).amplitudes.size();
         float heightScale = (float)getHeight() / (N/10);
         
-        setSize((analysisSize * N) / 100 , getHeight());
+        setSize((analysisSize * N) / drawScale , getHeight());
 
         for (auto i = 0; i < analysisSize; i++)
         {
@@ -59,9 +61,9 @@ void DFTSpectogram::paint(Graphics& g)
                 if(isnan(alpha)) alpha = 0;
                 g.setColour(juce::Colour(255 - (alpha*255), 255 - (alpha*255*.7), 255 - (alpha*255 * .3)));
 
-                g.fillRect((float)i * N / 100.0 ,
+                g.fillRect((float)i * N / drawScale ,
                            heightScale * counter2++,
-                           (float)N / 100.0,
+                           (float)N / drawScale,
                            heightScale);
                 
             }

@@ -54,7 +54,8 @@ void YINAnalyzer::readAndAnalyse(const float *input, long int numberOfSamples)
         
         if(position < 0) return;
         
-        numberOfSamples-= windowSize;
+        numberOfSamples-= windowSize/2;
+        position -= windowSize/2;
         _result.emplace_back(yin.analyze(buffer));
     }
 }

@@ -103,11 +103,13 @@ void PitchAnalysisWindow::paint(Graphics& g)
         _drawPath.clear();
         g.setColour(juce::Colour(juce::Colours::black));
         
+        auto drawScale = _mainComponent.getMenu().getDrawScale();
+        
         int analysisSize = _mainComponent.getAnalysisFactory().getYinData(file).pitch.size();
         
-        float rectSize = _mainComponent.getAnalysisFactory().getYinData(file).N;
+        float rectSize = _mainComponent.getAnalysisFactory().getYinData(file).N/2;
         
-        setSize((analysisSize * rectSize) / 100.0, getHeight());
+        setSize((analysisSize * rectSize) / drawScale, getHeight());
 
         for(auto i = 0; i < analysisSize; i++)
         {
@@ -124,7 +126,7 @@ void PitchAnalysisWindow::paint(Graphics& g)
             float freqDiv = freq - idealFreq;
             
             g.setColour(Colour(Colours::red));
-            g.fillRect((i * (int)rectSize)/100, -top, rectSize/100.0, 20);
+            g.fillRect((i * (float)rectSize)/drawScale, (float)-top, rectSize/drawScale, 20.0);
             
             float scaledDiv;
             
@@ -135,7 +137,7 @@ void PitchAnalysisWindow::paint(Graphics& g)
                 if(freqDiv < 0)
                     scaledDiv = scale(freqDiv, maxDiv2, 0, -10, 0);
                     
-                _drawPath.lineTo(i * rectSize, (-top - 10) + scaledDiv);
+                _drawPath.lineTo((i * rectSize)/drawScale, (-top - 10) + scaledDiv);
             }
         }
         g.setColour(Colour(Colours::black));
