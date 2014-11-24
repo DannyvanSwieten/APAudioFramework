@@ -72,7 +72,7 @@ namespace APAudio
             
             file.setNumSamples(dataSize);
             
-            if(useLeft)
+            if(useLeft && channels > 0)
             {
                 std::vector<float> dataLeft;
                 for(auto sample = 0; sample < dataSize / channels; sample += channels)
