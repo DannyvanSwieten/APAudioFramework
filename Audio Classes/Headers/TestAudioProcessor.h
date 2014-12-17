@@ -10,7 +10,6 @@
 #define __GUI__TestAudioProcessor__
 
 #include "AudioProcessor.h"
-#include <cstdlib>
 
 class TestAudioProcessor: public AudioProcessor
 {
@@ -22,6 +21,7 @@ public:
     void render(float* input, float* output, unsigned long numSamples)override final;
     
 private:
+    
 };
 
 #endif /* defined(__GUI__TestAudioProcessor__) */

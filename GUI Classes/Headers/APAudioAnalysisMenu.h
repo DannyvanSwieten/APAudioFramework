@@ -28,8 +28,8 @@ public:
         int windowSize;
         int overlop;
         WindowType t;
-        AnalysisFactory::ANALYSISMETHOD method;
-        AnalysisFactory::ANALYSISRESULT result;
+        APAudio::Analysis::AnalysisFactory::ANALYSISMETHOD method;
+        APAudio::Analysis::AnalysisFactory::ANALYSISRESULT result;
     };
     
     APAudioAnalysisMenu(MainContentComponent& mainComponent);

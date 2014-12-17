@@ -7,7 +7,6 @@
 //
 
 #include "DFTAnalyzer.h"
-#include "YINAnalyzer.h"
 
 using namespace std;
 

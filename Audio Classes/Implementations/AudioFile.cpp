@@ -53,6 +53,11 @@ namespace APAudio
             return _audio.getChannel(index).data();
         }
 
+        std::vector<float>& AudioFile::getAudioVector(int index)
+        {
+            return _audio.getChannel(index);
+        }
+        
         int AudioFile::getNumChannels()
         {
             return _numChannels;

@@ -15,31 +15,47 @@ namespace APAudio
 {
     namespace Audio
     {
+        template<typename T>
         class Parameter
         {
         public:
+            Parameter(){};
+            Parameter(T min,
+                      T max,
+                      T start,
+                      std::string identification)
+            {
+                _minValue = min;
+                _maxValue = max;
+                _currentValue = start;
+                
+                _ID = identification;
+            }
             
-            Parameter(ControlValue min,
-                      ControlValue max,
-                      ControlValue start,
-                      std::string identification);
+            void setMinValue(T value){_minValue = value;};
+            void setMaxValue(T value){_maxValue = value;};
+            void setValue(T value)
+            {
+                if(value > _maxValue) _currentValue = _maxValue;
+                else if(value < _minValue) _currentValue = _minValue;
+                else _currentValue = value;
+            };
             
-            void setMinValue(ControlValue value);
-            void setMaxValue(ControlValue value);
-            void setValue(ControlValue value);
+            Parameter& operator= (const T& value){setValue(value); return *this;};
+            Parameter& operator++ (){setValue(_currentValue++); return *this;};
             
-            inline ControlValue getMinValue(){return minValue;};
-            inline ControlValue getMaxValue(){return maxValue;};
-            inline ControlValue getValue(){return currentValue;};
-            inline std::string getID(){return ID;};
+            inline T getMinValue(){return _minValue;};
+            inline T getMaxValue(){return _maxValue;};
+            inline T getValue(){return _currentValue;};
+            inline std::string  getID(){return _ID;};
             
         private:
             
-            ControlValue minValue;
-            ControlValue maxValue;
-            ControlValue currentValue;
+            T _minValue;
+            T _maxValue;
+            T _currentValue;
             
-            std::string ID;
+            std::string _ID;
         };
     }
 }

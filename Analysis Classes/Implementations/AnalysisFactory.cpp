@@ -59,25 +59,6 @@ namespace APAudio
                     break;
                 }
                     
-                case YIN:
-                {
-                    YINAnalyzer _yinAnalyzer;
-                    YINAnalysis _yinAnalysis;
-                    
-                    _yinAnalyzer.init(N);
-                    _yinAnalyzer.readAndAnalyse(audio.getAudioChannel(0), audio.getNumSamples());
-                    
-                    _yinAnalysis.name = audio.getName();
-                    _yinAnalysis.type = "yin";
-                    _yinAnalysis.N = N;
-                    _yinAnalysis.pitch = _yinAnalyzer.getResult();
-                    
-                    _yinResults.emplace_back(std::move(_yinAnalysis));
-                    
-                    _yinDataAvailable = true;
-                    break;
-                }
-                    
                 default:
                     break;
             }
@@ -106,6 +87,25 @@ namespace APAudio
         void AnalysisFactory::clear()
         {
             _fourierResults.clear();
+        }
+        
+        SpectralAnalysis AnalysisFactory::transpose(std::string file, float ratio)
+        {
+            auto result = getFourierData(file);
+            float index = 0;
+            for(auto& row: result.amplitudes)
+            {
+                std::vector<float> newRow;
+                newRow.resize(result.N);
+                
+                for(auto i = 0; i < result.N; i++)
+                {
+                    newRow[(int)index] += row[i];
+                    index += ratio;
+                }
+                row = newRow;
+            }
+            return result;
         }
     }
 }

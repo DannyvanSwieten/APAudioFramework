@@ -15,9 +15,24 @@ static int callback(const void *inputBuffer, void *outputBuffer,
                           void *userData )
 {
     AudioProcessor* audioDevice = (AudioProcessor*)userData;
-    
     float* output = (float*)outputBuffer;
+
     audioDevice->render(output, output, framesPerBuffer);
+    
+    return 0;
+}
+
+static int callbackByLambda(const void *inputBuffer, void *outputBuffer,
+                          unsigned long framesPerBuffer,
+                          const PaStreamCallbackTimeInfo* timeInfo,
+                          PaStreamCallbackFlags statusFlags,
+                          void *userData )
+{
+    AudioDevice* audioDevice = (AudioDevice*)userData;
+    float* output = (float*)outputBuffer;
+    float* input = (float*)inputBuffer;
+    
+    audioDevice->getLambda()(input, output);
     
     return 0;
 }
@@ -79,7 +94,33 @@ void AudioDevice::addCallback(AudioProcessor *audioProcessor_)
     std::cout<< "Error message: "<< Pa_GetErrorText( err )<<std::endl;
 }
 
-void AudioDevice::addCallback(std::function<void(float* input, float* output)> callback)
+void AudioDevice::addCallback(std::function<void(float* input, float* output)> callBack)
 {
+    callbackLambda = callBack;
+
+    if(stream)
+    {
+        Pa_StopStream(&stream);
+        Pa_CloseStream(&stream);
+    }
     
+    err = Pa_OpenStream(&stream,
+                        NULL,
+                        &outputParameters,
+                        44100.0,
+                        512,
+                        paClipOff,
+                        &callbackByLambda,
+                        this);
+    
+    if( err != paNoError )
+        std::cout<<"Couldn't open stream"<<std::endl;
+    
+    std::cout<< "Error message: "<< Pa_GetErrorText( err )<<std::endl;
+    
+    err = Pa_StartStream( stream );
+    if( err != paNoError )
+        std::cout<<"Couldn't start stream"<<std::endl;
+    
+    std::cout<< "Error message: "<< Pa_GetErrorText( err )<<std::endl;
 }

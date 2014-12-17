@@ -29,6 +29,7 @@ namespace APAudio
             
             std::string getName();
             const float* getAudioChannel(int index);
+            std::vector<float>& getAudioVector(int index);
             int getNumChannels();
             long int getNumSamples();
             int getSampleRate();

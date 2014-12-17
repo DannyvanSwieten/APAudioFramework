@@ -12,37 +12,29 @@ namespace APAudio
 {
     namespace Audio
     {
-
-        Parameter::Parameter(ControlValue min,
-                             ControlValue max,
-                             ControlValue start,
-                             std::string identification)
+        Parameter::Parameter()
         {
-            minValue = min;
-            maxValue = max;
-            currentValue = start;
             
-            ID = identification;
         }
 
         void Parameter::setMinValue(ControlValue value)
         {
-            minValue = value;
+            _minValue = value;
         }
 
         void Parameter::setMaxValue(ControlValue value)
         {
-            maxValue = value;
+            _maxValue = value;
         }
 
         void Parameter::setValue(ControlValue value)
         {
-            if (value <= maxValue)
-                currentValue = value;
-            else if (value > maxValue)
-                currentValue = maxValue;
-            else if (value < minValue)
-                currentValue = minValue;
+            if (value <= _maxValue)
+                _currentValue = value;
+            else if (value > _maxValue)
+                _currentValue = _maxValue;
+            else if (value < _minValue)
+                _currentValue = _minValue;
         }
     }
 }

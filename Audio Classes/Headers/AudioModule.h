@@ -23,11 +23,10 @@ namespace APAudio
         using Sample        = float;
         using SampleBuffer  = float*;
         using ControlValue  = double;
-        using TimerValue     = long long;
+        using TimerValue    = long long;
         using UInt          = unsigned int;
 
         class AudioModule;
-        class Parameter;
 
         class Mainframe
         {
@@ -66,7 +65,6 @@ namespace APAudio
             
             std::vector<Sample>outputBuffer;
             std::vector<AudioModule*> inputList;
-            std::vector<Parameter*> parameters;
             
         private:
             

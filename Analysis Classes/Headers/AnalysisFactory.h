@@ -79,6 +79,7 @@ namespace APAudio
             YINAnalysis& getYinData(std::string file);
             bool fourierDataAvailable(){return _fourierDataAvailable;};
             bool yinDataAvailable(){return _yinDataAvailable;};
+            SpectralAnalysis transpose(std::string file, float ratio);
             
         private:
             

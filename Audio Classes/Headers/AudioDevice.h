@@ -24,14 +24,17 @@ public:
     
     void addCallback(AudioProcessor* audioProcessor_);
     void addCallback(std::function<void(float* input, float* output)> callback);
-    
+    std::function<void(float* input, float* output)> getLambda(){return callbackLambda;};
 private:
     
     PaStreamParameters outputParameters;
     PaStream *stream;
     PaError err;
     
-    std::function<void(float* input, float* output)> _callback = nullptr;
+    unsigned int sampleRate;
+    unsigned int bufferSize;
+    
+    std::function<void(float* input, float* output)> callbackLambda = nullptr;
     AudioProcessor* audioProcessor;
 };
 

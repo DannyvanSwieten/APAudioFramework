@@ -125,7 +125,7 @@ void APAudioAnalysisMenu::buttonClicked(Button* buttonThatWasClicked)
         int windowSize = 0;
         int overlap = 0;
         WindowType t;
-        AnalysisFactory::ANALYSISMETHOD m;
+        APAudio::Analysis::AnalysisFactory::ANALYSISMETHOD m;
         
         _analysisSize.getSelectedId();
         
@@ -209,13 +209,13 @@ void APAudioAnalysisMenu::buttonClicked(Button* buttonThatWasClicked)
         {
             case 1:
             {
-                m = AnalysisFactory::FOURIER;
+                m = APAudio::Analysis::AnalysisFactory::FOURIER;
                 break;
             }
                 
             case 2:
             {
-                m = AnalysisFactory::YIN;
+                m = APAudio::Analysis::AnalysisFactory::YIN;
             }
                 
             default:
