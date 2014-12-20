@@ -45,4 +45,9 @@ namespace APAudio
     }
 }
 
+struct AppleAudioFile
+{
+    APAudio::Audio::AudioFile audioFile;
+};
+
 #endif /* defined(__APAAnalyzer__APAudioFile__) */

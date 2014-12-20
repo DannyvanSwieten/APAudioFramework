@@ -42,4 +42,9 @@ namespace APAudio
     }
 }
 
+struct AppleAudioFileManager
+{
+    APAudio::Audio::AudioFileManager fileManager;
+};
+
 #endif /* defined(__APAAnalyzer__APAudioFileManager2__) */

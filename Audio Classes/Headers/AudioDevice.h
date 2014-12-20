@@ -38,4 +38,9 @@ private:
     AudioProcessor* audioProcessor;
 };
 
+struct AppleAudioDevice
+{
+    AudioDevice device;
+};
+
 #endif /* defined(__GUI__AudioDevice__) */

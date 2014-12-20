@@ -43,4 +43,10 @@ private:
     std::vector<std::vector<float>> phaseogram;
 };
 
+struct AppleFFT
+{
+    AppleFFT(){};
+    FFT fft;
+};
+
 #endif /* defined(__SpeechSynthesizer__FFT__) */
