@@ -40,7 +40,7 @@ namespace APAudio
             return emptyFile;
         }
 
-        AudioFile& AudioFileManager::getFile(int index)
+        AudioFile& AudioFileManager::getFile(long index)
         {
             if(index >= _audioFiles.size())
                 return emptyFile;
@@ -48,7 +48,7 @@ namespace APAudio
                 return _audioFiles[index];
         }
 
-        int AudioFileManager::getNumberOfFiles()
+        long AudioFileManager::getNumberOfFiles()
         {
             return _filesLoaded;
         }

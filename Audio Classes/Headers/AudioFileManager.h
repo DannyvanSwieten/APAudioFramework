@@ -28,15 +28,15 @@ namespace APAudio
             void loadFile(std::string path);
             
             AudioFile& getFile(std::string name);
-            AudioFile& getFile(int index);
+            AudioFile& getFile(long index);
             void clearManager();
-            int getNumberOfFiles();
+            long getNumberOfFiles();
             
         private:
             
             std::vector<AudioFile> _audioFiles;
             AudioFile emptyFile;
-            int _filesLoaded = 0;
+            long _filesLoaded = 0;
         };
         
     }

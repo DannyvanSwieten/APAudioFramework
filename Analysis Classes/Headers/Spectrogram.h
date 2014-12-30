@@ -15,22 +15,26 @@
 
 #include "AudioFile.h"
 
-class FFT
+class Spectrogram
 {
 public:
-    FFT();
-    ~FFT();
+    Spectrogram();
+    ~Spectrogram();
     
-    void init(int N);
-    void analyze(APAudio::Audio::AudioFile* file, int begin, int end, int overlap);
+    void init(long N);
+    void createSpectrogram(APAudio::Audio::AudioFile* file, long begin, long end, long overlap);
+    void calculateCepstrum();
     void carToPol();
     
     inline std::vector<float>& getAmplitude(){return amplitudeFrame;};
+    inline std::vector<float>& getPhase(){return phaseFrame;};
+    inline std::vector<std::vector<float>>& getSpectroGram(){return spectrogram;};
+    inline std::vector<std::vector<float>>& getCepstrum(){return cepstrum;};
     
 private:
     
-    int size = 0;
-    int hopsize = 0;
+    long size = 0;
+    long hopsize = 0;
     audiofft::AudioFFT analyzer;
     std::vector<float> inputBuffer;
     std::vector<float> window;
@@ -41,12 +45,13 @@ private:
     
     std::vector<std::vector<float>> spectrogram;
     std::vector<std::vector<float>> phaseogram;
+    
+    std::vector<std::vector<float>> cepstrum;
 };
 
-struct AppleFFT
-{
-    AppleFFT(){};
-    FFT fft;
-};
+//struct AppleSpectrogram
+//{
+//    Spectrogram spectrogram;
+//};
 
 #endif /* defined(__SpeechSynthesizer__FFT__) */

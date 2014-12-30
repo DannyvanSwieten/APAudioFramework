@@ -25,7 +25,7 @@ static inline float scale(float oldValue, float oldMin, float oldMax, float newM
     return newValue;
 }
 
-static inline void createWindow(WindowType t, float* output, unsigned int N)
+static inline void createWindow(WindowType t, float* output, unsigned long N)
 {
     switch (t) {
         case HANNING:
