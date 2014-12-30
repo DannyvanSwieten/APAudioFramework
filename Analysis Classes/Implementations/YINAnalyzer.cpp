@@ -12,24 +12,15 @@ namespace APAudio
 {
     namespace Analysis
     {
-        YINAnalyzer::YINAnalyzer(): AudioAnalyzer()
+        YINAnalyzer::YINAnalyzer()
         {
 
         }
-
-        void YINAnalyzer::calculateAmplitudes()
+        
+        void YINAnalyzer::init(int N)
         {
-            
-        }
-
-        void YINAnalyzer::calculatePhases()
-        {
-            
-        }
-
-        void YINAnalyzer::calculateInstantFrequencies()
-        {
-            
+            _N = N;
+            yin.init(N);
         }
 
         void YINAnalyzer::calculatePitch()
@@ -62,12 +53,6 @@ namespace APAudio
                 position -= windowSize/2;
                 _result.emplace_back(yin.analyze(buffer));
             }
-        }
-
-        void YINAnalyzer::init(int N)
-        {
-            _N = N;
-            yin.init(N);
         }
     }
 }

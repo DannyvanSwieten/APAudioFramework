@@ -6,32 +6,26 @@
 //
 //
 
-#ifndef __APAAnalyzer__FrequencyAnalyzer__
-#define __APAAnalyzer__FrequencyAnalyzer__
 #include "YIN.h"
 #include "AudioFileManager.h"
-#include "AudioAnalyzer.h"
 
 namespace APAudio
 {
     namespace Analysis
     {
-        class YINAnalyzer: AudioAnalyzer
+        class YINAnalyzer
         {
         public:
             
             YINAnalyzer();
-            void readAndAnalyse(const float* input, long numberOfSamples) override final;
-            void calculateAmplitudes()override final;
-            void calculatePhases()override final;
-            void calculateInstantFrequencies()override final;
-            void calculatePitch() override final;
-            std::vector<float> getResult(){return _result;};
             void init(int N);
+            void readAndAnalyse(const float* input, long numberOfSamples);
+            std::vector<float> getResult(){return _result;};
             
         private:
             
             YIN yin;
+            void calculatePitch();
             float _prevSample = 0;
             int _downsample = 1;
             int _N;
@@ -39,5 +33,3 @@ namespace APAudio
         };
     }
 }
-
-#endif /* defined(__APAAnalyzer__FrequencyAnalyzer__) */

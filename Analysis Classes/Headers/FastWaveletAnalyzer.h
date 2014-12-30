@@ -10,22 +10,18 @@
 #define __DFT__FastWaveletAnalyzer__
 
 #include "FastWavelet.h"
-#include "SpectralAnalyzer.h"
 
-class FastWaveletAnalyzer: public SpectralAnalyzer
+class FastWaveletAnalyzer
 {
 public:
-    FastWaveletAnalyzer(unsigned int N, unsigned int overlap);
+    FastWaveletAnalyzer();
     ~FastWaveletAnalyzer();
+    void init(long N, long overlap);
+    void readAndAnalyse(const float* input, long numberOfSamples);
     
 private:
     
     FastWavelet _wavelet;
-    void readAndAnalyse(const float* input, long numberOfSamples) override;
-    void calculatePhases() override;
-    void calculateAmplitudes() override;
-    void calculateInstantFrequencies() override;
-    
 };
 
 #endif /* defined(__DFT__FastWavelet__) */
