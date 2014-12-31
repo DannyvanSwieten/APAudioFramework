@@ -9,6 +9,8 @@
 #ifndef __APAudioEngine__APAudioParameter__
 #define __APAudioEngine__APAudioParameter__
 
+#include <string>
+
 template<typename T>
 class Parameter
 {
@@ -28,15 +30,54 @@ public:
     
     void setMinValue(T value){_minValue = value;};
     void setMaxValue(T value){_maxValue = value;};
+    void setID(std::string id){_ID = id;};
+    
     void setValue(T value)
     {
-        if(value > _maxValue) _currentValue = _maxValue;
-        else if(value < _minValue) _currentValue = _minValue;
+        if(value > _maxValue) return;
+        else if(value < _minValue) return;
         else _currentValue = value;
     };
     
-    Parameter& operator= (const T& value){setValue(value); return *this;};
-    Parameter& operator++ (){setValue(_currentValue++); return *this;};
+    Parameter& operator= (const T& value)
+    {
+        setValue(value); return *this;
+    };
+    
+    Parameter& operator= (const std::string& id)
+    {
+        setID(id); return *this;
+    };
+    
+    Parameter& operator+= (const T& value)
+    {
+        setValue(value + _currentValue); return *this;
+    };
+    
+    Parameter& operator-= (const T& value)
+    {
+        setValue(_currentValue - value); return *this;
+    };
+    
+    Parameter& operator++ (int)
+    {
+        setValue(_currentValue++); return *this;
+    };
+    
+    Parameter& operator++ ()
+    {
+        setValue(++_currentValue); return *this;
+    };
+    
+    Parameter& operator-- (int)
+    {
+        setValue(_currentValue--); return *this;
+    };
+    
+    Parameter& operator-- ()
+    {
+        setValue(--_currentValue); return *this;
+    };
     
     inline T getMinValue(){return _minValue;};
     inline T getMaxValue(){return _maxValue;};

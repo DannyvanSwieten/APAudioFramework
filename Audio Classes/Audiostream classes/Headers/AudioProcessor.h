@@ -14,7 +14,7 @@ class AudioProcessor
 public:
     virtual ~AudioProcessor() = 0;
     
-    virtual void render(float* input, float* output, unsigned long numSamples) = 0;
+    virtual void render(float** input, float** output, unsigned long numSamples) = 0;
 private:
     
 };

@@ -13,7 +13,7 @@ AudioProcessor::~AudioProcessor()
     
 }
 
-void AudioProcessor::render(float* input, float* output, unsigned long numSamples)
+void AudioProcessor::render(float** input, float** output, unsigned long numSamples)
 {
     
 }

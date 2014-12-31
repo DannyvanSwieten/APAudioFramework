@@ -12,6 +12,7 @@
 #include <iostream>
 #include <functional>
 #include <memory>
+#include <vector>
 
 #include "AudioProcessor.h"
 #include "portaudio.h"
@@ -22,20 +23,27 @@ public:
     AudioDevice();
     ~AudioDevice();
     
+    void listDevices();
+    
     void addCallback(AudioProcessor* audioProcessor_);
-    void addCallback(std::function<void(float* input, float* output)> callback);
-    std::function<void(float* input, float* output)> getLambda(){return callbackLambda;};
+    void addCallback(std::function<void(float** input, float** output, long bufferSize)> callback);
+    std::function<void(float** input, float** output, long bufferSize)> getLambda(){return callbackLambda;};
+    
+    void setSampleRate(long sampleRate);
+    void setBufferSize(long bufferSize);
 private:
     
     PaStreamParameters outputParameters;
     PaStream *stream;
     PaError err;
     
-    unsigned int sampleRate;
-    unsigned int bufferSize;
+    long sampleRate = 44100;
+    long bufferSize = 512;
     
-    std::function<void(float* input, float* output)> callbackLambda = nullptr;
+    std::function<void(float** input, float** output, long bufferSize)> callbackLambda = nullptr;
     AudioProcessor* audioProcessor;
+    
+    std::vector<const PaDeviceInfo*> connectedHardware;
 };
 
 struct AppleAudioDevice
