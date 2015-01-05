@@ -22,8 +22,8 @@ public:
     ~Spectrogram();
     
     void init(long N);
-    void createSpectrogram(APAudio::Audio::AudioFile* file, long begin, long end, long overlap);
-    void calculateCepstrum();
+    void createSpectrogram(AudioFile* file, long begin, long end, long overlap);
+//    void calculateCepstrum();
     void carToPol();
     
     inline std::vector<float>& getAmplitude(){return amplitudeFrame;};
@@ -35,7 +35,6 @@ private:
     
     long size = 0;
     long hopsize = 0;
-    audiofft::AudioFFT analyzer;
     std::vector<float> inputBuffer;
     std::vector<float> window;
     std::vector<float> real;
@@ -48,10 +47,5 @@ private:
     
     std::vector<std::vector<float>> cepstrum;
 };
-
-//struct AppleSpectrogram
-//{
-//    Spectrogram spectrogram;
-//};
 
 #endif /* defined(__SpeechSynthesizer__FFT__) */

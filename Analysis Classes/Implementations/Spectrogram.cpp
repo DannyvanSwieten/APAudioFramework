@@ -8,7 +8,7 @@
 
 #include "Spectrogram.h"
 
-Spectrogram::Spectrogram(): analyzer()
+Spectrogram::Spectrogram()
 {
     
 }
@@ -21,7 +21,6 @@ Spectrogram::~Spectrogram()
 void Spectrogram::init(long N)
 {
     size = N;
-    analyzer.init(size);
     inputBuffer.resize(audiofft::AudioFFT::ComplexSize(size));
     real.resize(audiofft::AudioFFT::ComplexSize(size));
     imag.resize(audiofft::AudioFFT::ComplexSize(size));
@@ -31,8 +30,11 @@ void Spectrogram::init(long N)
     createWindow(HANNING, window.data(), size);
 }
 
-void Spectrogram::createSpectrogram(APAudio::Audio::AudioFile* file, long begin, long end, long overlap)
+void Spectrogram::createSpectrogram(AudioFile* file, long begin, long end, long overlap)
 {
+    
+    auto analyzer = new audiofft::AudioFFT();
+    analyzer->init(size);
     
     if(end > file->getNumSamples() || begin < 0)
         return;
@@ -46,7 +48,6 @@ void Spectrogram::createSpectrogram(APAudio::Audio::AudioFile* file, long begin,
     
     spectrogram.clear();
     phaseogram.clear();
-    cepstrum.clear();
     
     for(auto frame = 0; frame < numFrames; frame++)
     {
@@ -66,13 +67,14 @@ void Spectrogram::createSpectrogram(APAudio::Audio::AudioFile* file, long begin,
         memset(real.data(), 0, sizeof(float) * size/2);
         memset(imag.data(), 0, sizeof(float) * size/2);
         
-        analyzer.fft(buffer, real.data(), imag.data());
+        analyzer->fft(buffer, real.data(), imag.data());
         
         carToPol();
-        calculateCepstrum();
         spectrogram.emplace_back(amplitudeFrame);
         //phaseogram.emplace_back(phaseFrame);
     }
+    
+    delete analyzer;
 }
 
 void Spectrogram::carToPol()
@@ -80,20 +82,20 @@ void Spectrogram::carToPol()
     vec2polSSE(real.data(), imag.data(), amplitudeFrame.data(), phaseFrame.data(), size/2, false);
 }
 
-void Spectrogram::calculateCepstrum()
-{
-    std::vector<float> logFFT;
-    logFFT.resize(size);
-    
-    for(auto i = 0; i < size; i++)
-    {
-        logFFT[i] = log(fabs(amplitudeFrame[i]));
-        if(isnan(logFFT[i])) logFFT[i] = -140;
-    }
-    
-    std::vector<float> buffer;
-    buffer.resize(size);
-    memset(imag.data(), 0, sizeof(float)*imag.size());
-    analyzer.ifft(buffer.data(), logFFT.data(), imag.data());
-    cepstrum.emplace_back(buffer);
-}
+//void Spectrogram::calculateCepstrum()
+//{
+//    std::vector<float> logFFT;
+//    logFFT.resize(size);
+//    
+//    for(auto i = 0; i < size; i++)
+//    {
+//        logFFT[i] = log(fabs(amplitudeFrame[i]));
+//        if(isnan(logFFT[i])) logFFT[i] = -140;
+//    }
+//    
+//    std::vector<float> buffer;
+//    buffer.resize(size);
+//    memset(imag.data(), 0, sizeof(float)*imag.size());
+//    analyzer.ifft(buffer.data(), logFFT.data(), imag.data());
+//    cepstrum.emplace_back(buffer);
+//}

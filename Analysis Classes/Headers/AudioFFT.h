@@ -164,8 +164,8 @@ public:
   }
   
 private:
-//  AudioFFTBase(const AudioFFTBase&);
-//  AudioFFTBase& operator=(const AudioFFTBase&);
+  AudioFFTBase(const AudioFFTBase&);
+  AudioFFTBase& operator=(const AudioFFTBase&);
 };
 
 
@@ -196,8 +196,8 @@ private:
   std::vector<float> _im;
   
   // Prevent uncontrolled usage
-//  AppleAccelerateFFT(const AppleAccelerateFFT&);
-//  AppleAccelerateFFT& operator=(const AppleAccelerateFFT&);
+  AppleAccelerateFFT(const AppleAccelerateFFT&);
+  AppleAccelerateFFT& operator=(const AppleAccelerateFFT&);
 };
 
 typedef AppleAccelerateFFT AudioFFT;
@@ -233,8 +233,8 @@ private:
   float* _im;
   
   // Prevent uncontrolled usage
-//  FFTW3FFT(const FFTW3FFT&);
-//  FFTW3FFT& operator=(const FFTW3FFT&);
+  FFTW3FFT(const FFTW3FFT&);
+  FFTW3FFT& operator=(const FFTW3FFT&);
 };
 
 typedef FFTW3FFT AudioFFT;
@@ -278,8 +278,8 @@ private:
   void cftmdl(int n, int l, float *a, float *w);
   
   // Prevent uncontrolled usage
-//  OouraFFT(const OouraFFT&);
-//  OouraFFT& operator=(const OouraFFT&);
+  OouraFFT(const OouraFFT&);
+  OouraFFT& operator=(const OouraFFT&);
 };
 
 typedef OouraFFT AudioFFT;

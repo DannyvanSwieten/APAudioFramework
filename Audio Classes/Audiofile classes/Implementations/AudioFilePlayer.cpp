@@ -28,6 +28,11 @@ namespace APAudio
             _file = file;
             _speed = _file->getSampleRate() / _sampleRate;
         }
+        
+        void AudioFilePlayer::setSpeed(float speed)
+        {
+            _speed = speed;
+        }
 
         void AudioFilePlayer::setPlay()
         {

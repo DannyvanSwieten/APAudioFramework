@@ -8,69 +8,62 @@
 
 #include "AudioFile.h"
 
-namespace APAudio
+AudioFile::~AudioFile()
 {
-    namespace Audio
-    {
+    
+}
 
-        AudioFile::~AudioFile()
-        {
-            
-        }
+void AudioFile::setAudio(Buffer<float> audio)
+{
+    _audio = audio;
+}
 
-        void AudioFile::setAudio(Buffer<float> audio)
-        {
-            _audio = audio;
-        }
+void AudioFile::setSamplerate(int sampleRate)
+{
+    _sampleRate = sampleRate;
+}
 
-        void AudioFile::setSamplerate(int sampleRate)
-        {
-            _sampleRate = sampleRate;
-        }
+void AudioFile::setNumChannels(int channels)
+{
+    _numChannels = channels;
+}
 
-        void AudioFile::setNumChannels(int channels)
-        {
-            _numChannels = channels;
-        }
+void AudioFile::setNumSamples(long int samples)
+{
+    _numSamples = samples;
+};
 
-        void AudioFile::setNumSamples(long int samples)
-        {
-            _numSamples = samples;
-        };
+void AudioFile::setFileName(std::string name)
+{
+    _fileName = name;
+}
 
-        void AudioFile::setFileName(std::string name)
-        {
-            _fileName = name;
-        }
+std::string AudioFile::getName()
+{
+    return _fileName;
+}
 
-        std::string AudioFile::getName()
-        {
-            return _fileName;
-        }
+const float* AudioFile::getAudioChannel(int index)
+{
+    return _audio.getChannel(index).data();
+}
 
-        const float* AudioFile::getAudioChannel(int index)
-        {
-            return _audio.getChannel(index).data();
-        }
+std::vector<float>& AudioFile::getAudioVector(int index)
+{
+    return _audio.getChannel(index);
+}
 
-        std::vector<float>& AudioFile::getAudioVector(int index)
-        {
-            return _audio.getChannel(index);
-        }
-        
-        int AudioFile::getNumChannels()
-        {
-            return _numChannels;
-        }
+int AudioFile::getNumChannels()
+{
+    return _numChannels;
+}
 
-        int AudioFile::getSampleRate()
-        {
-            return _sampleRate;
-        }
+int AudioFile::getSampleRate()
+{
+    return _sampleRate;
+}
 
-        long int AudioFile::getNumSamples()
-        {
-            return _numSamples;
-        }
-    }
+long int AudioFile::getNumSamples()
+{
+    return _numSamples;
 }

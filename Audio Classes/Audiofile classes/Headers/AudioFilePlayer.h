@@ -34,7 +34,7 @@ namespace APAudio
             AudioFile* _file = nullptr;
             float _sampleRate = 0;
             float _position = 0;
-            float _speed = 0;
+            float _speed = 1.0;
             float _frac = 0;
             int _index = 0;
             int _nextIndex = 0;

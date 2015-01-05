@@ -163,7 +163,7 @@ static inline void vecScalarMultSSE(float* X, float* result ,float scalar, int s
     }
 }
 
-static inline void vecAddSSE(const float* one, const float* two, const int size)
+static inline void vecAddSSE(float* one, float* two, const long size)
 {
     vFloat* vOne  = (vFloat*)one;
     vFloat* vTwo  = (vFloat*)two;

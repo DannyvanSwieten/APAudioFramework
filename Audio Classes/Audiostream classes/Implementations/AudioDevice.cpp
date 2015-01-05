@@ -8,11 +8,14 @@
 
 #include "AudioDevice.h"
 
-static int callback(const void *inputBuffer, void *outputBuffer,
-                          unsigned long framesPerBuffer,
-                          const PaStreamCallbackTimeInfo* timeInfo,
-                          PaStreamCallbackFlags statusFlags,
-                          void *userData )
+#ifndef IOS
+
+static int callback(const void *inputBuffer,
+                    void *outputBuffer,
+                    unsigned long framesPerBuffer,
+                    const PaStreamCallbackTimeInfo* timeInfo,
+                    PaStreamCallbackFlags statusFlags,
+                    void *userData )
 {
     AudioProcessor* audioDevice = (AudioProcessor*)userData;
     float** output = (float**)outputBuffer;
@@ -22,11 +25,12 @@ static int callback(const void *inputBuffer, void *outputBuffer,
     return 0;
 }
 
-static int callbackByLambda(const void *inputBuffer, void *outputBuffer,
-                          unsigned long framesPerBuffer,
-                          const PaStreamCallbackTimeInfo* timeInfo,
-                          PaStreamCallbackFlags statusFlags,
-                          void *userData )
+static int callbackByLambda(const void *inputBuffer,
+                            void *outputBuffer,
+                            unsigned long framesPerBuffer,
+                            const PaStreamCallbackTimeInfo* timeInfo,
+                            PaStreamCallbackFlags statusFlags,
+                            void *userData)
 {
     AudioDevice* audioDevice = (AudioDevice*)userData;
     float** output = (float**)outputBuffer;
@@ -202,3 +206,187 @@ void AudioDevice::setBufferSize(long bufferSize)
         std::cout<< "Error message: "<< Pa_GetErrorText( err )<<std::endl;
     }
 }
+
+#else
+
+static OSStatus inputRenderCallback(void* inRefCon,
+                                    AudioUnitRenderActionFlags *ioActionFlags,
+                                    const AudioTimeStamp *inTimeStamp,
+                                    UInt32 inBusNumber,
+                                    UInt32 inNumberFrames,
+                                    AudioBufferList *ioData)
+{
+    OSStatus result = noErr;
+    
+    AudioDevice* thisDevice = (AudioDevice*)inRefCon;
+    
+    float** input = (float**) ioData->mBuffers[0].mData;
+    float** output = (float**) ioData->mBuffers[0].mData;
+    
+    thisDevice->getLambda()(input, output, inNumberFrames);
+    
+    return result;
+}
+
+AudioDevice::AudioDevice()
+{
+    AVAudioSession* session = [AVAudioSession sharedInstance];
+    NSError* audioError;
+    [session setCategory:AVAudioSessionCategoryPlayback error:&audioError];
+    if(audioError)
+        NSLog(@"%@", audioError.localizedDescription);
+    
+    sampleRate = 44100.0;
+    [session setPreferredSampleRate:sampleRate error:&audioError];
+    
+    if(audioError)
+        NSLog(@"%@", audioError.localizedDescription);
+    
+    [session setPreferredIOBufferDuration: 512.0/sampleRate error:&audioError];
+    
+    if(audioError)
+        NSLog(@"%@", audioError.localizedDescription);
+    
+    [session setActive:YES error:&audioError];
+    
+    if(audioError)
+        NSLog(@"%@", audioError.localizedDescription);
+    
+    size_t bytesPerSample = sizeof(SInt16);
+    
+    // setup stereo info
+    stereoStreamFormat.mFormatID = kAudioFormatLinearPCM;;
+    stereoStreamFormat.mFormatFlags = kAudioFormatFlagIsSignedInteger | kAudioFormatFlagIsPacked;;
+    stereoStreamFormat.mBytesPerPacket = bytesPerSample;
+    stereoStreamFormat.mFramesPerPacket = 1;
+    stereoStreamFormat.mBytesPerFrame = bytesPerSample;
+    stereoStreamFormat.mChannelsPerFrame = 2;
+    stereoStreamFormat.mBitsPerChannel = 8 * bytesPerSample;
+    stereoStreamFormat.mSampleRate = sampleRate;
+    
+#define kOutputBus 0
+#define kInputBus 1
+    
+    // ...
+    
+    
+    OSStatus status;
+    
+    // Describe audio component
+    AudioComponentDescription desc;
+    desc.componentType = kAudioUnitType_Output;
+    desc.componentSubType = kAudioUnitSubType_RemoteIO;
+    desc.componentFlags = 0;
+    desc.componentFlagsMask = 0;
+    desc.componentManufacturer = kAudioUnitManufacturer_Apple;
+    
+    // Get component
+    AudioComponent inputComponent = AudioComponentFindNext(NULL, &desc);
+    
+    // Get audio units
+    status = AudioComponentInstanceNew(inputComponent, &audioUnit);
+    
+    // Enable IO for recording
+    UInt32 flag = 1;
+    status = AudioUnitSetProperty(audioUnit,
+                                  kAudioOutputUnitProperty_EnableIO,
+                                  kAudioUnitScope_Input,
+                                  kInputBus,
+                                  &flag,
+                                  sizeof(flag));
+    
+    // Enable IO for playback
+    status = AudioUnitSetProperty(audioUnit,
+                                  kAudioOutputUnitProperty_EnableIO,
+                                  kAudioUnitScope_Output,
+                                  kOutputBus,
+                                  &flag,
+                                  sizeof(flag));
+    
+    // Describe format
+    
+    stereoStreamFormat.mSampleRate			= 44100.00;
+    stereoStreamFormat.mFormatID			= kAudioFormatLinearPCM;
+    stereoStreamFormat.mFormatFlags         = kAudioFormatFlagIsSignedInteger | kAudioFormatFlagIsPacked;
+    stereoStreamFormat.mFramesPerPacket     = 1;
+    stereoStreamFormat.mChannelsPerFrame	= 1;
+    stereoStreamFormat.mBitsPerChannel		= 16;
+    stereoStreamFormat.mBytesPerPacket		= 2;
+    stereoStreamFormat.mBytesPerFrame		= 2;
+    
+    // Apply format
+    status = AudioUnitSetProperty(audioUnit,
+                                  kAudioUnitProperty_StreamFormat,
+                                  kAudioUnitScope_Output,
+                                  kInputBus,
+                                  &stereoStreamFormat,
+                                  sizeof(stereoStreamFormat));
+
+    status = AudioUnitSetProperty(audioUnit,
+                                  kAudioUnitProperty_StreamFormat,
+                                  kAudioUnitScope_Input,
+                                  kOutputBus,
+                                  &stereoStreamFormat,
+                                  sizeof(stereoStreamFormat));
+}
+
+void AudioDevice::listDevices()
+{
+
+}
+
+AudioDevice::~AudioDevice()
+{
+
+}
+
+void AudioDevice::addCallback(AudioProcessor *audioProcessor_)
+{
+    audioProcessor = audioProcessor_;
+    AURenderCallbackStruct callbackStruct;
+    callbackStruct.inputProc = inputRenderCallback;
+    callbackStruct.inputProcRefCon = this;
+    OSStatus status = noErr;
+    status = AudioUnitSetProperty(audioUnit,
+                                  kAudioUnitProperty_SetRenderCallback,
+                                  kAudioUnitScope_Global,
+                                  kOutputBus,
+                                  &callbackStruct,
+                                  sizeof(callbackStruct));
+    
+    // Initialise
+    status = AudioUnitInitialize(audioUnit);
+    status = AudioOutputUnitStart(audioUnit);
+}
+
+void AudioDevice::addCallback(std::function<void(float** input, float** output, long bufferSize)> callBack)
+{
+    callbackLambda = callBack;
+    
+    AURenderCallbackStruct callbackStruct;
+    callbackStruct.inputProc = inputRenderCallback;
+    callbackStruct.inputProcRefCon = this;
+    OSStatus status = noErr;
+    status = AudioUnitSetProperty(audioUnit,
+                                  kAudioUnitProperty_SetRenderCallback,
+                                  kAudioUnitScope_Global,
+                                  kOutputBus,
+                                  &callbackStruct,
+                                  sizeof(callbackStruct));
+    
+    // Initialise
+    status = AudioUnitInitialize(audioUnit);
+    status = AudioOutputUnitStart(audioUnit);
+}
+
+void AudioDevice::setSampleRate(long sampleRate)
+{
+
+}
+
+void AudioDevice::setBufferSize(long bufferSize)
+{
+
+}
+
+#endif
