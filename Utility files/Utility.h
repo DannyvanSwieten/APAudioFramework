@@ -19,6 +19,22 @@ enum WindowType
     BLACKMAN
 };
 
+static inline void int16ToFloat(SInt16* intBuffer, float* floatBuffer, size_t size)
+{
+    for(auto i = 0; i < size; i++)
+    {
+        floatBuffer[i] = (float)intBuffer[i] / 32768.0f;
+    }
+}
+
+static inline void floatToInt16(float* floatBuffer, SInt16* intBuffer, size_t size)
+{
+    for(auto i = 0; i < size; i++)
+    {
+        intBuffer[i] = (SInt16)floatBuffer[i] * 32767;
+    }
+}
+
 static inline float scale(float oldValue, float oldMin, float oldMax, float newMin, float newMax)
 {
     float newValue = (((oldValue - oldMin) * (newMax - newMin)) / (oldMax - oldMin)) + newMin;

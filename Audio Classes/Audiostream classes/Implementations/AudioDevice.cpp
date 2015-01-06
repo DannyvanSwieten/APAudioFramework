@@ -220,10 +220,13 @@ static OSStatus inputRenderCallback(void* inRefCon,
     
     AudioDevice* thisDevice = (AudioDevice*)inRefCon;
     
-    float** input = (float**) ioData->mBuffers[0].mData;
-    float** output = (float**) ioData->mBuffers[0].mData;
+    SInt16* left = (SInt16*) ioData->mBuffers[0].mData;
+    SInt16* right = (SInt16*) ioData->mBuffers[1].mData;
     
-    thisDevice->getLambda()(input, output, inNumberFrames);
+    thisDevice->getLambda()(thisDevice->buffer, thisDevice->buffer, inNumberFrames);
+    
+    floatToInt16(thisDevice->buffer[0], left, inNumberFrames);
+    floatToInt16(thisDevice->buffer[1], right, inNumberFrames);
     
     return result;
 }
@@ -252,17 +255,25 @@ AudioDevice::AudioDevice()
     if(audioError)
         NSLog(@"%@", audioError.localizedDescription);
     
-    size_t bytesPerSample = sizeof(SInt16);
+    UInt32 bytesPerSample = sizeof(SInt16);
     
     // setup stereo info
     stereoStreamFormat.mFormatID = kAudioFormatLinearPCM;;
-    stereoStreamFormat.mFormatFlags = kAudioFormatFlagIsSignedInteger | kAudioFormatFlagIsPacked;;
+    stereoStreamFormat.mFormatFlags = kAudioFormatFlagIsSignedInteger | kAudioFormatFlagIsPacked | kAudioFormatFlagIsNonInterleaved;
     stereoStreamFormat.mBytesPerPacket = bytesPerSample;
     stereoStreamFormat.mFramesPerPacket = 1;
     stereoStreamFormat.mBytesPerFrame = bytesPerSample;
     stereoStreamFormat.mChannelsPerFrame = 2;
     stereoStreamFormat.mBitsPerChannel = 8 * bytesPerSample;
     stereoStreamFormat.mSampleRate = sampleRate;
+    
+    floatBuffer.resize(512);
+    floatBuffer2.resize(512);
+    
+    buffer = new float*[2];
+    
+    buffer[0] = new float[512];
+    buffer[1] = new float[512];
     
 #define kOutputBus 0
 #define kInputBus 1
@@ -304,15 +315,6 @@ AudioDevice::AudioDevice()
                                   sizeof(flag));
     
     // Describe format
-    
-    stereoStreamFormat.mSampleRate			= 44100.00;
-    stereoStreamFormat.mFormatID			= kAudioFormatLinearPCM;
-    stereoStreamFormat.mFormatFlags         = kAudioFormatFlagIsSignedInteger | kAudioFormatFlagIsPacked;
-    stereoStreamFormat.mFramesPerPacket     = 1;
-    stereoStreamFormat.mChannelsPerFrame	= 1;
-    stereoStreamFormat.mBitsPerChannel		= 16;
-    stereoStreamFormat.mBytesPerPacket		= 2;
-    stereoStreamFormat.mBytesPerFrame		= 2;
     
     // Apply format
     status = AudioUnitSetProperty(audioUnit,

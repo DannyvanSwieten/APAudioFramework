@@ -51,6 +51,7 @@ private:
 #include <AudioToolbox/AudioToolbox.h>
 #include <AudioUnit/AudioUnit.h>
 #include <AVFoundation/AVFoundation.h>
+#include "Utility.h"
 
 class AudioDevice
 {
@@ -66,10 +67,13 @@ public:
     
     void setSampleRate(long sampleRate);
     void setBufferSize(long bufferSize);
+    
+    std::vector<float> floatBuffer;
+    std::vector<float> floatBuffer2;
+    float** buffer;
 private:
     
     AudioStreamBasicDescription stereoStreamFormat;
-    AudioStreamBasicDescription monoStreamFormat;
     AudioComponentDescription ioUnitDescription;
     AudioComponentDescription mixerUnitDescription;
     AudioComponentInstance audioUnit;
@@ -77,7 +81,8 @@ private:
     
     bool playing;
     bool interruptedDuringPlayback;
-    float sampleRate;
+    float sampleRate = 44100;
+    float bufferSize = 512;
     
     std::function<void(float** input, float** output, long bufferSize)> callbackLambda = nullptr;
     AudioProcessor* audioProcessor;
