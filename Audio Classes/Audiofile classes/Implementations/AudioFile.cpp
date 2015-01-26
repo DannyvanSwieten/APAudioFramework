@@ -8,62 +8,66 @@
 
 #include "AudioFile.h"
 
-AudioFile::~AudioFile()
+namespace APAudio
 {
-    
-}
 
-void AudioFile::setAudio(Buffer<float> audio)
-{
-    _audio = audio;
-}
+    AudioFile::~AudioFile()
+    {
+        
+    }
 
-void AudioFile::setSamplerate(int sampleRate)
-{
-    _sampleRate = sampleRate;
-}
+    void AudioFile::setAudio(Buffer<float> audio)
+    {
+        _audio = audio;
+    }
 
-void AudioFile::setNumChannels(int channels)
-{
-    _numChannels = channels;
-}
+    void AudioFile::setSamplerate(int sampleRate)
+    {
+        _sampleRate = sampleRate;
+    }
 
-void AudioFile::setNumSamples(long int samples)
-{
-    _numSamples = samples;
-};
+    void AudioFile::setNumChannels(int channels)
+    {
+        _numChannels = channels;
+    }
 
-void AudioFile::setFileName(std::string name)
-{
-    _fileName = name;
-}
+    void AudioFile::setNumSamples(long int samples)
+    {
+        _numSamples = samples;
+    };
 
-std::string AudioFile::getName()
-{
-    return _fileName;
-}
+    void AudioFile::setFileName(std::string name)
+    {
+        _fileName = name;
+    }
 
-const float* AudioFile::getAudioChannel(int index)
-{
-    return _audio.getChannel(index).data();
-}
+    std::string AudioFile::getName()
+    {
+        return _fileName;
+    }
 
-std::vector<float>& AudioFile::getAudioVector(int index)
-{
-    return _audio.getChannel(index);
-}
+    const float* AudioFile::getAudioChannel(int index)
+    {
+        return _audio.getChannel(index).data();
+    }
 
-int AudioFile::getNumChannels()
-{
-    return _numChannels;
-}
+    std::vector<float>& AudioFile::getAudioVector(int index)
+    {
+        return _audio.getChannel(index);
+    }
 
-int AudioFile::getSampleRate()
-{
-    return _sampleRate;
-}
+    int AudioFile::getNumChannels()
+    {
+        return _numChannels;
+    }
 
-long int AudioFile::getNumSamples()
-{
-    return _numSamples;
+    int AudioFile::getSampleRate()
+    {
+        return _sampleRate;
+    }
+
+    long int AudioFile::getNumSamples()
+    {
+        return _numSamples;
+    }
 }

@@ -10,95 +10,92 @@
 
 namespace APAudio
 {
-    namespace Audio
+
+    Envelope::Envelope():minValue(0.0001)
     {
+        stateValues[EnvelopeState::OFF]     = 0;
+        stateValues[EnvelopeState::ATTACK]  = 0.0;
+        stateValues[EnvelopeState::DECAY]   = 0.3;
+        stateValues[EnvelopeState::SUSTAIN] = 1.0;
+        stateValues[EnvelopeState::RELEASE] = 1.0;
+        
+        amplitude   = 1;
+        multiplier  = 0;
+        currentSampleIndex  = 0;
+        currentState = EnvelopeState::OFF;
+    }
 
-        Envelope::Envelope():minValue(0.0001)
+    ControlValue Envelope::getAmplitude()
+    {
+        if (currentState != EnvelopeState::OFF && currentState != EnvelopeState::SUSTAIN)
         {
-            stateValues[EnvelopeState::OFF]     = 0;
-            stateValues[EnvelopeState::ATTACK]  = .001;
-            stateValues[EnvelopeState::DECAY]   = 0.3;
-            stateValues[EnvelopeState::SUSTAIN] = 1.;
-            stateValues[EnvelopeState::RELEASE] = .5;
-            
-            amplitude   = 1;
-            multiplier  = 0;
-            currentSampleIndex  = 0;
-            currentState = EnvelopeState::OFF;
+            if (currentSampleIndex == indexForNextState)
+            {
+                EnvelopeState newState = static_cast<EnvelopeState>((currentState+1) % EnvelopeState::NUMSTATES);
+                enterNextStage(newState);
+            }
+            amplitude *= multiplier;
+            currentSampleIndex++;
         }
+        return amplitude;
+    }
 
-        ControlValue Envelope::getAmplitude()
+    void Envelope::calculateMultiplier(ControlValue startLevel,
+                                              ControlValue endLevel,
+                                              TimerValue time)
+    {
+        multiplier = 1.0 + (log(endLevel) - log(startLevel)) / (time);
+    }
+
+    void Envelope::enterNextStage(Envelope::EnvelopeState state)
+    {
+        currentState = state;
+        currentSampleIndex = 0;
+        
+        if(currentState == EnvelopeState::OFF || currentState == EnvelopeState::SUSTAIN)
         {
-            if (currentState != EnvelopeState::OFF && currentState != EnvelopeState::SUSTAIN)
-            {
-                if (currentSampleIndex == indexForNextState)
-                {
-                    EnvelopeState newState = static_cast<EnvelopeState>((currentState+1) % EnvelopeState::NUMSTATES);
-                    enterNextStage(newState);
-                }
-                amplitude *= multiplier;
-                currentSampleIndex++;
-            }
-            return amplitude;
+            indexForNextState = 0;
         }
-
-        void Envelope::calculateMultiplier(ControlValue startLevel,
-                                                  ControlValue endLevel,
-                                                  TimerValue time)
+        else
         {
-            multiplier = 1.0 + (log(endLevel) - log(startLevel)) / (time);
+            indexForNextState = stateValues[currentState] * 44100;
         }
-
-        void Envelope::enterNextStage(Envelope::EnvelopeState state)
+        
+        switch (state)
         {
-            currentState = state;
-            currentSampleIndex = 0;
-            
-            if(currentState == EnvelopeState::OFF || currentState == EnvelopeState::SUSTAIN)
-            {
-                indexForNextState = 0;
-            }
-            else
-            {
-                indexForNextState = stateValues[currentState] * 44100;
-            }
-            
-            switch (state)
-            {
-                case EnvelopeState::OFF:
-                    amplitude = 0;
-                    multiplier = 1.0;
-                    break;
-                    
-                case EnvelopeState::ATTACK:
-                    
-                    amplitude = minValue;
-                    calculateMultiplier(amplitude,
-                                        .5,
-                                        indexForNextState);
-                    break;
-                    
-                case EnvelopeState::DECAY:
-                    amplitude = 0.5;
-                    calculateMultiplier(amplitude,
-                                        fmax(stateValues[EnvelopeState::SUSTAIN], minValue),
-                                        indexForNextState);
-                    break;
-                    
-                case EnvelopeState::SUSTAIN:
-                    amplitude = stateValues[EnvelopeState::SUSTAIN];
-                    multiplier = 1.0;
-                    break;
-                    
-                case EnvelopeState::RELEASE:
-                    calculateMultiplier(amplitude,
-                                        minValue,
-                                        indexForNextState);
-                    break;
-                    
-                default:
-                    break;
-            }
+            case EnvelopeState::OFF:
+                amplitude = 0;
+                multiplier = 1.0;
+                break;
+                
+            case EnvelopeState::ATTACK:
+                
+                amplitude = minValue;
+                calculateMultiplier(amplitude,
+                                    .5,
+                                    indexForNextState);
+                break;
+                
+            case EnvelopeState::DECAY:
+                amplitude = 0.5;
+                calculateMultiplier(amplitude,
+                                    fmax(stateValues[EnvelopeState::SUSTAIN], minValue),
+                                    indexForNextState);
+                break;
+                
+            case EnvelopeState::SUSTAIN:
+                amplitude = stateValues[EnvelopeState::SUSTAIN];
+                multiplier = 1.0;
+                break;
+                
+            case EnvelopeState::RELEASE:
+                calculateMultiplier(amplitude,
+                                    minValue,
+                                    indexForNextState);
+                break;
+                
+            default:
+                break;
         }
     }
 }

@@ -10,9 +10,6 @@
 
 namespace APAudio
 {
-    namespace Audio
-    {
-
         WaveFormatReader::WaveFormatReader()
         {
             
@@ -96,5 +93,4 @@ namespace APAudio
             
             return std::move(file);
         }
-    }
 }

@@ -18,23 +18,19 @@
 
 namespace APAudio
 {
-    namespace Audio
+    class WaveFormatReader
     {
-
-        class WaveFormatReader
-        {
-        public:
-            
-            WaveFormatReader();
-            WaveFormatReader(std::string filePath);
-            
-            AudioFile read(std::string path, bool useLeft, bool useRight);
-        private:
-            
-            Buffer<float> _data;
-            InputStream _inputStream;
-        };
-    }
+    public:
+        
+        WaveFormatReader();
+        WaveFormatReader(std::string filePath);
+        
+        AudioFile read(std::string path, bool useLeft, bool useRight);
+    private:
+        
+        Buffer<float> _data;
+        InputStream _inputStream;
+    };
 }
 
 #endif /* defined(__GUI__WaveFormatReader__) */
