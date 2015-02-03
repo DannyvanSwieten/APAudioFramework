@@ -58,6 +58,7 @@ private:
     
     std::vector<const PaDeviceInfo*> connectedHardware;
 };
+
 #else
 
 #include <AudioToolbox/AudioToolbox.h>

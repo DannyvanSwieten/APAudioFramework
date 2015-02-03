@@ -105,8 +105,9 @@ void AudioDevice::listDevices()
 
 AudioDevice::~AudioDevice()
 {
-    if(stream)
-        Pa_AbortStream(stream);
+
+    Pa_StopStream(stream);
+    Pa_CloseStream(stream);
     
     Pa_Terminate();
 }
