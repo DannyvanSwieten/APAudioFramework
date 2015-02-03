@@ -11,7 +11,7 @@
 #include <memory>
 #include <vector>
 
-#define IOS
+//#define IOS
 
 #include "AudioProcessor.h"
 
@@ -21,27 +21,39 @@
 class AudioDevice
 {
 public:
-    AudioDevice();
+    AudioDevice(bool useDefaultDevice, std::string inputDeviceId = "", std::string outputDeviceId = "");
     ~AudioDevice();
     
-    void listDevices();
+    static void listDevices();
     
     void addCallback(AudioProcessor* audioProcessor_);
-    void addCallback(std::function<void(float** input, float** output, long bufferSize)> callback);
-    std::function<void(float** input, float** output, long bufferSize)> getLambda(){return callbackLambda;};
+    void addCallback(std::function<void(float** input, int numInputs, float** output, int numOutpus, long bufferSize)> callback);
+    std::function<void(float** input, int numInputs ,float** output, int numOutputs ,long bufferSize)> getLambda(){return callbackLambda;};
     
     void setSampleRate(long sampleRate);
     void setBufferSize(long bufferSize);
+    
+    int getNumInputs(){return numInputs;};
+    int getNumOutputs(){return numOutputs;};
+    
+    long getSampleRate(){return sampleRate;};
+    long getBufferSize(){return bufferSize;};
+    
 private:
     
+    int numInputs = 0;
+    int numOutputs = 0;
+    
     PaStreamParameters outputParameters;
-    PaStream *stream;
+    PaStreamParameters inputParameters;
+    
+    PaStream *stream = nullptr;
     PaError err;
     
     long sampleRate = 44100;
     long bufferSize = 512;
     
-    std::function<void(float** input, float** output, long bufferSize)> callbackLambda = nullptr;
+    std::function<void(float** input, int numInputs ,float** output, int numOutpus, long bufferSize)> callbackLambda = nullptr;
     AudioProcessor* audioProcessor;
     
     std::vector<const PaDeviceInfo*> connectedHardware;

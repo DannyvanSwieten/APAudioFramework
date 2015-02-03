@@ -89,57 +89,6 @@ namespace APAudio
         }
         std::cout<<std::endl;
         
-//        for(auto i = 0; i < source.size(); i++)
-//        {
-//            AudioSourceDescription desc;
-//            auto sourceType = source[i][Identifier("type")];
-//            std::cout<<"Source type: "<<sourceType.toString()<<std::endl;
-//            desc.ID = sourceType.toString().toStdString();
-//            auto sourceName = source[i][Identifier("name")];
-//            std::cout<<"Sample: "<<sourceName.toString()<<std::endl;
-//            desc.info = sourceName.toString().toStdString();
-//            auto sourceZone = source[i][Identifier("zone")];
-//            if(sourceZone.size() == 1)
-//            {
-//                std::cout<<"Listens to note: "<<sourceZone[0].toString()<<std::endl;
-//                desc.note.setID("zone");
-//                desc.note.setMinValue(sourceZone[0]);
-//                desc.note.setMaxValue(sourceZone[0]);
-//                
-//            }
-//            else
-//            {
-//                std::cout<<"Listens from note: "<<sourceZone[0].toString()<<" to "<<sourceZone[1].toString()<<std::endl;
-//                desc.note.setID("zone");
-//                desc.note.setMinValue(sourceZone[0]);
-//                desc.note.setMaxValue(sourceZone[1]);
-//            }
-//            
-//            auto sourceLayer = source[i][Identifier("layer")];
-//            if(sourceLayer.size() == 1)
-//            {
-//                std::cout<<"Listens to velocity: "<<sourceLayer[0].toString()<<std::endl;
-//                desc.velocity.setID("layer");
-//                desc.velocity.setMinValue(sourceLayer[0]);
-//                desc.velocity.setMaxValue(sourceLayer[0]);
-//            }
-//            else
-//            {
-//                std::cout<<"Listens from velocity: "<<sourceLayer[0].toString()<<" to "<<sourceLayer[1].toString()<<std::endl;
-//                desc.velocity.setID("layer");
-//                desc.velocity.setMinValue(sourceLayer[0]);
-//                desc.velocity.setMaxValue(sourceLayer[1]);
-//            }
-//            
-//            desc.channel.setID("channel");
-//            desc.channel.setMinValue(0);
-//            desc.channel.setMaxValue(16);
-//            desc.channel.setValue(0);
-//            
-//            audioSourcePackage.addSource(desc);
-//            
-//            std::cout<<std::endl;
-//        }
         packages.emplace_back(audioSourcePackage);
     }
     

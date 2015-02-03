@@ -31,14 +31,14 @@ namespace APAudio
         sampleRate = sr;
         
         for(auto& module: modules)
-            module->getSampleRate();
+            module->setSampleRate(sampleRate);
     }
     
     void Mainframe::setBufferSize(float bs)
     {
         bufferSize = bs;
         for(auto& module: modules)
-            module->getBufferSize();
+            module->setBufferSize(bufferSize);
     }
 
     void Mainframe::addModule(AudioObject *module)
@@ -78,6 +78,19 @@ namespace APAudio
     {
         inputList.emplace_back(module);
     }
+    
+    void AudioObject::disconnect(AudioObject* object)
+    {
+        auto it = inputList.begin();
+        
+        for(auto& input: inputList)
+        {
+            if(input == object)
+                inputList.erase(it);
+            
+            it++;
+        }
+    }
 
     Sample AudioObject::returnOutputSample(TimerValue index)
     {
@@ -101,6 +114,7 @@ namespace APAudio
                 }
             }
             prevIndex = index + bufferSize;
+
             calculateBuffer();
             outputSample = outputBuffer[bufferSize - prevIndex + index];
         }

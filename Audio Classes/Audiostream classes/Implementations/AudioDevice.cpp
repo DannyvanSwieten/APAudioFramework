@@ -19,8 +19,9 @@ static int callback(const void *inputBuffer,
 {
     AudioProcessor* audioDevice = (AudioProcessor*)userData;
     float** output = (float**)outputBuffer;
+    float** input = (float**)inputBuffer;
 
-    audioDevice->render(output, output, framesPerBuffer);
+    audioDevice->render(input, audioDevice->getNumInputChannels(), output, audioDevice->getNumOutputChannels(), framesPerBuffer);
     
     return 0;
 }
@@ -36,32 +37,56 @@ static int callbackByLambda(const void *inputBuffer,
     float** output = (float**)outputBuffer;
     float** input = (float**)inputBuffer;
     
-    audioDevice->getLambda()(input, output, framesPerBuffer);
+    audioDevice->getLambda()(input, audioDevice->getNumInputs() ,output, audioDevice->getNumOutputs() ,framesPerBuffer);
     
     return 0;
 }
 
-AudioDevice::AudioDevice()
+AudioDevice::AudioDevice(bool useDefaultDevice ,std::string inputDeviceId, std::string outputDeviceId)
 {
     err = Pa_Initialize();
         if( err != paNoError)
-            std::cout<<"Couldn't initialize portaudio"<<std::endl;;
+            std::cout<<"Couldn't initialize portaudio"<<std::endl;
     
-    outputParameters.device = Pa_GetDefaultOutputDevice();
-    
-    if (outputParameters.device == paNoDevice)
+    if(useDefaultDevice)
     {
-        std::cout<<"Error: No default output device."<<std::endl;
+        outputParameters.device = Pa_GetDefaultOutputDevice();
+        sampleRate = Pa_GetDeviceInfo(outputParameters.device)->defaultSampleRate;
+        bufferSize = 32;
+        inputParameters.device = Pa_GetDefaultInputDevice();
+    }
+    else
+    {
+        for(auto device = 0; device < Pa_GetDeviceCount(); device++)
+        {
+            auto info = Pa_GetDeviceInfo(device);
+            if(info->name == inputDeviceId)
+            {
+                outputParameters.device = device;
+            }
+        }
     }
     
-    outputParameters.channelCount = 2;       /* stereo output */
+    numInputs = Pa_GetDeviceInfo(inputParameters.device)->maxInputChannels;
+    numOutputs = Pa_GetDeviceInfo(outputParameters.device)->maxOutputChannels;
+    
+    outputParameters.channelCount = numOutputs;       /* stereo output */
     outputParameters.sampleFormat = paNonInterleaved | paFloat32; /* 32 bit floating point output */
     outputParameters.suggestedLatency = Pa_GetDeviceInfo( outputParameters.device )->defaultLowOutputLatency;
     outputParameters.hostApiSpecificStreamInfo = NULL;
+    
+    inputParameters.channelCount = numInputs;       /* stereo input */
+    inputParameters.sampleFormat = paNonInterleaved | paFloat32; /* 32 bit floating point output */
+    inputParameters.suggestedLatency = Pa_GetDeviceInfo( outputParameters.device )->defaultLowOutputLatency;
+    inputParameters.hostApiSpecificStreamInfo = NULL;
 }
 
 void AudioDevice::listDevices()
 {
+    auto err = Pa_Initialize();
+    if( err != paNoError)
+        std::cout<<"Couldn't initialize portaudio"<<std::endl;
+    
     auto numDevices = Pa_GetDeviceCount();
     
     for(auto i = 0; i < numDevices; i++)
@@ -69,11 +94,11 @@ void AudioDevice::listDevices()
         auto info = Pa_GetDeviceInfo(i);
         if (info)
         {
-            connectedHardware.emplace_back(info);
             std::cout<<info->name<<std::endl;
             std::cout<<"Default Samplerate: "<<info->defaultSampleRate<<std::endl;
             std::cout<<"Maximum input channels: "<<info->maxInputChannels<<std::endl;
             std::cout<<"Maximum output channels: "<<info->maxInputChannels<<std::endl;
+            std::cout<<std::endl;
         }
     }
 }
@@ -89,6 +114,13 @@ AudioDevice::~AudioDevice()
 void AudioDevice::addCallback(AudioProcessor *audioProcessor_)
 {
     audioProcessor = audioProcessor_;
+    audioProcessor->setNumInputChannels(numInputs);
+    audioProcessor->setNumOutputChannels(numOutputs);
+    
+    audioProcessor->setSampleRate(sampleRate);
+    audioProcessor->setBufferSize(bufferSize);
+    
+    audioProcessor->prepareToPlay(sampleRate, bufferSize);
     
     if(stream)
     {
@@ -97,7 +129,7 @@ void AudioDevice::addCallback(AudioProcessor *audioProcessor_)
     }
     
     err = Pa_OpenStream(&stream,
-                        NULL,
+                        &inputParameters,
                         &outputParameters,
                         sampleRate,
                         bufferSize,
@@ -121,7 +153,7 @@ void AudioDevice::addCallback(AudioProcessor *audioProcessor_)
     }
 }
 
-void AudioDevice::addCallback(std::function<void(float** input, float** output, long bufferSize)> callBack)
+void AudioDevice::addCallback(std::function<void(float** input, int numInputs, float** output, int numOutputs, long bufferSize)> callBack)
 {
     callbackLambda = callBack;
 
@@ -132,7 +164,7 @@ void AudioDevice::addCallback(std::function<void(float** input, float** output, 
     }
     
     err = Pa_OpenStream(&stream,
-                        NULL,
+                        &inputParameters,
                         &outputParameters,
                         sampleRate,
                         bufferSize,
@@ -158,25 +190,65 @@ void AudioDevice::addCallback(std::function<void(float** input, float** output, 
 void AudioDevice::setSampleRate(long sampleRate)
 {
     this->sampleRate = sampleRate;
+    audioProcessor->setSampleRate(sampleRate);
     
     if(!stream)
         return;
     
-    Pa_StopStream(&stream);
-    Pa_CloseStream(&stream);
-    
-    err = Pa_OpenStream(&stream,
-                        NULL,
-                        &outputParameters,
-                        sampleRate,
-                        bufferSize,
-                        paClipOff,
-                        callbackLambda == nullptr ? &callbackByLambda : &callback,
-                        this);
+    err = Pa_StopStream(stream);
     
     if( err != paNoError )
     {
-        std::cout<<"Couldn't open stream with that samplerate: "<<sampleRate<<std::endl;
+        std::cout<<"Couldn't open stream with buffersize: "<<bufferSize<<std::endl;
+        std::cout<< "Error message: "<< Pa_GetErrorText( err )<<std::endl;
+    }
+    
+    err = Pa_CloseStream(stream);
+    
+    if( err != paNoError )
+    {
+        std::cout<<"Couldn't open stream with buffersize: "<<bufferSize<<std::endl;
+        std::cout<< "Error message: "<< Pa_GetErrorText( err )<<std::endl;
+    }
+    
+    err = Pa_Terminate();
+    
+    if( err != paNoError )
+    {
+        std::cout<<"Couldn't open stream with buffersize: "<<bufferSize<<std::endl;
+        std::cout<< "Error message: "<< Pa_GetErrorText( err )<<std::endl;
+    }
+    
+    err = Pa_Initialize();
+    
+    if( err != paNoError )
+    {
+        std::cout<<"Couldn't open stream with buffersize: "<<bufferSize<<std::endl;
+        std::cout<< "Error message: "<< Pa_GetErrorText( err )<<std::endl;
+    }
+    
+    err = Pa_OpenStream(&stream,
+                        &inputParameters,
+                        &outputParameters,
+                        sampleRate,
+                        this->bufferSize,
+                        paClipOff,
+                        &callback,
+                        audioProcessor);
+    
+    if( err != paNoError )
+    {
+        std::cout<<"Couldn't open stream with buffersize: "<<bufferSize<<std::endl;
+        std::cout<< "Error message: "<< Pa_GetErrorText( err )<<std::endl;
+    }
+    
+    audioProcessor->prepareToPlay(sampleRate, bufferSize);
+    
+    err = Pa_StartStream(stream);
+    
+    if( err != paNoError )
+    {
+        std::cout<<"Couldn't start stream with buffersize: "<<bufferSize<<std::endl;
         std::cout<< "Error message: "<< Pa_GetErrorText( err )<<std::endl;
     }
 }
@@ -184,28 +256,68 @@ void AudioDevice::setSampleRate(long sampleRate)
 void AudioDevice::setBufferSize(long bufferSize)
 {
     this->bufferSize = bufferSize;
+    audioProcessor->setBufferSize(bufferSize);
     
     if(!stream)
         return;
     
-    Pa_StopStream(&stream);
-    Pa_CloseStream(&stream);
-    
-    err = Pa_OpenStream(&stream,
-                        NULL,
-                        &outputParameters,
-                        sampleRate,
-                        bufferSize,
-                        paClipOff,
-                        callbackLambda == nullptr ? &callbackByLambda : &callback,
-                        this);
+    err = Pa_StopStream(stream);
     
     if( err != paNoError )
     {
-        std::cout<<"Couldn't open stream with that buffersize: "<<bufferSize<<std::endl;
+        std::cout<<"Couldn't open stream with buffersize: "<<bufferSize<<std::endl;
         std::cout<< "Error message: "<< Pa_GetErrorText( err )<<std::endl;
     }
-}
+    
+    err = Pa_CloseStream(stream);
+    
+    if( err != paNoError )
+    {
+        std::cout<<"Couldn't open stream with buffersize: "<<bufferSize<<std::endl;
+        std::cout<< "Error message: "<< Pa_GetErrorText( err )<<std::endl;
+    }
+    
+    err = Pa_Terminate();
+    
+    if( err != paNoError )
+    {
+        std::cout<<"Couldn't open stream with buffersize: "<<bufferSize<<std::endl;
+        std::cout<< "Error message: "<< Pa_GetErrorText( err )<<std::endl;
+    }
+    
+    err = Pa_Initialize();
+    
+    if( err != paNoError )
+    {
+        std::cout<<"Couldn't open stream with buffersize: "<<bufferSize<<std::endl;
+        std::cout<< "Error message: "<< Pa_GetErrorText( err )<<std::endl;
+    }
+    
+    err = Pa_OpenStream(&stream,
+                        &inputParameters,
+                        &outputParameters,
+                        sampleRate,
+                        this->bufferSize,
+                        paClipOff,
+                        &callback,
+                        audioProcessor);
+    
+    if( err != paNoError )
+    {
+        std::cout<<"Couldn't open stream with buffersize: "<<bufferSize<<std::endl;
+        std::cout<< "Error message: "<< Pa_GetErrorText( err )<<std::endl;
+    }
+    
+    audioProcessor->prepareToPlay(sampleRate, bufferSize);
+    
+    err = Pa_StartStream(stream);
+    
+    if( err != paNoError )
+    {
+        std::cout<<"Couldn't start stream with buffersize: "<<bufferSize<<std::endl;
+        std::cout<< "Error message: "<< Pa_GetErrorText( err )<<std::endl;
+    }
+};
 
 #else
 

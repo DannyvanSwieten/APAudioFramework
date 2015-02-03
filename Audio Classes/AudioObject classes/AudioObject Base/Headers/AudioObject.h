@@ -61,7 +61,11 @@ namespace APAudio
         
         Sample returnOutputSample(TimerValue index);
         
-        void   connect(AudioObject* module);
+        void   connect(AudioObject* object);
+        void    disconnect(AudioObject* object);
+        
+        void setSampleRate(int sr){sampleRate = sr;}
+        void setBufferSize(int bs){bufferSize = bs; outputBuffer.resize(bs); inputBuffer.resize(bs);}
         
         inline Sample getSampleRate(){return sampleRate;};
         inline TimerValue getBufferSize(){return bufferSize;};
@@ -81,7 +85,5 @@ namespace APAudio
         std::string ID;
     };
 }
-
-
 
 #endif /* defined(__APAudioEngine__APAudioModule__) */
