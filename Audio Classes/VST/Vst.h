@@ -9,16 +9,18 @@
 #ifndef __VSTHost__VSTHost__
 #define __VSTHost__VSTHost__
 
-#include <aeffectx.h>
-#include <aeffect.h>
+#include "aeffectx.h"
+#include "aeffect.h"
 #include <functional>
 #include <string>
 #include <memory>
-#include <Carbon/Carbon.h>
+//#include <Carbon/Carbon.h>
 #include <iostream>
 #include <vector>
 #include <string>
 #include <dirent.h>
+
+#include "../JuceLibraryCode/JuceHeader.h"
 
 class Vst
 {
@@ -40,6 +42,7 @@ public:
 private:
     
     int loadPlugin(std::string pathOnDisk);
+//    CGContextRef myContext;
 };
 
 #endif /* defined(__VSTHost__VSTHost__) */

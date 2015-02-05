@@ -102,7 +102,6 @@ void MidiInput::read()
                 listener->addBuffer(buffer);
         }
         
-        
         std::chrono::milliseconds dura(25);
         std::this_thread::sleep_for(dura);
     }
