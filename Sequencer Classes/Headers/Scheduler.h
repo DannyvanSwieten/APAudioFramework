@@ -27,13 +27,13 @@ public:
     void play();
     void stop();
     
-    inline unsigned long int getGurrentTime(){return _currentTime;};
+    inline unsigned long int getGurrentTime(){return currentTime;};
     
 private:
     
-    std::mutex _mutex;
-    std::vector<APAEvent> _timeLine;
-    long long int _currentTime;
+    std::mutex mutex;
+    std::vector<Event> timeLine;
+    long long int currentTime;
 };
 
 #endif /* defined(__APASchedulerTest__APAScheduler__) */

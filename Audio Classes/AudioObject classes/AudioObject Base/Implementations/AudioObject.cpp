@@ -26,6 +26,12 @@ namespace APAudio
         
     }
     
+    void Mainframe::onPrepareToPlay(float sr, float bs)
+    {
+        setSampleRate(sr);
+        setBufferSize(bs);
+    }
+    
     void Mainframe::setSampleRate(float sr)
     {
         sampleRate = sr;
@@ -61,7 +67,7 @@ namespace APAudio
         
         outputBuffer.resize(bufferSize);
         
-        prevIndex = 0;
+        prevTime = 0;
     }
 
     void AudioObject::setID(std::string ID)
@@ -94,9 +100,9 @@ namespace APAudio
 
     Sample AudioObject::returnOutputSample(TimerValue index)
     {
-        if (index < prevIndex)
+        if (index < prevTime)
         {
-            outputSample = outputBuffer[bufferSize - prevIndex + index];
+            outputSample = outputBuffer[bufferSize - prevTime + index];
         }
         else
         {
@@ -108,18 +114,23 @@ namespace APAudio
                     {
                         for (auto i = 0; i < bufferSize; i++)
                         {
-                            input->outputBuffer[i] = input->returnOutputSample(prevIndex + i);
+                            input->outputBuffer[i] = input->returnOutputSample(prevTime + i);
                         }
                     }
                 }
             }
-            prevIndex = index + bufferSize;
+            prevTime = index + bufferSize;
 
             calculateBuffer();
-            outputSample = outputBuffer[bufferSize - prevIndex + index];
+            outputSample = outputBuffer[bufferSize - prevTime + index];
         }
         return outputSample;
     };
+    
+    void AudioObject::calculateSample()
+    {
+        
+    }
 
     void AudioObject::calculateBuffer()
     {

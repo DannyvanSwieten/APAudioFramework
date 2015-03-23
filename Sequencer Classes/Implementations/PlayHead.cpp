@@ -10,29 +10,38 @@
 
 PlayHead::PlayHead()
 {
-    playThread = std::thread(&PlayHead::transport, this);
-    playThread.detach();
+    sampleRate = 44100;
+    
+    samplesPerMinute = sampleRate * 60;
+    samplesPerBeat = samplesPerMinute / beatsPerMinute;
+    samplesPerBar = samplesPerBeat * numerator;
+}
+
+void PlayHead::setSampleRate(int sr)
+{
+    sampleRate = sr;
+    
+}
+
+void PlayHead::setTempo(int bpm)
+{
+    beatsPerMinute = bpm;
 }
 
 void PlayHead::transport()
 {
-    while(playing)
+    if(playing)
     {
-        counter++;
+        samplePosition++;
         
-        milliSeconds = counter % 1000;
-        seconds = (counter / 1000) % 60;
-        minutes = (counter / (60 * 1000)) % 60;
-        hours = (counter / (1000 * 60 * 60)) % 24;
+        if (samplePosition % samplesPerBeat == 0){ beats++; std::cout<<"Bar: "<<bars<<" Beat: "<<beats<<"/"<<denominator<<std::endl; }
+        if(beats == numerator) {beats = 0; bars++;}
         
-        std::cout<<hours<<" "<<minutes<<" "<<seconds<<" "<<milliSeconds<<std::endl;
-        
-        std::this_thread::sleep_for(std::chrono::milliseconds(1));
     }
     
-    while(paused)
+    if(paused || stopped)
     {
-        std::this_thread::sleep_for(std::chrono::milliseconds(1));
+        
     }
 }
 
@@ -41,8 +50,6 @@ void PlayHead::play()
     playing = true;
     paused = false;
     stopped = false;
-    playThread = std::thread(&PlayHead::transport, this);
-    playThread.detach();
 }
 
 void PlayHead::pause()
@@ -61,7 +68,7 @@ void PlayHead::stop()
 
 void PlayHead::reset()
 {
-    counter = 0;
+    samplePosition = 0;
     milliSeconds = 0;
     seconds = 0;
     minutes = 0;

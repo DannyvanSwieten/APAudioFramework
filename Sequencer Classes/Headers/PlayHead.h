@@ -9,7 +9,6 @@
 #ifndef __VSTHost__PlayHead__
 #define __VSTHost__PlayHead__
 
-#include <thread>
 #include <iostream>
 
 class PlayHead
@@ -17,13 +16,28 @@ class PlayHead
 public:
     PlayHead();
     
+    void setSampleRate(int sr);
+    void setTempo(int bpm);
+    
     void transport();
     void reset();
     void play();
     void pause();
     void stop();
     
-    long long counter = 0;
+    long long samplePosition = 0;
+    long bars = 1;
+    
+    long beatsPerMinute = 120;
+    long samplesPerMinute = 0;
+    long samplesPerBeat = 0;
+    long samplesPerBar = 0;
+    
+    int beats = 0;
+    
+    int numerator = 4;
+    int denominator = 4;
+    
     
     long long milliSeconds = 0;
     long long seconds = 0;
@@ -34,7 +48,7 @@ public:
     bool paused = false;
     bool stopped = true;
     
-    std::thread playThread;
+    long sampleRate = 0;
     
 };
 

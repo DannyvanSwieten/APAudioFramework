@@ -34,13 +34,15 @@ namespace APAudio
         virtual ~Mainframe();
         void addModule(AudioObject* module);
         
-        void setSampleRate(float sr);
-        void setBufferSize(float bs);
-        
         inline ControlValue getSampleRate(){return sampleRate;};
         inline TimerValue   getBufferSize(){return bufferSize;};
         
+        void onPrepareToPlay(float sr, float bs);
+        
     private:
+        
+        void setSampleRate(float sr);
+        void setBufferSize(float bs);
         
         std::vector<AudioObject*> modules;
         ControlValue    sampleRate;
@@ -55,6 +57,7 @@ namespace APAudio
         AudioObject(Mainframe& mf);
         virtual ~AudioObject();
         virtual void calculateBuffer();
+        virtual void calculateSample();
         
         void setID(std::string ID);
         inline std::string getID(){return ID;};
@@ -62,7 +65,7 @@ namespace APAudio
         Sample returnOutputSample(TimerValue index);
         
         void   connect(AudioObject* object);
-        void    disconnect(AudioObject* object);
+        void   disconnect(AudioObject* object);
         
         void setSampleRate(int sr){sampleRate = sr;}
         void setBufferSize(int bs){bufferSize = bs; outputBuffer.resize(bs); inputBuffer.resize(bs);}
@@ -73,11 +76,25 @@ namespace APAudio
         std::vector<Sample>outputBuffer;
         std::vector<AudioObject*> inputList;
         
+        inline Sample output(TimerValue time)
+        {
+            if(time > prevTime)
+            {
+                for(auto& input: inputList)
+                    input->calculateSample();
+                
+                calculateSample();
+            }
+            
+            return outputSample;
+        }
+        
     private:
         
         TimerValue  bufferSize;
-        TimerValue  prevIndex;
+        TimerValue  prevTime;
         Sample      sampleRate;
+        
         Sample      outputSample;
         
         std::vector<Sample>inputBuffer;

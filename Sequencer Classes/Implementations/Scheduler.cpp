@@ -10,7 +10,7 @@
 
 Scheduler::Scheduler()
 {
-    _currentTime = 0;
+    currentTime = 0;
 }
 
 Scheduler::~Scheduler()
@@ -25,20 +25,21 @@ void Scheduler::play()
 
 void Scheduler::addEvent(long long int timeStamp, EventFuntion function, bool repeat)
 {
-    auto it = find_if(_timeLine.begin(), _timeLine.end(),[&](APAEvent event) {return event.getTimeStamp() >= timeStamp;});
-    _timeLine.emplace(it ,APAEvent(getGurrentTime() + timeStamp, function, repeat));
+    auto it = find_if(timeLine.begin(), timeLine.end(),[&](Event event) {return event.getTimeStamp() >= timeStamp;});
+    
+    timeLine.emplace(it, Event(getGurrentTime() + timeStamp, function, repeat));
 }
 
 void Scheduler::update(long long timeStamp)
 {
-    _currentTime = timeStamp;
+    currentTime = timeStamp;
     
-    _mutex.lock();
-    while(!_timeLine.empty() && _timeLine.front().getTimeStamp() <= _currentTime)
+    mutex.lock();
+    while(!timeLine.empty() && timeLine.front().getTimeStamp() <= currentTime)
     {
-        _timeLine.front().process();
-        _timeLine.erase(_timeLine.begin());
+        timeLine.front().process();
+        timeLine.erase(timeLine.begin());
     }
     
-    _mutex.unlock();
+    mutex.unlock();
 }
