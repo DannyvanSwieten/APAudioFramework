@@ -11,42 +11,39 @@
 
 #include "AudioObject.h"
 
-namespace APAudio
+class Envelope
 {
-    class Envelope
+public:
+    
+    Envelope();
+    double getAmplitude();
+    void calculateMultiplier(double startLevel,
+                             double endLevel,
+                             long int time);
+    
+    enum EnvelopeState
     {
-    public:
-        
-        Envelope();
-        ControlValue getAmplitude();
-        void calculateMultiplier(ControlValue startLevel,
-                                 ControlValue endLevel,
-                                 TimerValue time);
-        
-        enum EnvelopeState
-        {
-            OFF,
-            ATTACK,
-            DECAY,
-            SUSTAIN,
-            RELEASE,
-            NUMSTATES
-        };
-        
-        void enterNextStage(EnvelopeState state);
-        inline EnvelopeState getCurrentState() const {return currentState;};
-        
-    private:
-        
-        EnvelopeState currentState;
-        ControlValue amplitude;
-        ControlValue multiplier;
-        TimerValue currentSampleIndex;
-        TimerValue indexForNextState;
-        ControlValue stateValues[EnvelopeState::NUMSTATES];
-        
-        const ControlValue minValue;
+        OFF,
+        ATTACK,
+        DECAY,
+        SUSTAIN,
+        RELEASE,
+        NUMSTATES
     };
-}
+    
+    void enterNextStage(EnvelopeState state);
+    inline EnvelopeState getCurrentState() const {return currentState;};
+    
+private:
+    
+    EnvelopeState currentState;
+    double amplitude;
+    double multiplier;
+    long int currentSampleIndex;
+    long int indexForNextState;
+    double stateValues[EnvelopeState::NUMSTATES];
+    
+    const double minValue;
+};
 
 #endif /* defined(__MTGSC__APAudioEnvelope__) */

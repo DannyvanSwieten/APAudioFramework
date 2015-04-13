@@ -11,8 +11,6 @@
 #include <memory>
 #include <vector>
 
-//#define IOS
-
 #include "AudioProcessor.h"
 
 #ifndef IOS

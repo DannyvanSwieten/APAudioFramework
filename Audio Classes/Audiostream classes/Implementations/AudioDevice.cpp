@@ -70,12 +70,12 @@ AudioDevice::AudioDevice(bool useDefaultDevice ,std::string inputDeviceId, std::
     numInputs = Pa_GetDeviceInfo(inputParameters.device)->maxInputChannels;
     numOutputs = Pa_GetDeviceInfo(outputParameters.device)->maxOutputChannels;
     
-    outputParameters.channelCount = numOutputs;       /* stereo output */
+    outputParameters.channelCount = numOutputs;
     outputParameters.sampleFormat = paNonInterleaved | paFloat32; /* 32 bit floating point output */
     outputParameters.suggestedLatency = Pa_GetDeviceInfo( outputParameters.device )->defaultLowOutputLatency;
     outputParameters.hostApiSpecificStreamInfo = NULL;
     
-    inputParameters.channelCount = numInputs;       /* stereo input */
+    inputParameters.channelCount = numInputs;
     inputParameters.sampleFormat = paNonInterleaved | paFloat32; /* 32 bit floating point output */
     inputParameters.suggestedLatency = Pa_GetDeviceInfo( outputParameters.device )->defaultLowOutputLatency;
     inputParameters.hostApiSpecificStreamInfo = NULL;

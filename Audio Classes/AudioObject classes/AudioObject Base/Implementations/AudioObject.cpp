@@ -1,140 +1,90 @@
 //
-//  Module.
-//  Engine
+//  AudioObject.cpp
+//  AudioEnvironment
 //
-//  Created by Danny van Swieten on 07-05-14.
-//  Copyright (c) 2014 Danny van Swieten. All rights reserved.
+//  Created by Danny van Swieten on 2/26/15.
+//  Copyright (c) 2015 Danny van Swieten. All rights reserved.
 //
 
 #include "AudioObject.h"
 
-namespace APAudio
+Inlet::Inlet(std::string name_, unsigned int maxConnections_)
 {
-    Mainframe::Mainframe()
-    {
-        
-    }
-    
-    Mainframe::Mainframe(Sample sr, TimerValue bs)
-    {
-        bufferSize = bs;
-        sampleRate = sr;
-    }
-
-    Mainframe::~Mainframe()
-    {
-        
-    }
-    
-    void Mainframe::onPrepareToPlay(float sr, float bs)
-    {
-        setSampleRate(sr);
-        setBufferSize(bs);
-    }
-    
-    void Mainframe::setSampleRate(float sr)
-    {
-        sampleRate = sr;
-        
-        for(auto& module: modules)
-            module->setSampleRate(sampleRate);
-    }
-    
-    void Mainframe::setBufferSize(float bs)
-    {
-        bufferSize = bs;
-        for(auto& module: modules)
-            module->setBufferSize(bufferSize);
-    }
-
-    void Mainframe::addModule(AudioObject *module)
-    {
-        modules.emplace_back(module);
-    }
-
-    //--------------------Module-------------------------------
-    
-    AudioObject::AudioObject()
-    {
-        
-    }
-    
-    AudioObject::AudioObject(Mainframe& mf)
-    {
-        mf.addModule(this);
-        bufferSize = mf.getBufferSize();
-        sampleRate = mf.getSampleRate();
-        
-        outputBuffer.resize(bufferSize);
-        
-        prevTime = 0;
-    }
-
-    void AudioObject::setID(std::string ID)
-    {
-        this->ID = ID;
-    }
-
-    AudioObject::~AudioObject()
-    {
-        
-    }
-
-    void AudioObject::connect(AudioObject *module)
-    {
-        inputList.emplace_back(module);
-    }
-    
-    void AudioObject::disconnect(AudioObject* object)
-    {
-        auto it = inputList.begin();
-        
-        for(auto& input: inputList)
-        {
-            if(input == object)
-                inputList.erase(it);
-            
-            it++;
-        }
-    }
-
-    Sample AudioObject::returnOutputSample(TimerValue index)
-    {
-        if (index < prevTime)
-        {
-            outputSample = outputBuffer[bufferSize - prevTime + index];
-        }
-        else
-        {
-            if (inputList.size() != 0)
-            {
-                for (auto& input : inputList)
-                {
-                    if (input != NULL)
-                    {
-                        for (auto i = 0; i < bufferSize; i++)
-                        {
-                            input->outputBuffer[i] = input->returnOutputSample(prevTime + i);
-                        }
-                    }
-                }
-            }
-            prevTime = index + bufferSize;
-
-            calculateBuffer();
-            outputSample = outputBuffer[bufferSize - prevTime + index];
-        }
-        return outputSample;
-    };
-    
-    void AudioObject::calculateSample()
-    {
-        
-    }
-
-    void AudioObject::calculateBuffer()
-    {
-        
-    }
+    maxConnections = maxConnections_;
+    name = name_;
 }
 
+void Inlet::connect(AudioObject *connection)
+{
+    connections.emplace_back(connection);
+    input = true;
+}
+
+AudioObject::AudioObject()
+{
+    t = SAMPLE;
+}
+
+AudioObject::~AudioObject()
+{
+    
+}
+
+void AudioObject::createInlet(std::string name_, unsigned int maxConnections)
+{
+    auto inlet = std::make_unique<Inlet>(name_, maxConnections);
+    inlets[name_] = std::move(inlet);
+    numInlets = inlets.size();
+}
+
+void AudioObject::connect(std::string input, AudioObject *object)
+{
+    inlets[input]->connect(object);
+}
+
+void AudioObject::onPrepareToPlay(float samplerate_, float bufferSize_)
+{
+    samplerate = samplerate_;
+    bufferSize = bufferSize_;
+}
+
+size_t AudioObject::getNumInlets()
+{
+    return inlets.size();
+}
+
+size_t AudioObject::getNumOutlets()
+{
+    return numOutlets;
+}
+
+void AudioObject::calculateSample()
+{
+    
+}
+
+void AudioObject::calculateBuffer()
+{
+
+}
+
+float AudioObject::getOutput(unsigned long timeStamp_)
+{
+    timeStamp = timeStamp_;
+    
+    if(timeStamp > prevTimeStamp)
+    {
+        for(auto& inlet: inlets)
+            for(auto& connection: inlet.second->connections)
+                connection->getOutput(timeStamp_);
+        
+        calculateSample();
+        prevTimeStamp = timeStamp;
+        return output;
+    }
+    else
+    {
+        prevTimeStamp = timeStamp;
+        return output;
+    }
+}

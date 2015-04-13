@@ -8,7 +8,7 @@
 
 #include "FastWaveletAnalyzer.h"
 
-FastWaveletAnalyzer::FastWaveletAnalyzer(unsigned int N, unsigned int overlap): SpectralAnalyzer()
+FastWaveletAnalyzer::FastWaveletAnalyzer(unsigned int N, unsigned int overlap)
 {
     
 }

@@ -19,6 +19,7 @@ public:
     Parameter(T min,
               T max,
               T start,
+              bool wrap,
               std::string identification)
     {
         _minValue = min;
@@ -26,6 +27,7 @@ public:
         _currentValue = start;
         
         _ID = identification;
+        _wrap = wrap;
     }
     
     void setMinValue(T value){_minValue = value;};
@@ -34,9 +36,22 @@ public:
     
     void setValue(T value)
     {
-        if(value > _maxValue) return;
-        else if(value < _minValue) return;
-        else _currentValue = value;
+        if(_wrap)
+        {
+            _currentValue = value;
+            while(_currentValue > _maxValue)
+                _currentValue -= _maxValue;
+            
+            while(_currentValue < _minValue)
+                _currentValue += _maxValue;
+        }
+        else
+        {
+            if(value > _maxValue) _currentValue = _maxValue;
+            else if(value < _minValue) _currentValue = _minValue;
+            else _currentValue = value;
+        }
+        
     };
     
     Parameter& operator= (const T& value)
@@ -51,7 +66,7 @@ public:
     
     Parameter& operator+= (const T& value)
     {
-        setValue(value + _currentValue); return *this;
+        setValue(_currentValue += value); return *this;
     };
     
     Parameter& operator-= (const T& value)
@@ -91,6 +106,7 @@ private:
     T _currentValue;
     
     std::string _ID;
+    bool _wrap = false;
 };
 
 #endif /* defined(__APAudioEngine__APAudioParameter__) */

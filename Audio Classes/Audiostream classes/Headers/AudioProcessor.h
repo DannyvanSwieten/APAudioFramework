@@ -9,6 +9,9 @@
 #ifndef __GUI__AudioProcessor__
 #define __GUI__AudioProcessor__
 
+#include <vector>
+#include "Patch.h"
+
 class AudioProcessor
 {
 public:
