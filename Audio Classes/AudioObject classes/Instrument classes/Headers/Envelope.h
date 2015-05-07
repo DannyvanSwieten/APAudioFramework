@@ -9,7 +9,7 @@
 #ifndef __MTGSC__APAudioEnvelope__
 #define __MTGSC__APAudioEnvelope__
 
-#include "AudioObject.h"
+#include "Object.h"
 
 class Envelope
 {

@@ -15,17 +15,6 @@ Sum::Sum(): AudioObject()
     createInlet("Main", 99);
 }
 
-void Sum::calculateSample()
-{
-    output = 0;
-    
-    for(auto& connection: inlets["Main"]->connections)
-    {
-        input += connection->output;
-    }
-    output = input;
-}
-
 void Sum::calculateBuffer()
 {
     

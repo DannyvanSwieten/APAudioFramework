@@ -9,18 +9,18 @@
 #ifndef __DAW__Input__
 #define __DAW__Input__
 
-#include "AudioObject.h"
-
-class Input: public AudioObject
+#include "Object.h"
+class DawAudioProcessor;
+class Input: public AudioObject<float>
 {
 public:
-    Input();
+    Input(DawAudioProcessor* processor_);
     void listenToChannel(unsigned int channel);
-    void calculateSample()override;
-    void calculateBuffer()override;
+    void process()override;
     
 private:
     
+    DawAudioProcessor* processor;
     float* inputBuffer = nullptr;
     unsigned int counter = 0;
     unsigned int channel;

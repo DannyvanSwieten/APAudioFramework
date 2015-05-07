@@ -16,7 +16,6 @@ class Osc: public AudioObject
 public:
     Osc();
     void calculateBuffer()override final;
-    void calculateSample()override final;
     void calculatePhi();
 private:
     

@@ -20,20 +20,18 @@ void Osc::calculatePhi()
 
 void Osc::calculateBuffer()
 {
-    
-}
-
-void Osc::calculateSample()
-{
-    frequency = 0;
-    for(auto& connection: inlets["Frequency"]->connections)
-        frequency += connection->output;
-    
-    calculatePhi();
-    
-    output = sin(phase);
-    phase+=phi;
-    
-    while(phase > twoPi)
-        phase-=twoPi;
+    for(auto i = 0; i < getBufferSize(); i++)
+    {
+        frequency = 0;
+        for(auto& connection: inlets["Frequency"]->connections)
+            frequency += connection->outputBuffer[i];
+        
+        calculatePhi();
+        
+        outputBuffer[i] = sin(phase);
+        phase+=phi;
+        
+        while(phase > twoPi)
+            phase-=twoPi;
+    }
 }

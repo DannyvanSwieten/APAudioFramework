@@ -33,7 +33,11 @@ public:
     int getNumInputChannels(){return numInputs;};
     int getNumOutputChannels(){return numOutputs;};
     
+    bool isPrepared(){return prepared;};
+    
 private:
+    
+    bool prepared = false;
   
     int sampleRate = 0;
     int bufferSize = 0;

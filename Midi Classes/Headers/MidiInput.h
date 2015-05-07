@@ -54,8 +54,13 @@ public:
     static std::vector<std::string> getDevices();
     void openDevice(std::string device);
     void read();
+    virtual void write(PmEvent* event){};
     
     void addListener(MidiListener* listener);
+    PortMidiStream* getCurrentStream(){return midiStream;};
+    
+    PmEvent events[6];
+    int numEvents = 0;
 private:
     
     std::vector<MidiListener*> listeners;
@@ -65,8 +70,6 @@ private:
     MidiBuffer buffer;
     PmError error;
     PortMidiStream* midiStream;
-    
-    PmEvent events[6];
 };
 
 

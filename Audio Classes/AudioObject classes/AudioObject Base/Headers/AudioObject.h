@@ -12,6 +12,7 @@
 #include <vector>
 #include <map>
 #include <cmath>
+#include <cstdlib>
 #include "Parameter.h"
 
 class Inlet;
@@ -30,12 +31,15 @@ public:
     void onPrepareToPlay(float sampleRate, float bufferSize);
     float getBufferSize(){return bufferSize;};
     float getSamplerate(){return samplerate;};
-    virtual void calculateSample();
     virtual void calculateBuffer();
+    virtual std::string getName();
+    virtual void updateArguments(std::vector<std::string> args);
+    std::vector<std::string>& getArguments(){return arguments;};
     
-    float getOutput(unsigned long timeStamp_);
+    float getOutput(unsigned long timeStamp_, unsigned long bufferIndex);
     
     float output = 0;
+    std::vector<float> outputBuffer;
     float input = 0;
     
     size_t getNumInlets();
@@ -55,6 +59,10 @@ public:
 
 private:
     
+    std::vector<std::string> arguments;
+    
+    unsigned long prevBufferIndex = 0;
+    
     size_t numInlets = 0;
     size_t numOutlets = 0;
     
@@ -63,6 +71,8 @@ private:
     
     float samplerate = 0;
     float bufferSize = 0;
+    
+    unsigned long counter = 0;
     
     PROCESSINGTYPE t;
 };

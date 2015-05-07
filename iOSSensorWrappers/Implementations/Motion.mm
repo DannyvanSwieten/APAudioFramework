@@ -14,7 +14,7 @@ APAMotion::APAMotion()
     CMMotionManager* newManager = [[CMMotionManager alloc] init];
     motionManager = newManager;
     [motionManager startDeviceMotionUpdates];
-    motionManager.deviceMotionUpdateInterval = 1.0/30.0;
+    motionManager.deviceMotionUpdateInterval = 1.0/50.0;
     if (motionManager.accelerometerAvailable)
     {
         NSLog(@"Accelerometer avaliable");

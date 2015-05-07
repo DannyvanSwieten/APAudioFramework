@@ -17,7 +17,7 @@ void MidiListener::addBuffer(MidiBuffer buffer)
 MidiInput::MidiInput()
 {
     error = Pm_Initialize();
-        std::cout<<Pm_GetErrorText(error)<<std::endl;
+    std::cout<<Pm_GetErrorText(error)<<std::endl;
 }
 
 
@@ -75,7 +75,7 @@ void MidiInput::read()
         
         if(available)
         {
-            auto numEvents = Pm_Read(midiStream, events, 1);
+            numEvents = Pm_Read(midiStream, events, 1);
             buffer.events.resize(numEvents);
             
             for(auto i = 0; i < numEvents; i++)
@@ -87,7 +87,10 @@ void MidiInput::read()
                 event.timeStamp = events[i].timestamp;
                 
                 if(event.isNoteOff())
+                {
+                    write(&events[i]);
                     event.channel = event.status - 127;
+                }
                 
                 if(event.isNoteOn())
                     event.channel = event.status - 143;
@@ -102,7 +105,7 @@ void MidiInput::read()
                 listener->addBuffer(buffer);
         }
         
-        std::chrono::milliseconds dura(25);
+        std::chrono::milliseconds dura(5);
         std::this_thread::sleep_for(dura);
     }
 }

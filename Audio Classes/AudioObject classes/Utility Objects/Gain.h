@@ -16,7 +16,6 @@ class Gain: public AudioObject
 public:
     Gain();
     void setGain(float gain_);
-    void calculateSample()override;
     void calculateBuffer()override;
     
 private:

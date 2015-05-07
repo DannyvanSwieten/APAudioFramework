@@ -9,7 +9,7 @@
 #ifndef __DAW__ExternalAudioObject__
 #define __DAW__ExternalAudioObject__
 
-#include "AudioObject.h"
+#include "Object.h"
 #include <dlfcn.h>
 #include <functional>
 #include <iostream>
@@ -18,11 +18,11 @@ class ExternalAudioObject
 {
 public:
     ExternalAudioObject(std::string path);
-    std::unique_ptr<AudioObject> getExternal();
+    std::unique_ptr<ObjectBase> getExternal();
     
 private:
     
-    std::unique_ptr<AudioObject> external;
-    std::function<AudioObject*()> create;
+    std::unique_ptr<ObjectBase> external;
+    std::function<ObjectBase*()> create;
 };
 #endif /* defined(__DAW__ExternalAudioObject__) */

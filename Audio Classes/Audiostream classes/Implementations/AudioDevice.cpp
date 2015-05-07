@@ -21,7 +21,8 @@ static int callback(const void *inputBuffer,
     float** output = (float**)outputBuffer;
     float** input = (float**)inputBuffer;
 
-    audioDevice->render(input, audioDevice->getNumInputChannels(), output, audioDevice->getNumOutputChannels(), framesPerBuffer);
+//    if(audioDevice->isPrepared())
+        audioDevice->render(input, audioDevice->getNumInputChannels(), output, audioDevice->getNumOutputChannels(), framesPerBuffer);
     
     return 0;
 }

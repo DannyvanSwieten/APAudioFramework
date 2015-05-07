@@ -17,17 +17,21 @@ Inlet::Inlet(std::string name_, unsigned int maxConnections_)
 void Inlet::connect(AudioObject *connection)
 {
     connections.emplace_back(connection);
-    input = true;
 }
 
 AudioObject::AudioObject()
 {
-    t = SAMPLE;
+    t = BUFFER;
 }
 
 AudioObject::~AudioObject()
 {
     
+}
+
+std::string AudioObject::getName()
+{
+    return "";
 }
 
 void AudioObject::createInlet(std::string name_, unsigned int maxConnections)
@@ -42,10 +46,18 @@ void AudioObject::connect(std::string input, AudioObject *object)
     inlets[input]->connect(object);
 }
 
+void AudioObject::connect(unsigned int input, AudioObject *object)
+{
+//    inlets[input].second->connect(object);
+}
+
 void AudioObject::onPrepareToPlay(float samplerate_, float bufferSize_)
 {
     samplerate = samplerate_;
     bufferSize = bufferSize_;
+    
+    outputBuffer.resize(bufferSize);
+    counter = 0;
 }
 
 size_t AudioObject::getNumInlets()
@@ -58,33 +70,41 @@ size_t AudioObject::getNumOutlets()
     return numOutlets;
 }
 
-void AudioObject::calculateSample()
-{
-    
-}
-
 void AudioObject::calculateBuffer()
 {
 
 }
 
-float AudioObject::getOutput(unsigned long timeStamp_)
+void AudioObject::updateArguments(std::vector<std::string> args)
+{
+    arguments = args;
+}
+
+float AudioObject::getOutput(unsigned long timeStamp_, unsigned long bufferIndex)
 {
     timeStamp = timeStamp_;
     
-    if(timeStamp > prevTimeStamp)
+    if(bufferIndex > prevBufferIndex)
     {
         for(auto& inlet: inlets)
+        {
             for(auto& connection: inlet.second->connections)
-                connection->getOutput(timeStamp_);
-        
-        calculateSample();
-        prevTimeStamp = timeStamp;
-        return output;
+            {
+                connection->getOutput(timeStamp, bufferIndex);
+//                    connection->calculateBuffer();
+            }
+        }
+        calculateBuffer();
     }
-    else
-    {
-        prevTimeStamp = timeStamp;
-        return output;
-    }
+    
+    prevBufferIndex = bufferIndex;
+    return outputBuffer[timeStamp];
+    
+
+//    }
+//    else
+//    {
+//        prevTimeStamp = timeStamp;
+//        return outputBuffer[counter];
+//    }
 }

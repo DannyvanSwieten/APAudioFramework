@@ -17,7 +17,6 @@ class Sum: public AudioObject
 {
 public:
     Sum();
-    void calculateSample()override;
     void calculateBuffer()override;
 private:
     

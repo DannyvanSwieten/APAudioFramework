@@ -7,23 +7,17 @@
 //
 
 #include "Input.h"
+#include "DawAudioProcessor.h"
 
-Input::Input()
+Input::Input(DawAudioProcessor* processor_)
 {
+    processor = processor_;
     listenToChannel(0);
 }
 
-void Input::calculateSample()
+void Input::process()
 {
-    output = inputBuffer[counter];
-    counter++;
-    if(counter > getBufferSize())
-        counter = 0;
-}
-
-void Input::calculateBuffer()
-{
-    
+//    memcpy(output.data(), processor->getInputChannel(channel), sizeof(float) * getBufferSize());
 }
 
 void Input::listenToChannel(unsigned int channel_)

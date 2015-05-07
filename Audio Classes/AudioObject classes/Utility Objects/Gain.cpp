@@ -19,20 +19,11 @@ void Gain::setGain(float gain_)
     gain = gain_;
 }
 
-void Gain::calculateSample()
-{
-    gain = inlets["Gain"]->connections[0]->output;
-    input = 0;
-    for(auto& connection: inlets["Input"]->connections)
-    {
-        input += connection->output;
-    }
-    
-    float outputSample = 0;
-    outputSample = input * gain;
-}
-
 void Gain::calculateBuffer()
 {
-    
+    for(auto sample = 0; sample < getBufferSize(); sample++)
+    {
+        gain = inlets["Gain"]->connections[0]->outputBuffer[sample];
+        outputBuffer[sample] += inlets["Input"]->connections[0]->outputBuffer[sample] * gain;
+    }
 }
