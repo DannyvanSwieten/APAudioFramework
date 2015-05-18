@@ -14,14 +14,14 @@ void MidiListener::addBuffer(MidiBuffer buffer)
     buffers.emplace_back(buffer);
 }
 
-MidiInput::MidiInput()
+MidiSession::MidiSession()
 {
     error = Pm_Initialize();
     std::cout<<Pm_GetErrorText(error)<<std::endl;
 }
 
 
-std::vector<std::string> MidiInput::getDevices()
+std::vector<std::string> MidiSession::getDevices()
 {
     auto numMidiInputs = Pm_CountDevices();
     std::vector<std::string> devices;
@@ -33,7 +33,7 @@ std::vector<std::string> MidiInput::getDevices()
     return devices;
 }
 
-void MidiInput::openDevice(std::string device)
+void MidiSession::openDevice(std::string device)
 {
     auto numMidiInputs = Pm_CountDevices();
     auto devices = getDevices();
@@ -54,7 +54,7 @@ void MidiInput::openDevice(std::string device)
                 return;
             }
             
-            midiThread = std::thread(&MidiInput::read, this);
+            midiThread = std::thread(&MidiSession::read, this);
             midiThread.detach();
             
             return;
@@ -62,12 +62,41 @@ void MidiInput::openDevice(std::string device)
     }
 }
 
-void MidiInput::addListener(MidiListener *listener)
+void MidiSession::openOutputDevice(std::string device)
+{
+    auto numMidiInputs = Pm_CountDevices();
+    auto devices = getDevices();
+    
+    for(auto i = 0; i < numMidiInputs; i++)
+    {
+        if(devices[i] == device)
+        {
+            if(!Pm_GetDeviceInfo(i)->opened)
+                error = Pm_OpenOutput(&midiStream, i, nullptr, 3, nullptr, nullptr, 0);
+            else
+                std::cout<<"Device is already opened"<<std::endl;
+            
+            if(error != pmNoError)
+            {
+                std::cout<<"Trying to open device: "<<devices[i]<<std::endl;
+                std::cout<<Pm_GetErrorText(error)<<std::endl;
+                return;
+            }
+            
+            midiThread = std::thread(&MidiSession::read, this);
+            midiThread.detach();
+            
+            return;
+        }
+    }
+}
+
+void MidiSession::addListener(MidiListener *listener)
 {
     listeners.emplace_back(listener);
 }
 
-void MidiInput::read()
+void MidiSession::read()
 {
     while(active)
     {
@@ -80,6 +109,7 @@ void MidiInput::read()
             
             for(auto i = 0; i < numEvents; i++)
             {
+                write(&events[i]);
                 MidiEvent event;
                 event.status = Pm_MessageStatus(events[i].message);
                 event.note = Pm_MessageData1(events[i].message);
@@ -88,7 +118,6 @@ void MidiInput::read()
                 
                 if(event.isNoteOff())
                 {
-                    write(&events[i]);
                     event.channel = event.status - 127;
                 }
                 
@@ -104,8 +133,5 @@ void MidiInput::read()
             for(auto& listener: listeners)
                 listener->addBuffer(buffer);
         }
-        
-        std::chrono::milliseconds dura(5);
-        std::this_thread::sleep_for(dura);
     }
 }

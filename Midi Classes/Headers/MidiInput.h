@@ -11,6 +11,7 @@
 
 #include "portmidi.h"
 #include "porttime.h"
+
 #include <iostream>
 #include <vector>
 #include <thread>
@@ -47,12 +48,13 @@ private:
     std::vector<MidiBuffer> buffers;
 };
 
-class MidiInput
+class MidiSession
 {
 public:
-    MidiInput();
+    MidiSession();
     static std::vector<std::string> getDevices();
     void openDevice(std::string device);
+    void openOutputDevice(std::string device);
     void read();
     virtual void write(PmEvent* event){};
     
@@ -72,5 +74,11 @@ private:
     PortMidiStream* midiStream;
 };
 
-
+class Destination
+{
+public:
+    Destination();
+private:
+    
+};
 #endif /* defined(__VSTHost__MidiInput__) */
